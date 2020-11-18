@@ -6,7 +6,7 @@ const setting = require("../settings.json");
 const bot = new Telegraf(setting.token);
 
 bot.start((ctx) => ctx.reply(setting.welcomeMessage));
-bot.command("image", ({ reply }) => reply("Братик, уверен?", Markup.keyboard(["Показать"]).resize().extra()))
+bot.command("image", ({ reply }) => reply("Братик, уверен?", Markup.keyboard(["Показать"]).resize().extra()));
 
 bot.hears("Показать", async (ctx) => {
   await Axios.get("https://japi.ohori.me/nsfw")
