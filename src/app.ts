@@ -10,7 +10,7 @@ const application = express();
 application.use(express.static("public"));
 
 application.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile("index.html", { root: "./" });
 });
 
 bot.start((ctx) => ctx.reply(setting.welcomeMessage));
@@ -29,5 +29,5 @@ bot.hears("Show", async (ctx) => {
 bot.launch();
 
 application.listen(setting.port, () => {
-  console.log("[WEB]: Website ready and run on port " + setting.port);
+  console.log("[WEB]: Website ready! Port - " + setting.port);
 });
