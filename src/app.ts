@@ -5,22 +5,29 @@ import express from "express";
 
 const setting = require("../settings.json");
 const bot = new Telegraf(setting.token);
-const app = express();
-const port = setting.port;
+const application = express();
 
-app.get("/", (req, res) => { res.send("hello") });
+application.use(express.static("public"));
+
+application.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 
 bot.start((ctx) => ctx.reply(setting.welcomeMessage));
-bot.command("image", ({ reply }) => reply("Братик, уверен?", Markup.keyboard(["Показать"]).resize().extra()));
+bot.help((ctx) => ctx.reply(setting.helpMessage));
+bot.command("image", ({ reply }) => reply("Oi, you ready?", Markup.keyboard(["Show"]).resize().extra()));
 
-bot.hears("Показать", async (ctx) => {
+bot.hears("Show", async (ctx) => {
   await Axios.get("https://japi.ohori.me/nsfw")
   .then(output => {
     ctx.replyWithPhoto(output.data.image.proxyURL);
   }).catch(function(){
-    ctx.reply("Ой, жмякни ещё раз :3");
+    ctx.reply("Oops! I lost the photo, try again <3");
   });
 });
 
 bot.launch();
-app.listen(port, () => { console.log("[!]: WEB READY!") });
+
+application.listen(setting.port, () => {
+  console.log("[WEB]: Website ready and run on port " + setting.port);
+});
