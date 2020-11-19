@@ -1,5 +1,6 @@
 {
     "port": 3000,
     "token": "1304814141:AAE7W9zrq36DAAc-Z68Q47f6q1pJ0aOLoF0",
-    "welcomeMessage": "Hello! My name is Riddea and... I love you <3\n\nCommands list:\n- /start - Show this message.\n- /image - Show NSFW image.\n\nDeveloper: @LWJerri"
+    "helpMessage": "By using this bot you agree that you are over 18 years old!\n\nList of all commands:\n - /start - Show start message.\n - /help - Show this message.\n - /image - Show NSFW image.\n\nDevelop by @LWJerri",
+    "welcomeMessage": "Hello! My name is Riddea and I'm sends you NSFW images :3\n- Use command /help for get list of all commands!\n\nDevelop by @LWJerri"
 }
