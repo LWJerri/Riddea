@@ -12,11 +12,10 @@
     "resolveJsonModule": true,
     "declaration": true,
     "typeRoots": [
-      "typings",
       "node_modules/@types"
     ]
   },
   
   "include": ["./src"],
-  "exclude": ["node_modules", "tools"]
+  "exclude": ["node_modules"]
 }
