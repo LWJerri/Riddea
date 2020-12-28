@@ -1,11 +1,12 @@
+require("dotenv").config();
+
 import "source-map-support";
 import Axios from "axios";
-import Telegraf from "telegraf";
+import { Telegraf } from "telegraf";
 import Markup from "telegraf/markup";
 import express from "express";
-import setting from "../settings.json";
 
-const bot = new Telegraf(setting.token);
+const bot = new Telegraf(process.env.token);
 const app = express();
 
 app.get("/", (req, res) => {
@@ -14,21 +15,25 @@ app.get("/", (req, res) => {
   });
 });
 
-bot.start((ctx) => ctx.reply(setting.welcomeMessage));
-bot.help((ctx) => ctx.reply(setting.helpMessage));
-bot.command("image", ({ reply }) => reply("Oi, you ready?", Markup.keyboard(["Show"]).resize().extra()));
+bot.start(async (ctx) => await ctx.reply(process.env.welcomeMessage));
+
+bot.help(async (ctx) => await ctx.reply(process.env.helpMessage));
+
+bot.command("image", async ({ reply }) => {
+  await reply("Oi, you ready?", Markup.keyboard(["Show"]).resize().extra());
+});
 
 bot.hears("Show", async (ctx) => {
   await Axios.get("https://japi.ohori.me/nsfw?as=api")
-  .then(output => {
-    ctx.replyWithPhoto(output.data.image.proxyURL);
-  }).catch(function(){
-    ctx.reply("Oops! I lost the photo, try again <3");
+  .then(async output => {
+    await ctx.replyWithPhoto(output.data.image.proxyURL);
+  }).catch(async function(){
+    await ctx.reply("Oops! I lost the photo, try again <3");
   });
 });
 
 bot.launch();
 
-app.listen(setting.port, () => {
-  console.log("[WEB]: Website ready! Port - " + setting.port);
+app.listen(process.env.port, () => {
+  console.log(`[WEB]: Website ready! Port - ${process.env.port}`);
 });
