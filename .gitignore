@@ -1,3 +1,4 @@
 node_modules
-cash
+package-lock.json
+dist
 .env
