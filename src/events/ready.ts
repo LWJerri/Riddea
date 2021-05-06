@@ -2,7 +2,7 @@ import { createConnection } from "typeorm";
 import { bot } from "../app";
 import { Settings } from "../entities/Settings";
 
-export default async function readyEvent() {
+export async function readyEvent() {
     console.log(` > ${bot.botInfo.username} ready!`);
 
     const connection = await createConnection();
