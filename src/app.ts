@@ -18,6 +18,7 @@ import { helpCMD } from "./commands/help";
 
 export const fileType = ["png", "jpg", "jpeg"];
 export const bot = new Telegraf(process.env.TOKEN);
+export var startData = Date.now();
 
 bot.on("callback_query", async (callback) => callbackEvent(callback));
 bot.command("avatar", async (message) => avatarCMD(message));
