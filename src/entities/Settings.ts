@@ -9,17 +9,23 @@ export class Settings {
     avatarUsed: number;
 
     @Column()
-    wallpaperUsed: number;
-
-    @Column()
     bondageUsed: number;
 
     @Column()
     hentaiUsed: number;
 
     @Column()
+    nekoUsed: number;
+
+    @Column()
     thighsUsed: number;
 
     @Column()
+    trapUsed: number;
+
+    @Column()
     uploadUsed: number;
+
+    @Column()
+    wallpaperUsed: number;
 }
