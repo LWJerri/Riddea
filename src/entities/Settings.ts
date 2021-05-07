@@ -5,27 +5,27 @@ export class Settings {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     avatarUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     bondageUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     hentaiUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     nekoUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     thighsUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     trapUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     uploadUsed: number;
 
-    @Column()
+    @Column("int", { default: 0 })
     wallpaperUsed: number;
 }
