@@ -11,7 +11,7 @@ export async function avatarCMD(message: Context) {
 
     if (!fileType.includes(output.fileType)) return;
 
-    await bot.telegram.sendPhoto(message.message.chat.id, output.data.url, {
+    await bot.telegram.sendPhoto(message.message.chat.id, output.url, {
         reply_markup: {
             inline_keyboard: [
                 [
