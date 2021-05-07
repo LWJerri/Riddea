@@ -27,4 +27,6 @@ export async function startCMD(message: Context) {
             },
         }
     );
+
+    return;
 }
