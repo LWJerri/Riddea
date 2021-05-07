@@ -15,6 +15,7 @@
     "license": "MIT",
     "dependencies": {
         "axios": "^0.21.1",
+        "humanize-duration": "^3.26.0",
         "pg": "^8.6.0",
         "reflect-metadata": "^0.1.13",
         "source-map-support": "^0.5.19",
@@ -22,6 +23,7 @@
         "typeorm": "^0.2.32"
     },
     "devDependencies": {
+        "@types/humanize-duration": "^3.18.1",
         "@types/node": "^15.0.1",
         "@types/source-map-support": "^0.5.3",
         "dotenv": "^8.6.0",
