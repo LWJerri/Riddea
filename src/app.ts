@@ -1,39 +1,39 @@
 require("dotenv").config();
-
 import "source-map-support";
-import Axios from "axios";
+import "reflect-metadata";
 import { Telegraf } from "telegraf";
-import Markup from "telegraf/markup";
-import express from "express";
+import { callbackEvent } from "./events/callback";
+import { avatarCMD } from "./commands/avatar";
+import { bondageCMD } from "./commands/bondage";
+import { hentaiCMD } from "./commands/hentai";
+import { nekoCMD } from "./commands/neko";
+import { startCMD } from "./commands/start";
+import { thighsCMD } from "./commands/thighs";
+import { trapCMD } from "./commands/trap";
+import { uploadCMD } from "./commands/upload";
+import { wallpaperCMD } from "./commands/wallpaper";
+import { readyEvent } from "./events/ready";
+import { statusCMD } from "./commands/status";
+import { helpCMD } from "./commands/help";
 
-const bot = new Telegraf(process.env.token);
-const app = express();
+export const fileType = ["png", "jpg", "jpeg"];
+export const bot = new Telegraf(process.env.TOKEN);
 
-app.get("/", (req, res) => {
-  res.json({
-    "statistic": 0
-  });
-});
+bot.on("callback_query", async (callback) => callbackEvent(callback));
+bot.command("avatar", async (message) => avatarCMD(message));
+bot.command("bondage", async (message) => bondageCMD(message));
+bot.command("help", async (message) => helpCMD(message));
+bot.command("hentai", async (message) => hentaiCMD(message));
+bot.command("neko", async (message) => nekoCMD(message));
+bot.command("start", async (message) => startCMD(message));
+bot.command("status", async (message) => statusCMD(message));
+bot.command("thighs", async (message) => thighsCMD(message));
+bot.command("trap", async (message) => trapCMD(message));
+bot.command("upload", async (message) => uploadCMD(message));
+bot.command("wallpaper", async (message) => wallpaperCMD(message));
+bot.launch().then(() => readyEvent());
 
-bot.start(async (ctx) => await ctx.reply(process.env.welcomeMessage));
-
-bot.help(async (ctx) => await ctx.reply(process.env.helpMessage));
-
-bot.command("image", async ({ reply }) => {
-  await reply("Oi, you ready?", Markup.keyboard(["Show"]).resize().extra());
-});
-
-bot.hears("Show", async (ctx) => {
-  await Axios.get("https://japi.ohori.me/nsfw?as=api")
-  .then(async output => {
-    await ctx.replyWithPhoto(output.data.image.proxyURL);
-  }).catch(async function(){
-    await ctx.reply("Oops! I lost the photo, try again <3");
-  });
-});
-
-bot.launch();
-
-app.listen(process.env.port, () => {
-  console.log(`[WEB]: Website ready! Port - ${process.env.port}`);
-});
+process.once("SIGINT", () => bot.stop("SIGINT"));
+process.once("SIGTERM", () => bot.stop("SIGTERM"));
+process.on("unhandledRejection", (reason) => console.log(reason));
+process.on("uncaughtException", (reason) => console.log(reason));
