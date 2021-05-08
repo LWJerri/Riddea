@@ -24,4 +24,6 @@ export async function hentaiCallback(callback: any) {
             },
         }
     );
+
+    return;
 }

@@ -24,4 +24,6 @@ export async function thighsCallback(callback: any) {
             },
         }
     );
+
+    return;
 }

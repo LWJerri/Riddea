@@ -23,4 +23,6 @@ export async function trapCallback(callback: any) {
             },
         }
     );
+
+    return;
 }

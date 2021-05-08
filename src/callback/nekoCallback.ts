@@ -23,4 +23,6 @@ export async function nekoCallback(callback: any) {
             },
         }
     );
+
+    return;
 }

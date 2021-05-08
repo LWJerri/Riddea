@@ -24,4 +24,6 @@ export async function avatarCallback(callback: any) {
             },
         }
     );
+
+    return;
 }
