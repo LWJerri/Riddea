@@ -15,10 +15,31 @@ import { wallpaperCMD } from "./commands/wallpaper";
 import { readyEvent } from "./events/ready";
 import { statusCMD } from "./commands/status";
 import { helpCMD } from "./commands/help";
+import { createConnection } from "typeorm";
 
 export const fileType = ["png", "jpg", "jpeg"];
 export const bot = new Telegraf(process.env.TOKEN);
 export var startData = Date.now();
+export const connection = async () =>
+    await createConnection({
+        type: "postgres",
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT),
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DB_NAME,
+        synchronize: true,
+        logging: false,
+        entities: ["dist/entities/**/*.js"],
+        migrations: ["dist/migrations/**/*.js"],
+        cli: {
+            entitiesDir: "dist/entities",
+            migrationsDir: "dist/migrations",
+        },
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    });
 
 bot.on("callback_query", async (callback) => callbackEvent(callback));
 bot.command("avatar", async (message) => avatarCMD(message));
