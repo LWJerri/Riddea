@@ -2,9 +2,9 @@
     "name": "riddea",
     "version": "2.0.0",
     "description": "Telegram bot for store your images, view NSFW content and etc.",
-    "main": "./dist/app.js",
+    "main": "./dist/src/app.js",
     "scripts": {
-        "start": "rimraf dist && tsc && typeorm migration:run && node ./dist/app.js",
+        "start": "rimraf dist && tsc && typeorm migration:run && node ./dist/src/app.js",
         "dev": "nodemon"
     },
     "engines": {
