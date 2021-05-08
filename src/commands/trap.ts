@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
-import { bot, fileType } from "../app";
+import { bot, connection, fileType } from "../app";
 import axios from "axios";
-import { createConnection, getConnection } from "typeorm";
+import { getConnection } from "typeorm";
 import { Settings } from "../entities/Settings";
 
 export async function trapCMD(message: Context) {
@@ -25,12 +25,11 @@ export async function trapCMD(message: Context) {
 
     if (getConnection().isConnected) return;
 
-    const connection = await createConnection();
-    const dbRepo = connection.getRepository(Settings);
+    const dbRepo = (await connection()).getRepository(Settings);
     const dbRepoUpdate = await dbRepo.findOne(1);
     dbRepoUpdate.trapUsed = dbRepoUpdate.trapUsed + 1;
     await dbRepo.save(dbRepoUpdate);
-    await connection.close();
+    await (await connection()).close();
 
     return;
 }

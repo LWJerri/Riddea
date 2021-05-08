@@ -1,17 +1,15 @@
-import { createConnection } from "typeorm";
-import { bot } from "../app";
+import { bot, connection } from "../app";
 import { Settings } from "../entities/Settings";
 
 export async function readyEvent() {
     console.log(` > ${bot.botInfo.username} ready!`);
 
-    const connection = await createConnection();
-    connection.getRepository(Settings).create();
+    (await connection()).getRepository(Settings).create();
 
-    if (!(await connection.getRepository(Settings).findOne(1))) {
+    if (!(await (await connection()).getRepository(Settings).findOne(1))) {
         const setting = new Settings();
-        await connection.manager.save(setting);
+        await (await connection()).manager.save(setting);
     }
 
-    await connection.close();
+    await (await connection()).close();
 }
