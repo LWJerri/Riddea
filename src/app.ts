@@ -1,7 +1,7 @@
 require("dotenv").config();
 import "source-map-support";
 import "reflect-metadata";
-import { Telegraf, session } from "telegraf";
+import { Telegraf } from "telegraf";
 import { callbackEvent } from "./events/callback";
 import { avatarCMD } from "./commands/avatar";
 import { bondageCMD } from "./commands/bondage";
@@ -33,7 +33,6 @@ bot.command("trap", async (message) => trapCMD(message));
 bot.command("upload", async (message) => uploadCMD(message));
 bot.command("wallpaper", async (message) => wallpaperCMD(message));
 bot.launch().then(() => readyEvent());
-bot.use(session());
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
