@@ -3,24 +3,22 @@ import "source-map-support";
 import "reflect-metadata";
 import { Telegraf } from "telegraf";
 import callbackEvent from "./events/callback";
-import {
-    avatarCMD,
-    bondageCMD,
-    helpCMD,
-    hentaiCMD,
-    nekoCMD,
-    startCMD,
-    statusCMD,
-    thighsCMD,
-    trapCMD,
-    uploadCMD,
-    wallpaperCMD,
-} from "./commands";
 import readyEvent from "./events/ready";
+import avatarCMD from "./commands/avatar";
+import bondageCMD from "./commands/bondage";
+import helpCMD from "./commands/help";
+import hentaiCMD from "./commands/hentai";
+import nekoCMD from "./commands/neko";
+import startCMD from "./commands/start";
+import statusCMD from "./commands/status";
+import thighsCMD from "./commands/thighs";
+import trapCMD from "./commands/trap";
+import uploadCMD from "./commands/upload";
+import wallpaperCMD from "./commands/wallpaper";
 
 export const fileType = ["png", "jpg", "jpeg"];
 export const bot = new Telegraf(process.env.TOKEN);
-export var startData = Date.now();
+export let startData = Date.now();
 
 bot.on("callback_query", callbackEvent);
 bot.command("avatar", avatarCMD);
