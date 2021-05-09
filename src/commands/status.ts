@@ -4,6 +4,7 @@ import { startData } from "../app";
 import { Settings } from "../entities/Settings";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
+import { version } from "../../package.json";
 
 export async function statusCMD(message: Context) {
     if (getConnection().isConnected) return;
@@ -24,7 +25,7 @@ export async function statusCMD(message: Context) {
         `UPLOADS STATS:\nUploaded ${uploadTable.length} images!`
     );
     await message.reply(
-        `BOT INFO:\nBot username: ${message.botInfo.username}\nBot ID: ${message.botInfo.id}\nUptime: ${uptime}`
+        `BOT INFO:\nBot username: ${message.botInfo.username}\nBot ID: ${message.botInfo.id}\nVersion: ${version}\nUptime: ${uptime}`
     );
 
     return;
