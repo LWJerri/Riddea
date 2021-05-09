@@ -1,14 +1,14 @@
-import { avatarCallback } from "../callback/avatarCallback";
-import { bondageCallback } from "../callback/bondageCallback";
-import { hentaiCallback } from "../callback/hentaiCallback";
-import { nekoCallback } from "../callback/nekoCallback";
-import { thighsCallback } from "../callback/thighsCallback";
-import { trapCallback } from "../callback/trapCallback";
-import { wallpaperCallback } from "../callback/wallpaperCallback";
-import { helpCMD } from "../commands/help";
-import { statusCMD } from "../commands/status";
+import avatarCallback from "../callback/avatarCallback";
+import bondageCallback from "../callback/bondageCallback";
+import hentaiCallback from "../callback/hentaiCallback";
+import nekoCallback from "../callback/nekoCallback";
+import thighsCallback from "../callback/thighsCallback";
+import trapCallback from "../callback/trapCallback";
+import wallpaperCallback from "../callback/wallpaperCallback";
+import helpCMD from "../commands/help";
+import statusCMD from "../commands/status";
 
-export async function callbackEvent(callback: any) {
+export default async function callbackEvent(callback: any) {
     const action = callback.update.callback_query.data;
     const message = callback;
     if (callback.update.callback_query.from.isBot) return;

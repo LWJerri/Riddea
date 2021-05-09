@@ -4,7 +4,7 @@ import axios from "axios";
 import { createConnection, getConnection } from "typeorm";
 import { Settings } from "../entities/Settings";
 
-export async function trapCMD(message: Context) {
+export default async function trapCMD(message: Context) {
     const output = await (await axios.get("https://shiro.gg/api/images/trap"))
         .data;
 

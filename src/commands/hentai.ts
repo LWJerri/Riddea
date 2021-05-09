@@ -4,7 +4,7 @@ import axios from "axios";
 import { createConnection, getConnection } from "typeorm";
 import { Settings } from "../entities/Settings";
 
-export async function hentaiCMD(message: Context) {
+export default async function hentaiCMD(message: Context) {
     const output = await (
         await axios.get("https://shiro.gg/api/images/nsfw/hentai")
     ).data;

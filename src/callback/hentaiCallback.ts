@@ -3,7 +3,7 @@ import { createConnection, getConnection } from "typeorm";
 import { bot, fileType } from "../app";
 import { Settings } from "../entities/Settings";
 
-export async function hentaiCallback(callback: any) {
+export default async function hentaiCallback(callback: any) {
     const output = await (
         await axios.get("https://shiro.gg/api/images/nsfw/hentai")
     ).data;

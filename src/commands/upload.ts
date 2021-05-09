@@ -3,7 +3,7 @@ import { Context } from "telegraf";
 import { getConnection } from "typeorm";
 import { Upload } from "../entities/Upload";
 
-export async function uploadCMD(message: Context) {
+export default async function uploadCMD(message: Context) {
     await message.reply("Oops! Sorry, this command currently not available!");
 
     return;

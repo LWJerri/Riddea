@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
 
-export async function helpCMD(message: Context) {
+export default async function helpCMD(message: Context) {
     await message.reply(`Yo! Type \`/\` for view list of all bot commands.`, {
         reply_markup: {
             inline_keyboard: [

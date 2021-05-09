@@ -2,36 +2,38 @@ require("dotenv").config();
 import "source-map-support";
 import "reflect-metadata";
 import { Telegraf } from "telegraf";
-import { callbackEvent } from "./events/callback";
-import { avatarCMD } from "./commands/avatar";
-import { bondageCMD } from "./commands/bondage";
-import { hentaiCMD } from "./commands/hentai";
-import { nekoCMD } from "./commands/neko";
-import { startCMD } from "./commands/start";
-import { thighsCMD } from "./commands/thighs";
-import { trapCMD } from "./commands/trap";
-import { uploadCMD } from "./commands/upload";
-import { wallpaperCMD } from "./commands/wallpaper";
-import { readyEvent } from "./events/ready";
-import { statusCMD } from "./commands/status";
-import { helpCMD } from "./commands/help";
+import callbackEvent from "./events/callback";
+import {
+    avatarCMD,
+    bondageCMD,
+    helpCMD,
+    hentaiCMD,
+    nekoCMD,
+    startCMD,
+    statusCMD,
+    thighsCMD,
+    trapCMD,
+    uploadCMD,
+    wallpaperCMD,
+} from "./commands";
+import readyEvent from "./events/ready";
 
 export const fileType = ["png", "jpg", "jpeg"];
 export const bot = new Telegraf(process.env.TOKEN);
 export var startData = Date.now();
 
-bot.on("callback_query", async (callback) => callbackEvent(callback));
-bot.command("avatar", async (message) => avatarCMD(message));
-bot.command("bondage", async (message) => bondageCMD(message));
-bot.command("help", async (message) => helpCMD(message));
-bot.command("hentai", async (message) => hentaiCMD(message));
-bot.command("neko", async (message) => nekoCMD(message));
-bot.command("start", async (message) => startCMD(message));
-bot.command("status", async (message) => statusCMD(message));
-bot.command("thighs", async (message) => thighsCMD(message));
-bot.command("trap", async (message) => trapCMD(message));
-bot.command("upload", async (message) => uploadCMD(message));
-bot.command("wallpaper", async (message) => wallpaperCMD(message));
+bot.on("callback_query", callbackEvent);
+bot.command("avatar", avatarCMD);
+bot.command("bondage", bondageCMD);
+bot.command("help", helpCMD);
+bot.command("hentai", hentaiCMD);
+bot.command("neko", nekoCMD);
+bot.command("start", startCMD);
+bot.command("status", statusCMD);
+bot.command("thighs", thighsCMD);
+bot.command("trap", trapCMD);
+bot.command("upload", uploadCMD);
+bot.command("wallpaper", wallpaperCMD);
 bot.launch().then(() => readyEvent());
 
 process.once("SIGINT", () => bot.stop("SIGINT"));

@@ -3,7 +3,7 @@ import { createConnection, getConnection } from "typeorm";
 import { bot, fileType } from "../app";
 import { Settings } from "../entities/Settings";
 
-export async function thighsCallback(callback: any) {
+export default async function thighsCallback(callback: any) {
     const output = await (
         await axios.get("https://shiro.gg/api/images/nsfw/thighs")
     ).data;

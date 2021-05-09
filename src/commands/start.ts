@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
 
-export async function startCMD(message: Context) {
+export default async function startCMD(message: Context) {
     await message.replyWithMarkdown(
         `Wuup! Hello, ${message.message.from.first_name} ＼(°o°)／`
     );

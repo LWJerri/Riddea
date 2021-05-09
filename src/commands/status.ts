@@ -6,7 +6,7 @@ import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
 import { version } from "../../package.json";
 
-export async function statusCMD(message: Context) {
+export default async function statusCMD(message: Context) {
     if (getConnection().isConnected) return;
 
     const uptime = humanize(Date.now() - startData, {
