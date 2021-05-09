@@ -1,5 +1,7 @@
 import axios from "axios";
+import { createConnection, getConnection } from "typeorm";
 import { bot, fileType } from "../app";
+import { Settings } from "../entities/Settings";
 
 export async function avatarCallback(callback: any) {
     const output = await (
@@ -24,6 +26,15 @@ export async function avatarCallback(callback: any) {
             },
         }
     );
+
+    if (getConnection().isConnected) return;
+
+    const connection = await createConnection();
+    const dbRepo = connection.getRepository(Settings);
+    const dbRepoUpdate = await dbRepo.findOne(1);
+    dbRepoUpdate.avatarUsed = dbRepoUpdate.avatarUsed + 1;
+    await dbRepo.save(dbRepoUpdate);
+    await connection.close();
 
     return;
 }
