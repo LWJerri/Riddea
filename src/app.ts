@@ -31,7 +31,6 @@ bot.command("thighs", thighsCMD);
 bot.command("trap", trapCMD);
 bot.command("upload", uploadCMD);
 bot.command("wallpaper", wallpaperCMD);
-bot.launch().then(() => readyEvent());
 
 async function bootstrap() {
   if (!getConnection().isConnected) {
