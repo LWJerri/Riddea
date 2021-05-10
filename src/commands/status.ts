@@ -3,7 +3,9 @@ import { getRepository } from "typeorm";
 import { Settings } from "../entities/Settings";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
-import { version } from "../../package.json";
+import { resolve } from "path";
+
+const pkg = require(resolve(process.cwd(), 'package.json'))
 
 export default async function statusCMD(message: Context) {
     const uptime = humanize(Date.now() - Math.floor(process.uptime()) * 1000, {
@@ -21,7 +23,7 @@ export default async function statusCMD(message: Context) {
         `UPLOADS STATS:\nUploaded ${uploadTable.length} images!`
     );
     await message.reply(
-        `BOT INFO:\nBot username: ${message.botInfo.username}\nBot ID: ${message.botInfo.id}\nVersion: ${version}\nUptime: ${uptime}`
+        `BOT INFO:\nBot username: ${message.botInfo.username}\nBot ID: ${message.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
     );
 
     return;
