@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createConnection, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { bot } from "../app";
 import { fileTypes } from "../constants";
 import { Settings } from "../entities/Settings";
@@ -28,14 +28,10 @@ export default async function avatarCallback(callback: any) {
         }
     );
 
-    if (getConnection().isConnected) return;
-
-    const connection = await createConnection();
-    const dbRepo = connection.getRepository(Settings);
+    const dbRepo = getRepository(Settings);
     const dbRepoUpdate = await dbRepo.findOne(1);
     dbRepoUpdate.avatarUsed = dbRepoUpdate.avatarUsed + 1;
     await dbRepo.save(dbRepoUpdate);
-    await connection.close();
 
     return;
 }

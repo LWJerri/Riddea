@@ -15,6 +15,7 @@ import thighsCMD from "./commands/thighs";
 import trapCMD from "./commands/trap";
 import uploadCMD from "./commands/upload";
 import wallpaperCMD from "./commands/wallpaper";
+import { createConnection, getConnection } from "typeorm";
 
 export const bot = new Telegraf(process.env.TOKEN);
 
@@ -31,6 +32,17 @@ bot.command("trap", trapCMD);
 bot.command("upload", uploadCMD);
 bot.command("wallpaper", wallpaperCMD);
 bot.launch().then(() => readyEvent());
+
+async function bootstrap() {
+  if (!getConnection().isConnected) {
+    await createConnection();
+  }
+
+  await bot.launch();
+  await readyEvent();
+}
+
+bootstrap()
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
