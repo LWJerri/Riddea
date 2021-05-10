@@ -1,6 +1,5 @@
 import { Context } from "telegraf";
 import { createConnection, getConnection } from "typeorm";
-import { startData } from "../app";
 import { Settings } from "../entities/Settings";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
@@ -9,7 +8,7 @@ import { version } from "../../package.json";
 export default async function statusCMD(message: Context) {
     if (getConnection().isConnected) return;
 
-    const uptime = humanize(Date.now() - startData, {
+    const uptime = humanize(Date.now() - Math.floor(process.uptime()) * 1000, {
         round: true,
         language: "en",
     });

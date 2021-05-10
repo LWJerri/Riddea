@@ -17,7 +17,6 @@ import uploadCMD from "./commands/upload";
 import wallpaperCMD from "./commands/wallpaper";
 
 export const bot = new Telegraf(process.env.TOKEN);
-export let startData = Date.now();
 
 bot.on("callback_query", callbackEvent);
 bot.command("avatar", avatarCMD);
