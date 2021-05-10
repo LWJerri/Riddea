@@ -33,15 +33,15 @@ bot.command("upload", uploadCMD);
 bot.command("wallpaper", wallpaperCMD);
 
 async function bootstrap() {
-  if (!getConnection().isConnected) {
-    await createConnection();
-  }
+    if (!getConnection().isConnected) {
+        await createConnection();
+    }
 
-  await bot.launch();
-  await readyEvent();
+    await bot.launch();
+    await readyEvent();
 }
 
-bootstrap()
+bootstrap();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));

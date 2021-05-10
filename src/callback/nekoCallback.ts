@@ -5,8 +5,9 @@ import { Settings } from "../entities/Settings";
 import { fileTypes } from "../constants";
 
 export default async function nekoCallback(callback: any) {
-    const output = await (await axios.get("https://shiro.gg/api/images/neko"))
-        .data;
+    const output = await (
+        await axios.get("https://shiro.gg/api/images/neko")
+    ).data;
 
     if (!fileTypes.includes(output.fileType)) return;
 
@@ -27,6 +28,6 @@ export default async function nekoCallback(callback: any) {
         }
     );
 
-    await getRepository(Settings).increment({ id: 1 }, 'nekoUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "nekoUsed", 1);
     return;
 }

@@ -25,6 +25,6 @@ export default async function thighsCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'thingsUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "thingsUsed", 1);
     return;
 }

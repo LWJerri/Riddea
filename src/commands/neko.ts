@@ -6,8 +6,9 @@ import { Settings } from "../entities/Settings";
 import { fileTypes } from "../constants";
 
 export default async function nekoCMD(message: Context) {
-    const output = await (await axios.get("https://shiro.gg/api/images/neko"))
-        .data;
+    const output = await (
+        await axios.get("https://shiro.gg/api/images/neko")
+    ).data;
 
     if (!fileTypes.includes(output.fileType)) return;
 
@@ -24,6 +25,6 @@ export default async function nekoCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'nekoUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "nekoUsed", 1);
     return;
 }

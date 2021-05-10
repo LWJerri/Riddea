@@ -25,6 +25,6 @@ export default async function wallpaperCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'wallpaperUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "wallpaperUsed", 1);
     return;
 }

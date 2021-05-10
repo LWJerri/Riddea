@@ -28,6 +28,6 @@ export default async function avatarCallback(callback: any) {
         }
     );
 
-    await getRepository(Settings).increment({ id: 1 }, 'avatarUsed', 1)
+    await getRepository(Settings).increment({ id: 1 }, "avatarUsed", 1);
     return;
 }

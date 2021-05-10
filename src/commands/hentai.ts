@@ -25,6 +25,6 @@ export default async function hentaiCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'hentaiUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "hentaiUsed", 1);
     return;
 }

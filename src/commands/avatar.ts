@@ -25,6 +25,6 @@ export default async function avatarCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'avatarUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "avatarUsed", 1);
     return;
 }

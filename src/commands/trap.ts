@@ -6,8 +6,9 @@ import { Settings } from "../entities/Settings";
 import { fileTypes } from "../constants";
 
 export default async function trapCMD(message: Context) {
-    const output = await (await axios.get("https://shiro.gg/api/images/trap"))
-        .data;
+    const output = await (
+        await axios.get("https://shiro.gg/api/images/trap")
+    ).data;
 
     if (!fileTypes.includes(output.fileType)) return;
 
@@ -24,6 +25,6 @@ export default async function trapCMD(message: Context) {
         },
     });
 
-    await getRepository(Settings).increment({ id: 1 }, 'trapUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "trapUsed", 1);
     return;
 }

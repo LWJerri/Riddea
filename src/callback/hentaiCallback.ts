@@ -28,6 +28,6 @@ export default async function hentaiCallback(callback: any) {
         }
     );
 
-    await getRepository(Settings).increment({ id: 1 }, 'hentaiUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "hentaiUsed", 1);
     return;
 }

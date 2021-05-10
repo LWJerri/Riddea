@@ -28,6 +28,6 @@ export default async function bondageCallback(callback: any) {
         }
     );
 
-    await getRepository(Settings).increment({ id: 1 }, 'bondageUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "bondageUsed", 1);
     return;
 }

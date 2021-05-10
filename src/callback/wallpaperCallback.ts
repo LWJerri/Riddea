@@ -28,6 +28,6 @@ export default async function wallpaperCallback(callback: any) {
         }
     );
 
-    await getRepository(Settings).increment({ id: 1 }, 'wallpaperUsed', 1);
+    await getRepository(Settings).increment({ id: 1 }, "wallpaperUsed", 1);
     return;
 }
