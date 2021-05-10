@@ -16,7 +16,6 @@ import trapCMD from "./commands/trap";
 import uploadCMD from "./commands/upload";
 import wallpaperCMD from "./commands/wallpaper";
 
-export const fileType = ["png", "jpg", "jpeg"];
 export const bot = new Telegraf(process.env.TOKEN);
 export let startData = Date.now();
 
