@@ -25,10 +25,6 @@ export default async function wallpaperCMD(message: Context) {
         },
     });
 
-    const dbRepo = getRepository(Settings);
-    const dbRepoUpdate = await dbRepo.findOne(1);
-    dbRepoUpdate.wallpaperUsed = dbRepoUpdate.wallpaperUsed + 1;
-    await dbRepo.save(dbRepoUpdate);
-
+    await getRepository(Settings).increment({ id: 1 }, 'wallpaperUsed', 1);
     return;
 }

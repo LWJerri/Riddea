@@ -25,10 +25,6 @@ export default async function thighsCMD(message: Context) {
         },
     });
 
-    const dbRepo = getRepository(Settings);
-    const dbRepoUpdate = await dbRepo.findOne(1);
-    dbRepoUpdate.thighsUsed = dbRepoUpdate.thighsUsed + 1;
-    await dbRepo.save(dbRepoUpdate);
-
+    await getRepository(Settings).increment({ id: 1 }, 'thingsUsed', 1);
     return;
 }

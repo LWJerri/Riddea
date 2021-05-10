@@ -24,10 +24,6 @@ export default async function trapCMD(message: Context) {
         },
     });
 
-    const dbRepo = getRepository(Settings);
-    const dbRepoUpdate = await dbRepo.findOne(1);
-    dbRepoUpdate.trapUsed = dbRepoUpdate.trapUsed + 1;
-    await dbRepo.save(dbRepoUpdate);
-
+    await getRepository(Settings).increment({ id: 1 }, 'trapUsed', 1);
     return;
 }

@@ -28,10 +28,6 @@ export default async function avatarCallback(callback: any) {
         }
     );
 
-    const dbRepo = getRepository(Settings);
-    const dbRepoUpdate = await dbRepo.findOne(1);
-    dbRepoUpdate.avatarUsed = dbRepoUpdate.avatarUsed + 1;
-    await dbRepo.save(dbRepoUpdate);
-
+    await getRepository(Settings).increment({ id: 1 }, 'avatarUsed', 1)
     return;
 }

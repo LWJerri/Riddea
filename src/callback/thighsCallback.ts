@@ -28,10 +28,6 @@ export default async function thighsCallback(callback: any) {
         }
     );
 
-    const dbRepo = getRepository(Settings);
-    const dbRepoUpdate = await dbRepo.findOne(1);
-    dbRepoUpdate.thighsUsed = dbRepoUpdate.hentaiUsed + 1;
-    await dbRepo.save(dbRepoUpdate);
-
+    await getRepository(Settings).increment({ id: 1 }, 'hentaiUsed', 1);
     return;
 }
