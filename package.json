@@ -4,8 +4,12 @@
     "description": "Telegram bot for store your images, view NSFW content and etc.",
     "main": "./dist/src/app.js",
     "scripts": {
-        "start": "rimraf dist && tsc && typeorm migration:run && node ./dist/src/app.js",
-        "dev": "nodemon"
+        "start": "node ./dist/src/app.js",
+        "dev": "nodemon",
+        "prestart": "npm run migration:run",
+        "migration:run": "typeorm migration:run",
+        "prebuild": "rimraf dist",
+        "build": "tsc"
     },
     "engines": {
         "node": "12"
