@@ -33,10 +33,7 @@ bot.command("upload", uploadCMD);
 bot.command("wallpaper", wallpaperCMD);
 
 async function bootstrap() {
-    if (!getConnection().isConnected) {
-        await createConnection();
-    }
-
+    await createConnection();
     await bot.launch();
     await readyEvent();
 }
