@@ -5,7 +5,7 @@ import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
 import { resolve } from "path";
 
-const pkg = require(resolve(process.cwd(), 'package.json'))
+const pkg = require(resolve(process.cwd(), "package.json"));
 
 export default async function statusCMD(message: Context) {
     const uptime = humanize(Date.now() - Math.floor(process.uptime()) * 1000, {
