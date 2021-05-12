@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { Telegraf } from "telegraf";
 import callbackEvent from "./events/callback";
 import readyEvent from "./events/ready";
-import * as commands from './commands'
+import * as commands from "./commands";
 import { createConnection } from "typeorm";
 
 export const bot = new Telegraf(process.env.TOKEN);
