@@ -21,18 +21,20 @@ export default async function hentaiCMD(message: Context) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await message.replyWithPhoto(output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new hentai image",
-                        callback_data: "NEW_HENTAI",
-                    },
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new hentai image",
+                            callback_data: "NEW_HENTAI",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
     await getRepository(Statistic).increment({ id: 1 }, "hentaiUsed", 1);
     return;

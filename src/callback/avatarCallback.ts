@@ -23,10 +23,8 @@ export default async function avatarCallback(callback: any) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await bot.telegram.sendPhoto(
-        callback.update.callback_query.message.chat.id,
-        output,
-        {
+    await bot.telegram
+        .sendPhoto(callback.update.callback_query.message.chat.id, output, {
             reply_markup: {
                 inline_keyboard: [
                     [
@@ -37,8 +35,8 @@ export default async function avatarCallback(callback: any) {
                     ],
                 ],
             },
-        }
-    );
+        })
+        .catch(() => {});
 
     await bot.telegram
         .answerCbQuery(callback.update.callback_query.id)

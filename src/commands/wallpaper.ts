@@ -21,18 +21,20 @@ export default async function wallpaperCMD(message: Context) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await message.replyWithPhoto(output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new wallpaper image",
-                        callback_data: "NEW_WALLPAPER",
-                    },
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new wallpaper image",
+                            callback_data: "NEW_WALLPAPER",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
     await getRepository(Statistic).increment({ id: 1 }, "wallpaperUsed", 1);
     return;

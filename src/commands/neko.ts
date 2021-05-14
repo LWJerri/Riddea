@@ -21,18 +21,20 @@ export default async function nekoCMD(message: Context) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await message.replyWithPhoto(output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new neko image",
-                        callback_data: "NEW_NEKO",
-                    },
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new neko image",
+                            callback_data: "NEW_NEKO",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
     await getRepository(Statistic).increment({ id: 1 }, "nekoUsed", 1);
     return;

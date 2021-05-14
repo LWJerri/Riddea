@@ -21,18 +21,20 @@ export default async function trapCMD(message: Context) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await message.replyWithPhoto(output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new trap image",
-                        callback_data: "NEW_TRAP",
-                    },
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new trap image",
+                            callback_data: "NEW_TRAP",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
     await getRepository(Statistic).increment({ id: 1 }, "trapUsed", 1);
     return;

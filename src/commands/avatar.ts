@@ -21,18 +21,20 @@ export default async function avatarCMD(message: Context) {
             "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
         );
 
-    await message.replyWithPhoto(output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new avatar image",
-                        callback_data: "NEW_AVATAR",
-                    },
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new avatar image",
+                            callback_data: "NEW_AVATAR",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
     await getRepository(Statistic).increment({ id: 1 }, "avatarUsed", 1);
     return;
