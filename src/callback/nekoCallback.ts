@@ -40,7 +40,9 @@ export default async function nekoCallback(callback: any) {
         }
     );
 
-    await bot.telegram.answerCbQuery(callback.update.callback_query.id);
+    await bot.telegram
+        .answerCbQuery(callback.update.callback_query.id)
+        .catch(null);
 
     await getRepository(Statistic).increment({ id: 1 }, "nekoUsed", 1);
     return;
