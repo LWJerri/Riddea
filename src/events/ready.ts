@@ -13,5 +13,7 @@ export default async function readyEvent() {
         await repository.save(statistic);
     }
 
-    await bot.telegram.setMyCommands(commands);
+    await bot.telegram
+        .setMyCommands(commands)
+        .catch(() => console.log("[!]: Can't set bot commands!"));
 }
