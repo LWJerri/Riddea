@@ -1,5 +1,7 @@
 import { Context } from "telegraf";
 
+export const description = "Display start menu";
+
 export default async function startCMD(message: Context) {
     await message.reply(
         `Wuup! Hello, ${message.message.from.first_name} ＼(°o°)／`

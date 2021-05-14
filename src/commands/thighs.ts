@@ -4,6 +4,8 @@ import { getRepository } from "typeorm";
 import { Statistic } from "../entities/Statistic";
 import { fileTypes } from "../constants";
 
+export const description = "[NSFW]: Send thighs image";
+
 export default async function thighsCMD(message: Context) {
     const url = await axios
         .get("https://shiro.gg/api/images/nsfw/thighs")

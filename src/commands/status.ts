@@ -7,6 +7,8 @@ import { resolve } from "path";
 
 const pkg = require(resolve(process.cwd(), "package.json"));
 
+export const description = "Send bot statistic";
+
 export default async function statusCMD(message: Context) {
     const uptime = humanize(Math.floor(process.uptime()) * 1000, {
         round: true,

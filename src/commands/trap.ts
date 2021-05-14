@@ -4,6 +4,8 @@ import { getRepository } from "typeorm";
 import { Statistic } from "../entities/Statistic";
 import { fileTypes } from "../constants";
 
+export const description = "Send trap image";
+
 export default async function trapCMD(message: Context) {
     const url = await axios
         .get("https://shiro.gg/api/images/trap")
