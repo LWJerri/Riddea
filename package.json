@@ -1,11 +1,18 @@
 {
     "name": "riddea",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Telegram bot for store your images, view NSFW content and etc.",
     "main": "./dist/src/app.js",
     "scripts": {
-        "start": "rimraf dist && tsc && typeorm migration:run && node ./dist/src/app.js",
-        "dev": "nodemon"
+        "start": "node ./dist/src/app.js",
+        "dev": "nodemon",
+        "prestart": "npm run migration:run",
+        "migration:run": "typeorm migration:run",
+        "prebuild": "rimraf dist",
+        "build": "tsc",
+        "prettier": "prettier --write src",
+        "setup:simple-git-hooks": "simple-git-hooks",
+        "postinstall": "npm run setup:simple-git-hooks"
     },
     "engines": {
         "node": "12"
@@ -30,6 +37,7 @@
         "nodemon": "^2.0.7",
         "prettier": "^2.2.1",
         "rimraf": "^3.0.2",
+        "simple-git-hooks": "^2.4.1",
         "ts-node": "^9.1.1",
         "typescript": "^4.2.4"
     }
