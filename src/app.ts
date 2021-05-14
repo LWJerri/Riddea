@@ -14,9 +14,10 @@ bot.on("callback_query", callbackEvent);
 
 async function bootstrap() {
     const commandsDirPath = resolve(__dirname, "commands");
-    const cmds = (
-        await fs.readdir(commandsDirPath, { withFileTypes: true })
-    ).map((f) => f.name);
+    const cmds = (await fs.readdir(commandsDirPath, { withFileTypes: true }))
+        .map((f) => f.name)
+        .filter((name) => !name.includes("index"));
+
     for (const command of cmds) {
         const file = (await import(resolve(commandsDirPath, command))).default;
         const commandName = command.split(".")[0];
