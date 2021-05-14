@@ -1,6 +1,7 @@
 import { getRepository } from "typeorm";
 import { bot } from "../app";
 import { Settings } from "../entities/Settings";
+import { commands } from "../helpers/loadCommands";
 
 export default async function readyEvent() {
     console.log(` > ${bot.botInfo.username} ready!`);
@@ -11,4 +12,6 @@ export default async function readyEvent() {
         const setting = new Settings();
         await repository.save(setting);
     }
+
+    await bot.telegram.setMyCommands(commands);
 }

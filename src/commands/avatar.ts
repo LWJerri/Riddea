@@ -5,6 +5,8 @@ import { getRepository } from "typeorm";
 import { Settings } from "../entities/Settings";
 import { fileTypes } from "../constants";
 
+export const description = "Send anime picture for avatar";
+
 export default async function avatarCMD(message: Context) {
     const output = await (
         await axios.get("https://shiro.gg/api/images/avatars")
