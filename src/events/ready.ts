@@ -15,5 +15,5 @@ export default async function readyEvent() {
 
     await bot.telegram
         .setMyCommands(commands)
-        .catch(() => console.log("[!]: Can't set bot commands!"));
+        .catch((err) => console.log("[!]: Can't set bot commands!", err));
 }
