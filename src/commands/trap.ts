@@ -1,30 +1,41 @@
 import { Context } from "telegraf";
-import { bot } from "../app";
 import axios from "axios";
-import { createConnection, getConnection, getRepository } from "typeorm";
-import { Settings } from "../entities/Settings";
+import { getRepository } from "typeorm";
+import { Statistic } from "../entities/Statistic";
 import { fileTypes } from "../constants";
 
+export const description = "Send trap image";
+
 export default async function trapCMD(message: Context) {
-    const output = await (
-        await axios.get("https://shiro.gg/api/images/trap")
-    ).data;
+    const url = await axios
+        .get("https://shiro.gg/api/images/trap")
+        .catch(() => null);
 
-    if (!fileTypes.includes(output.fileType)) return;
+    if (!url)
+        return await message.reply("Oops! Can't get response from API :c");
 
-    await bot.telegram.sendPhoto(message.message.chat.id, output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new trap image",
-                        callback_data: "NEW_TRAP",
-                    },
+    const output = url.data;
+
+    if (!fileTypes.includes(output.fileType))
+        return await message.reply(
+            "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
+        );
+
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new trap image",
+                            callback_data: "NEW_TRAP",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
-    await getRepository(Settings).increment({ id: 1 }, "trapUsed", 1);
+    await getRepository(Statistic).increment({ id: 1 }, "trapUsed", 1);
     return;
 }

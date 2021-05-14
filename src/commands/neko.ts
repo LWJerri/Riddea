@@ -1,30 +1,41 @@
 import { Context } from "telegraf";
-import { bot } from "../app";
 import axios from "axios";
 import { getRepository } from "typeorm";
-import { Settings } from "../entities/Settings";
+import { Statistic } from "../entities/Statistic";
 import { fileTypes } from "../constants";
 
+export const description = "Send neko image";
+
 export default async function nekoCMD(message: Context) {
-    const output = await (
-        await axios.get("https://shiro.gg/api/images/neko")
-    ).data;
+    const url = await axios
+        .get("https://shiro.gg/api/images/neko")
+        .catch(() => null);
 
-    if (!fileTypes.includes(output.fileType)) return;
+    if (!url)
+        return await message.reply("Oops! Can't get response from API :c");
 
-    await bot.telegram.sendPhoto(message.message.chat.id, output.url, {
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Show new neko image",
-                        callback_data: "NEW_NEKO",
-                    },
+    const output = url.data;
+
+    if (!fileTypes.includes(output.fileType))
+        return await message.reply(
+            "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
+        );
+
+    await message
+        .replyWithPhoto(output.url, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: "Show new neko image",
+                            callback_data: "NEW_NEKO",
+                        },
+                    ],
                 ],
-            ],
-        },
-    });
+            },
+        })
+        .catch(() => {});
 
-    await getRepository(Settings).increment({ id: 1 }, "nekoUsed", 1);
+    await getRepository(Statistic).increment({ id: 1 }, "nekoUsed", 1);
     return;
 }

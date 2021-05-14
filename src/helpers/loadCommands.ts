@@ -19,9 +19,10 @@ export async function loadCommands() {
 
         commands.push({
             command: commandName,
-            description: file.description ?? "",
+            description:
+                file.description ?? "Command doesen't have description",
         });
 
-        console.info(`Command ${commandName} loaded`);
+        console.log(` > Command ${commandName} loaded`);
     }
 }

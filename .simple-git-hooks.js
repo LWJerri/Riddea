@@ -1,3 +1,3 @@
 module.exports = {
-  "pre-commit": "npm run prettier"
-}
+    "pre-commit": "npm run prettier",
+};
