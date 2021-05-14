@@ -12,8 +12,8 @@ module.exports = {
     entities: ["dist/src/entities/**/*.js"],
     migrations: ["dist/src/migrations/**/*.js"],
     cli: {
-        entitiesDir: "dist/src/entities",
-        migrationsDir: "dist/src/migrations",
+        entitiesDir: "src/entities",
+        migrationsDir: "src/migrations",
     },
     ssl: {
         rejectUnauthorized: false,
