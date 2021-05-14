@@ -8,6 +8,6 @@ export class Upload {
     @Column()
     chatID: number;
 
-    @Column("text", { array: true })
-    data: [];
+    @Column("text")
+    data: string;
 }
