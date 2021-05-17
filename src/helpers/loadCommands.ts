@@ -19,6 +19,8 @@ export async function loadCommands() {
             console.log(
                 `[!]: Command ${commandName} havent exported function, will not work!`
             );
+
+            return;
         }
 
         bot.command(commandName, file.default);
