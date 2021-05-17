@@ -15,13 +15,17 @@ export async function loadCommands() {
         const file = await import(resolve(commandsDirPath, command));
         const commandName = command.split(".")[0];
 
+        if (!file.default) {
+            console.log(
+                `[!]: Command ${commandName} havent exported function, will not work!`
+            );
+        }
+
         bot.command(commandName, file.default);
 
         commands.push({
             command: commandName,
-            description: file.description
-                ? file.description
-                : "Command doesen't have description",
+            description: file.description,
         });
 
         console.log(` > Command ${commandName} loaded`);
