@@ -37,15 +37,18 @@ export default async function statusCMD(message: Context) {
             })
         )
     );
-    const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
-        return [ ...prev, [[current], stats[index]] ]
-    }, [])
+    const commandsStats: Array<[string, number]> = commands.reduce(
+        (prev, current, index) => {
+            return [...prev, [[current], stats[index]]];
+        },
+        []
+    );
 
-    const msg = `COMMANDS STATS:\n ${commandsStats.map(command => `> /${command[0]} used ${command[1]}`).join('\n')}`
+    const msg = `COMMANDS STATS:\n ${commandsStats
+        .map((command) => `> /${command[0]} used ${command[1]}`)
+        .join("\n")}`;
 
-    await message
-        .reply(msg)
-        .catch(() => {});
+    await message.reply(msg).catch(() => {});
 
     await message
         .reply(`UPLOADS STATS:\nUploaded ${uploadTable.length} images!`)
