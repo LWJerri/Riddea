@@ -15,6 +15,10 @@ export default async function callbackEvent(callback: any) {
     const message = callback;
     if (callback.update.callback_query.from.isBot) return;
 
+    await callback.telegram
+        .answerCbQuery(callback.update.callback_query.id)
+        .catch(() => {});
+
     if (action == "NEW_AVATAR") return avatarCallback(callback);
     if (action == "NEW_BONDAGE") return bondageCallback(callback);
     if (action == "NEW_HENTAI") return hentaiCallback(callback);
