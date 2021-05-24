@@ -6,8 +6,8 @@ export class Upload {
     id: number;
 
     @Column()
-    chatID: number;
+    userID: number;
 
     @Column("text")
-    data: string;
+    fileID: string;
 }
