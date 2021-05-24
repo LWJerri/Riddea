@@ -36,6 +36,6 @@ export default async function bondageCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "bondageUsed", 1);
+    await getRepository(Statistic).save({ command: "bondage" });
     return;
 }

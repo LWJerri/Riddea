@@ -36,6 +36,6 @@ export default async function hentaiCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "hentaiUsed", 1);
+    await getRepository(Statistic).save({ command: "hentai" });
     return;
 }

@@ -15,13 +15,36 @@ export default async function statusCMD(message: Context) {
         language: "en",
     });
 
-    const statisticTable = await getRepository(Statistic).findOne(1);
+    const statisticRepository = getRepository(Statistic);
     const uploadTable = await getRepository(Upload).find();
 
-    await message
-        .reply(
-            `COMMANDS STATS:\n> /avatar command used ${statisticTable.avatarUsed} times.\n> /bondage command used ${statisticTable.bondageUsed} times.\n> /hentai command used ${statisticTable.hentaiUsed} times.\n> /neko command used ${statisticTable.nekoUsed} times.\n> /thighs command used ${statisticTable.thighsUsed} times.\n> /trap command used ${statisticTable.trapUsed} times.\n> /upload command used ${statisticTable.uploadUsed} times.\n> /wallpaper command used ${statisticTable.wallpaperUsed} times.`
+    const commands = [
+        "neko",
+        "hentai",
+        "avatar",
+        "bondage",
+        "thighs",
+        "wallpaper",
+        "trap",
+        "uploaded",
+    ];
+    const stats = await Promise.all(
+        commands.map((c) =>
+            statisticRepository.count({
+                where: {
+                    name: c,
+                },
+            })
         )
+    );
+    const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
+        return [ ...prev, [[current], stats[index]] ]
+    }, [])
+
+    const msg = `COMMANDS STATS:\n ${commandsStats.map(command => `> /${command[0]} used ${command[1]}`).join('\n')}`
+
+    await message
+        .reply(msg)
         .catch(() => {});
 
     await message
