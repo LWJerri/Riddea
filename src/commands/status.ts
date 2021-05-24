@@ -28,10 +28,10 @@ export default async function statusCMD(message: Context) {
         "uploaded",
     ];
     const stats = await Promise.all(
-        commands.map((c) =>
+        commands.map((name) =>
             statisticRepository.count({
                 where: {
-                    name: c,
+                    name,
                 },
             })
         )
@@ -50,7 +50,11 @@ export default async function statusCMD(message: Context) {
     await message.reply(msg).catch(() => {});
 
     await message
-        .reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`)
+        .reply(
+            `UPLOADS STATS:\nUploaded ${await getRepository(
+                Upload
+            ).count()} images!`
+        )
         .catch(() => {});
 
     await message
