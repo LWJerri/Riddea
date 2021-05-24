@@ -38,10 +38,6 @@ export default async function hentaiCallback(callback: any) {
         })
         .catch(() => {});
 
-    await bot.telegram
-        .answerCbQuery(callback.update.callback_query.id)
-        .catch(null);
-
     await getRepository(Statistic).increment({ id: 1 }, "hentaiUsed", 1);
     return;
 }

@@ -38,10 +38,6 @@ export default async function trapCallback(callback: any) {
         })
         .catch(() => {});
 
-    await bot.telegram
-        .answerCbQuery(callback.update.callback_query.id)
-        .catch(null);
-
     await getRepository(Statistic).increment({ id: 1 }, "trapUsed", 1);
     return;
 }
