@@ -16,7 +16,6 @@ export default async function statusCMD(message: Context) {
     });
 
     const statisticRepository = getRepository(Statistic);
-    const uploadTable = await getRepository(Upload).find();
 
     const commands = [
         "neko",
@@ -51,7 +50,7 @@ export default async function statusCMD(message: Context) {
     await message.reply(msg).catch(() => {});
 
     await message
-        .reply(`UPLOADS STATS:\nUploaded ${uploadTable.length} images!`)
+        .reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`)
         .catch(() => {});
 
     await message
