@@ -1,14 +1,17 @@
 require("dotenv").config();
 import "source-map-support";
 import "reflect-metadata";
-import { Telegraf } from "telegraf";
+import { Scenes, session, Telegraf } from "telegraf";
 import callbackEvent from "./events/callback";
 import readyEvent from "./events/ready";
 import { createConnection } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
+import { stage } from "./constants/stages";
 
-export const bot = new Telegraf(process.env.TOKEN);
+export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
 
+bot.use(session());
+bot.use(stage.middleware());
 bot.on("callback_query", callbackEvent);
 
 async function bootstrap() {
