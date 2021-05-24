@@ -44,7 +44,7 @@ export default async function statusCMD(message: Context) {
     );
 
     const msg = `COMMANDS STATS:\n ${commandsStats
-        .map((command) => `> /${command[0]} used ${command[1]}`)
+        .map((command) => `> /${command[0]} used ${command[1]} times.`)
         .join("\n")}`;
 
     await message.reply(msg).catch(() => {});
