@@ -9,3 +9,4 @@ export { default as thighsCMD } from "./thighs";
 export { default as trapCMD } from "./trap";
 export { default as uploadCMD } from "./upload";
 export { default as wallpaperCMD } from "./wallpaper";
+export { default as imagesCMD } from "./images";
