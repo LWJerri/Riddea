@@ -36,6 +36,6 @@ export default async function nekoCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "nekoUsed", 1);
+    await getRepository(Statistic).save({ command: "neko" });
     return;
 }

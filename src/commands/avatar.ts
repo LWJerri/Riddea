@@ -36,6 +36,6 @@ export default async function avatarCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "avatarUsed", 1);
+    await getRepository(Statistic).save({ command: "avatar" });
     return;
 }

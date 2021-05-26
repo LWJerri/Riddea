@@ -1,5 +1,5 @@
 import { Context } from "telegraf";
-import { getRepository } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { Statistic } from "../entities/Statistic";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
@@ -15,17 +15,46 @@ export default async function statusCMD(message: Context) {
         language: "en",
     });
 
-    const statisticTable = await getRepository(Statistic).findOne(1);
-    const uploadTable = await getRepository(Upload).find();
+    const statisticRepository = getRepository(Statistic);
+
+    const commands = [
+        "neko",
+        "hentai",
+        "avatar",
+        "bondage",
+        "thighs",
+        "wallpaper",
+        "trap",
+        "uploaded",
+    ];
+    const stats = await Promise.all(
+        commands.map((command) =>
+            statisticRepository.count({
+                where: {
+                    command,
+                },
+            })
+        )
+    );
+    const commandsStats: Array<[string, number]> = commands.reduce(
+        (prev, current, index) => {
+            return [...prev, [[current], stats[index]]];
+        },
+        []
+    );
+
+    const msg = `COMMANDS STATS:\n ${commandsStats
+        .map((command) => `> /${command[0]} used ${command[1]} times.`)
+        .join("\n")}`;
+
+    await message.reply(msg).catch(() => {});
 
     await message
         .reply(
-            `COMMANDS STATS:\n> /avatar command used ${statisticTable.avatarUsed} times.\n> /bondage command used ${statisticTable.bondageUsed} times.\n> /hentai command used ${statisticTable.hentaiUsed} times.\n> /neko command used ${statisticTable.nekoUsed} times.\n> /thighs command used ${statisticTable.thighsUsed} times.\n> /trap command used ${statisticTable.trapUsed} times.\n> /upload command used ${statisticTable.uploadUsed} times.\n> /wallpaper command used ${statisticTable.wallpaperUsed} times.`
+            `UPLOADS STATS:\nUploaded ${await getRepository(
+                Upload
+            ).count()} images!`
         )
-        .catch(() => {});
-
-    await message
-        .reply(`UPLOADS STATS:\nUploaded ${uploadTable.length} images!`)
         .catch(() => {});
 
     await message

@@ -36,6 +36,6 @@ export default async function wallpaperCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "wallpaperUsed", 1);
+    await getRepository(Statistic).save({ command: "wallpaper" });
     return;
 }

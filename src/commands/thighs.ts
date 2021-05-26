@@ -36,6 +36,6 @@ export default async function thighsCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "thighsUsed", 1);
+    await getRepository(Statistic).save({ command: "thighs" });
     return;
 }

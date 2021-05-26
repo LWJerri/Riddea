@@ -36,6 +36,6 @@ export default async function trapCMD(message: Context) {
         })
         .catch(() => {});
 
-    await getRepository(Statistic).increment({ id: 1 }, "trapUsed", 1);
+    await getRepository(Statistic).save({ command: "trap" });
     return;
 }

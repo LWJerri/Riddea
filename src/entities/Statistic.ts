@@ -1,31 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class Statistic {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ default: 0 })
-    avatarUsed: number;
+    @Column()
+    command: string;
 
-    @Column({ default: 0 })
-    bondageUsed: number;
-
-    @Column({ default: 0 })
-    hentaiUsed: number;
-
-    @Column({ default: 0 })
-    nekoUsed: number;
-
-    @Column({ default: 0 })
-    thighsUsed: number;
-
-    @Column({ default: 0 })
-    trapUsed: number;
-
-    @Column({ default: 0 })
-    uploadUsed: number;
-
-    @Column({ default: 0 })
-    wallpaperUsed: number;
+    @CreateDateColumn()
+    createdAt: Date;
 }
