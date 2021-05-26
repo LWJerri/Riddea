@@ -1,11 +1,16 @@
-import { getRepository } from "typeorm";
-import { Statistic } from "../entities/Statistic";
+import { Scenes } from "telegraf";
+import { CommandInterface } from "./_interface";
 
-export const description = "Upload your picture to database";
+export default class extends CommandInterface {
+    constructor() {
+        super({
+            name: "upload",
+            description: "Upload your picture to database",
+            collectUsage: true,
+        });
+    }
 
-export default async function uploadCMD(message: any) {
-    await message.scene.enter("upload");
-
-    await getRepository(Statistic).save({ command: "upload" });
-    return;
+    async run(message: Scenes.SceneContext<Scenes.SceneSessionData>) {
+        message.scene.enter("upload");
+    }
 }
