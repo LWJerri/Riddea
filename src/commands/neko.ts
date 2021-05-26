@@ -13,19 +13,19 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Context) {
+    async run(ctx: Context) {
         const url = await axios.get("https://shiro.gg/api/images/neko").catch(() => null);
 
-        if (!url) return await message.reply("Oops! Can't get response from API :c");
+        if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch((err: any) => console.log("[ERROR]: ", err));
 
         const output = url.data;
 
         if (!fileTypes.includes(output.fileType))
-            return await message.reply(
-                "Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~"
-            );
+            return await ctx
+                .reply("Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~")
+                .catch((err: any) => console.log("[ERROR]: ", err));
 
-        await message
+        await ctx
             .replyWithPhoto(output.url, {
                 reply_markup: {
                     inline_keyboard: [
@@ -38,8 +38,6 @@ export default class extends CommandInterface {
                     ],
                 },
             })
-            .catch(() => {});
+            .catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
-
-export const description = "Send neko image";
