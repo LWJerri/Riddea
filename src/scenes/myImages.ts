@@ -89,6 +89,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("LEAVE", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
         await ctx.scene.leave().catch(() => {});
+        await ctx.deleteMessage(ctx.message).catch(() => {});;
     })
     .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
