@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Collection } from "./Collection";
 
 @Entity()
 export class Upload {
@@ -10,4 +11,10 @@ export class Upload {
 
     @Column("text")
     fileID: string;
+
+    @ManyToOne(() => Collection, (collection) => collection.uploads, {
+        nullable: true,
+        onDelete: 'SET NULL'
+    })
+    collection?: Collection;
 }

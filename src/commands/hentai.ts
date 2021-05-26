@@ -16,12 +16,9 @@ export default class extends CommandInterface {
     }
 
     async run(message: Context) {
-        const url = await axios
-            .get("https://shiro.gg/api/images/nsfw/hentai")
-            .catch(() => null);
+        const url = await axios.get("https://shiro.gg/api/images/nsfw/hentai").catch(() => null);
 
-        if (!url)
-            return await message.reply("Oops! Can't get response from API :c");
+        if (!url) return await message.reply("Oops! Can't get response from API :c");
 
         const output = url.data;
 

@@ -10,6 +10,6 @@ export default class extends CommandInterface {
     }
 
     run(message: Scenes.SceneContext<Scenes.SceneSessionData>) {
-        message.scene.enter("myImages");
+        return message.scene.enter("myImages");
     }
 }
