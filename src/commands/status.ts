@@ -1,5 +1,5 @@
 import { Context } from "telegraf";
-import { getConnection, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import { Statistic } from "../entities/Statistic";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
@@ -18,7 +18,7 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Context) {
+    async run(ctx: Context) {
         const uptime = humanize(Math.floor(process.uptime()) * 1000, {
             round: true,
             language: "en",
@@ -36,22 +36,23 @@ export default class extends CommandInterface {
                 })
             )
         );
+
         const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
             return [...prev, [[current], stats[index]]];
         }, []);
 
         const msg = `COMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
 
-        await message.reply(msg).catch(() => {});
+        await ctx.reply(msg).catch((err: any) => console.log("[ERROR]: ", err));
 
-        await message.reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`).catch(() => {});
+        await ctx
+            .reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`)
+            .catch((err: any) => console.log("[ERROR]: ", err));
 
-        await message
+        await ctx
             .reply(
-                `BOT INFO:\nBot username: ${message.botInfo.username}\nBot ID: ${message.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
+                `BOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
             )
-            .catch(() => {});
+            .catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
-
-export const description = "Send bot statistic";
