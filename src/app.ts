@@ -3,11 +3,9 @@ import "source-map-support";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";
-import { createConnection, getRepository } from "typeorm";
+import { createConnection } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
-import { Collection } from "./entities/Collection";
-import { Upload } from "./entities/Upload";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
 
