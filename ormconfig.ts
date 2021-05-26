@@ -24,7 +24,7 @@ module.exports = {
         entitiesDir: "src/entities",
         migrationsDir: "src/migrations",
     },
-    /* ssl: {
+    ssl: {
         rejectUnauthorized: false,
-    }, */
+    },
 };
