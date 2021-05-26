@@ -1,14 +1,16 @@
-import { Context, Markup, Scenes } from "telegraf";
+import { Markup, Scenes } from "telegraf";
 import { getRepository, Not } from "typeorm";
 import { Collection } from "../entities/Collection";
 import { Upload } from "../entities/Upload";
 
-const getKeyboard = (ctx: Context, image: Upload) => {
+const getKeyboard = (ctx: Scenes.SceneContext, image: Upload) => {
     return Markup.inlineKeyboard([
         [
-            { text: "Previous picture", callback_data: "BACK" },
-            { text: "Next picture", callback_data: "NEXT" },
-        ],
+            (ctx.scene.session as any).skip > 0 ? { text: "Previous picture", callback_data: "BACK" } : undefined,
+            (ctx.scene.session as any).skip + 1 !== (ctx.scene.session as any).images
+                ? { text: "Next picture", callback_data: "NEXT" }
+                : undefined,
+        ].filter(Boolean),
         [{ text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` }],
         [{ text: "Stop", callback_data: "LEAVE" }],
     ]);
@@ -36,6 +38,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     })
     .enter(async (ctx) => {
         (ctx.scene.session as any).skip = 0;
+        (ctx.scene.session as any).images = await getRepository(Upload).count({ userID: ctx.from.id });
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
         if (!image) {
             await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
@@ -74,8 +77,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip + 1);
 
         if (!image) return;
-
         (ctx.scene.session as any).skip = (ctx.scene.session as any).skip + 1;
+        console.log(ctx.scene.session);
         await ctx
             .editMessageMedia(
                 {
