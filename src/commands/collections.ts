@@ -35,37 +35,43 @@ export default class extends CommandInterface {
             const collection = await this.repository.findOne({ id });
             collection.isPublic = !collection.isPublic;
             await this.repository.save(collection);
-            await ctx.answerCbQuery();
-            ctx.editMessageText("List of your collections", await this.getKeyboard(ctx));
+            await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx
+                .editMessageText("List of your collections:", await this.getKeyboard(ctx))
+                .catch((err: any) => console.log("[ERROR]: ", err));
         });
         bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
             const collection = await this.repository.findOne({ id });
-            await ctx.editMessageReplyMarkup({
-                inline_keyboard: [
-                    [
-                        {
-                            text: `Make ${collection.isPublic ? "private" : "public"}`,
-                            callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
-                        },
+            await ctx
+                .editMessageReplyMarkup({
+                    inline_keyboard: [
+                        [
+                            {
+                                text: `Make ${collection.isPublic ? "private" : "public"}`,
+                                callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
+                            },
+                        ],
+                        [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
                     ],
-                    [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
-                ],
-            });
+                })
+                .catch((err: any) => console.log("[ERROR]: ", err));
         });
         bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
             await this.repository.delete({ id });
-            await ctx.answerCbQuery();
-            ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
+            await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup).catch((err: any) => console.log("[ERROR]: ", err));
         });
     }
 
-    async run(message: Context) {
-        if ((message as any).isAction) {
-            message.editMessageText("List of your collections", await this.getKeyboard(message));
+    async run(ctx: Context) {
+        if ((ctx as any).isAction) {
+            await ctx
+                .editMessageText("List of your collections", await this.getKeyboard(ctx))
+                .catch((err: any) => console.log("[ERROR]: ", err));
         } else {
-            message.reply("List of your collections", await this.getKeyboard(message));
+            await ctx.reply("List of your collections:", await this.getKeyboard(ctx)).catch((err: any) => console.log("[ERROR]: ", err));
         }
     }
 }
