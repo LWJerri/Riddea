@@ -1,14 +1,15 @@
 require("dotenv").config();
 
-
-const entitiesPath = process.env.NODE_ENV === 'production' 
-    ? {
-        entities: ["dist/src/entities/**/*.js"],
-        migrations: ["dist/src/migrations/**/*.js"],
-    } : {
-        entities: ["src/entities/**/*.ts"],
-        migrations: ["src/migrations/**/*.ts"],
-    }
+const entitiesPath =
+    process.env.NODE_ENV === "production"
+        ? {
+              entities: ["dist/src/entities/**/*.js"],
+              migrations: ["dist/src/migrations/**/*.js"],
+          }
+        : {
+              entities: ["src/entities/**/*.ts"],
+              migrations: ["src/migrations/**/*.ts"],
+          };
 
 module.exports = {
     type: "postgres",
