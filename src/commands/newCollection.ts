@@ -9,7 +9,7 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Scenes.SceneContext) {
-        message.scene.enter("createCollection");
+    async run(ctx: Scenes.SceneContext) {
+        await ctx.scene.enter("createCollection").catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
