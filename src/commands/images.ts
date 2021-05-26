@@ -9,7 +9,7 @@ export default class extends CommandInterface {
         });
     }
 
-    run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
-        return ctx.scene.enter("myImages").catch((err: any) => console.log("[ERROR]: ", err));
+    async run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
+        await ctx.scene.enter("myImages").catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
