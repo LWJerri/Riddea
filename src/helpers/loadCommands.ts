@@ -2,7 +2,6 @@ import { bot } from "../app";
 import { promises as fs } from "fs";
 import { resolve } from "path";
 import { CommandInterface } from "../commands/_interface";
-import { Context } from "telegraf";
 
 export const commands: Array<CommandInterface> = [];
 
@@ -35,10 +34,10 @@ export async function loadCommands() {
                 (ctx as any).isAction = true;
                 command.execute(ctx);
             });
-            console.log(` > Action ${command.action} loaded`);
+            console.log(`[ACTIONS]: Action ${command.action} loaded`);
         }
 
         commands.push(command);
-        console.log(` > Command ${command.name} loaded`);
+        console.log(`[COMMANDS]: Command ${command.name} loaded`);
     }
 }
