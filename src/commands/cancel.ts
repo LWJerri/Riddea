@@ -1,7 +1,5 @@
-import { Context, Scenes } from "telegraf";
+import { Scenes } from "telegraf";
 import { CommandInterface } from "./_interface";
-
-export const description = "Display bot help menu";
 
 export default class extends CommandInterface {
     constructor() {
@@ -11,8 +9,8 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Scenes.SceneContext) {
-        message.scene.current?.leave();
-        await message.reply("Okay, happy nice day!");
+    async run(ctx: Scenes.SceneContext) {
+        ctx.scene.current?.leave();
+        await ctx.reply("Okay, happy nice day!").catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
