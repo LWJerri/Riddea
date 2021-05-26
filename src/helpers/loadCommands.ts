@@ -1,35 +1,51 @@
 import { bot } from "../app";
 import { promises as fs } from "fs";
 import { resolve } from "path";
-import { BotCommand } from "typegram";
+import { CommandInterface } from "../commands/_interface";
 
-export const commands: Array<BotCommand> = [];
+export const commands: Array<CommandInterface> = [];
 
 export async function loadCommands() {
     const commandsDirPath = resolve(__dirname, "..", "commands");
     const cmds = (await fs.readdir(commandsDirPath, { withFileTypes: true }))
         .map((f) => f.name)
-        .filter((name) => !name.includes("index") && !name.includes(".d.ts"));
+        .filter(
+            (name) =>
+                !name.includes("index") &&
+                !name.includes(".d.ts") &&
+                !name.includes("_interface")
+        );
 
-    for (const command of cmds) {
-        const file = await import(resolve(commandsDirPath, command));
-        const commandName = command.split(".")[0];
+    for (const commandPath of cmds) {
+        const command: CommandInterface = new ((
+            await import(resolve(commandsDirPath, commandPath))
+        )?.default)();
 
-        if (!file.default) {
+        if (!command) {
             console.log(
-                `[!]: Command ${commandName} havent exported function, will not work!`
+                `[!]: Command ${commandPath} havent exported class, will not work!`
             );
 
             return;
         }
 
-        bot.command(commandName, file.default);
+        bot.command(command.name, (ctx) => command.execute(ctx));
 
-        commands.push({
-            command: commandName,
-            description: file.description,
-        });
+        if (command.aliases) {
+            for (const aliase of command.aliases) {
+                bot.command(aliase, command.execute);
+            }
+        }
 
-        console.log(` > Command ${commandName} loaded`);
+        if (command.action) {
+            bot.action(command.action, async (ctx) => {
+                await ctx.answerCbQuery();
+                command.execute(ctx);
+            });
+            console.log(` > Action ${command.action} loaded`);
+        }
+
+        commands.push(command);
+        console.log(` > Command ${command.name} loaded`);
     }
 }

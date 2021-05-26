@@ -1,6 +1,15 @@
-export const description = "View all your uploaded images";
+import { Scenes } from "telegraf";
+import { CommandInterface } from "./_interface";
 
-export default async function imagesCMD(message: any) {
-    await message.scene.enter("myImages");
-    return;
+export default class extends CommandInterface {
+    constructor() {
+        super({
+            name: "images",
+            description: "View all your uploaded images",
+        });
+    }
+
+    run(message: Scenes.SceneContext<Scenes.SceneSessionData>) {
+        message.scene.enter("myImages");
+    }
 }
