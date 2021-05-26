@@ -20,10 +20,7 @@ export class CommandInterface {
 
     constructor(options?: CommandOptions) {
         options = {
-            collectUsage:
-                typeof options.collectUsage === undefined
-                    ? false
-                    : options.collectUsage,
+            collectUsage: typeof options.collectUsage === undefined ? false : options.collectUsage,
             ...options,
         };
 
@@ -31,7 +28,7 @@ export class CommandInterface {
     }
 
     async execute(ctx: Context) {
-        await this.run(ctx).catch(console.error);
+        await this.run(ctx)?.catch(console.error);
 
         if (this.collectUsage) {
             await this.statisticRepository.save({ command: this.name });

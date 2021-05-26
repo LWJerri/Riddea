@@ -26,9 +26,7 @@ export default class extends CommandInterface {
 
         const statisticRepository = getRepository(Statistic);
 
-        const commands = commandsStore
-            .filter((c) => c.collectUsage)
-            .map((c) => c.name);
+        const commands = commandsStore.filter((c) => c.collectUsage).map((c) => c.name);
         const stats = await Promise.all(
             commands.map((command) =>
                 statisticRepository.count({
@@ -38,26 +36,15 @@ export default class extends CommandInterface {
                 })
             )
         );
-        const commandsStats: Array<[string, number]> = commands.reduce(
-            (prev, current, index) => {
-                return [...prev, [[current], stats[index]]];
-            },
-            []
-        );
+        const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
+            return [...prev, [[current], stats[index]]];
+        }, []);
 
-        const msg = `COMMANDS STATS:\n ${commandsStats
-            .map((command) => `> /${command[0]} used ${command[1]} times.`)
-            .join("\n")}`;
+        const msg = `COMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
 
         await message.reply(msg).catch(() => {});
 
-        await message
-            .reply(
-                `UPLOADS STATS:\nUploaded ${await getRepository(
-                    Upload
-                ).count()} images!`
-            )
-            .catch(() => {});
+        await message.reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`).catch(() => {});
 
         await message
             .reply(

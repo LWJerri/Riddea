@@ -10,9 +10,7 @@ export default class extends CommandInterface {
     }
 
     async run(message: Context) {
-        await message.reply(
-            `Wuup! Hello, ${message.message.from.first_name} ＼(°o°)／`
-        );
+        await message.reply(`Wuup! Hello, ${message.message.from.first_name} ＼(°o°)／`);
 
         await message
             .replyWithMarkdown(
