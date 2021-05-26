@@ -10,7 +10,7 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Scenes.SceneContext<Scenes.SceneSessionData>) {
-        message.scene.enter("upload");
+    async run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
+        await ctx.scene.enter("upload").catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
