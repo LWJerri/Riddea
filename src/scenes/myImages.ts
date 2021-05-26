@@ -22,16 +22,16 @@ const getImage = async (userID: number, skip: number) => {
             },
             skip,
             take: 1,
-            relations: ['collection']
+            relations: ["collection"],
         })
     )[0];
 };
 
 export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
-    .action('BACK_TO_GALLERY', async ctx => {
+    .action("BACK_TO_GALLERY", async (ctx) => {
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
 
-        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard })
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard });
     })
     .enter(async (ctx) => {
         (ctx.scene.session as any).skip = 0;
@@ -98,16 +98,16 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
         });
 
         await ctx.answerCbQuery();
-        await ctx.editMessageReplyMarkup({ 
+        await ctx.editMessageReplyMarkup({
             inline_keyboard: [
                 collections.map((c) => Markup.button.callback(c.name, `SWITCH_COLLECTION_${imageId}_${c.id}`)),
-                [{ text: '«', callback_data: 'BACK_TO_GALLERY'}]
-            ]})
-
+                [{ text: "«", callback_data: "BACK_TO_GALLERY" }],
+            ],
+        });
     })
     .action(/SWITCH_COLLECTION_\d+_\d+/, async (ctx) => {
         const match = ctx.match.input.replace("SWITCH_COLLECTION_", "");
         const [imageId, collectionId] = match.split("_");
         await ctx.answerCbQuery();
-        await getRepository(Upload).update({ id: Number(imageId) }, { collection: { id: Number(collectionId) } })
+        await getRepository(Upload).update({ id: Number(imageId) }, { collection: { id: Number(collectionId) } });
     });

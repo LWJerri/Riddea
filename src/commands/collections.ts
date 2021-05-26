@@ -22,9 +22,7 @@ export default class extends CommandInterface {
         });
 
         const keyboard = Markup.inlineKeyboard(
-            collections.map((c) =>
-                Markup.button.callback(c.name, `EDIT_COLLECTION_${c.id}`)
-            ),
+            collections.map((c) => Markup.button.callback(c.name, `EDIT_COLLECTION_${c.id}`)),
             { columns: 1 }
         );
 
@@ -43,15 +41,22 @@ export default class extends CommandInterface {
         bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
             const collection = await this.repository.findOne({ id });
-            await ctx.editMessageReplyMarkup({ inline_keyboard: [
-                [{ text: `Make ${collection.isPublic ? 'private' : 'public'}`, callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`}],
-                [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}`}]
-            ] })
+            await ctx.editMessageReplyMarkup({
+                inline_keyboard: [
+                    [
+                        {
+                            text: `Make ${collection.isPublic ? "private" : "public"}`,
+                            callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
+                        },
+                    ],
+                    [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
+                ],
+            });
         });
         bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
-            await this.repository.delete({ id })
-            await ctx.answerCbQuery()
+            await this.repository.delete({ id });
+            await ctx.answerCbQuery();
             ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
         });
     }
