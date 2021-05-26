@@ -16,7 +16,4 @@ export class Statistic {
 
     @CreateDateColumn()
     createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 }

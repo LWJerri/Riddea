@@ -1,5 +1,5 @@
 import { Context } from "telegraf";
-import { getRepository } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { Statistic } from "../entities/Statistic";
 import { Upload } from "../entities/Upload";
 import humanize from "humanize-duration";
@@ -28,10 +28,10 @@ export default async function statusCMD(message: Context) {
         "uploaded",
     ];
     const stats = await Promise.all(
-        commands.map((name) =>
+        commands.map((command) =>
             statisticRepository.count({
                 where: {
-                    name,
+                    command,
                 },
             })
         )

@@ -15,8 +15,8 @@ bot.use(stage.middleware());
 bot.on("callback_query", callbackEvent);
 
 async function bootstrap() {
-    await loadCommands();
     await createConnection();
+    await loadCommands();
     await bot.launch();
     await readyEvent();
 }
