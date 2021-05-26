@@ -1,8 +1,6 @@
 import { Context } from "telegraf";
 import { CommandInterface } from "./_interface";
 
-export const description = "Display bot help menu";
-
 export default class extends CommandInterface {
     constructor() {
         super({
@@ -13,8 +11,8 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Context) {
-        await message
+    async run(ctx: Context) {
+        await ctx
             .reply(`Yo! Type / for view list of all bot commands.`, {
                 reply_markup: {
                     inline_keyboard: [
@@ -31,6 +29,6 @@ export default class extends CommandInterface {
                     ],
                 },
             })
-            .catch(() => {});
+            .catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
