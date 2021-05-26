@@ -9,10 +9,10 @@ export default class extends CommandInterface {
         });
     }
 
-    async run(message: Context) {
-        await message.reply(`Wuup! Hello, ${message.message.from.first_name} ＼(°o°)／`);
+    async run(ctx: Context) {
+        await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`).catch((err: any) => console.log("[ERROR]: ", err));
 
-        await message
+        await ctx
             .replyWithMarkdown(
                 `This bot provides a function for view random anime images and uploads your custom images. You can use command /help to view list of all commands or use the buttons to navigate on the bot.\nDeveloped by: [LWJerri](https://github.com/LWJerri)\nBig thanks to [Satont](https://github.com/Satont)\n\nNOTE: This bot have NSFW commands, check your room to stay in a safety ;)`,
                 {
@@ -37,8 +37,6 @@ export default class extends CommandInterface {
                     },
                 }
             )
-            .catch(() => {});
+            .catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
-
-export const description = "Display start menu";
