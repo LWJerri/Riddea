@@ -14,7 +14,7 @@ export class Upload {
 
     @ManyToOne(() => Collection, (collection) => collection.uploads, {
         nullable: true,
-        onDelete: 'SET NULL'
+        onDelete: "SET NULL",
     })
     collection?: Collection;
 }
