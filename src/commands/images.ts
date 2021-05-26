@@ -9,7 +9,7 @@ export default class extends CommandInterface {
         });
     }
 
-    run(message: Scenes.SceneContext<Scenes.SceneSessionData>) {
-        return message.scene.enter("myImages");
+    run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
+        return ctx.scene.enter("myImages").catch((err: any) => console.log("[ERROR]: ", err));
     }
 }
