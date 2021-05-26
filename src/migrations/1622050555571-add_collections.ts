@@ -5,7 +5,7 @@ export class addCollections1622050555571 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
-            `CREATE TABLE "collection" ("id" SERIAL NOT NULL, "chatID" integer NOT NULL, "name" character varying NOT NULL, "isPublic" boolean NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_ad3f485bbc99d875491f44d7c85" PRIMARY KEY ("id"))`
+            `CREATE TABLE IF NOT EXISTS COLLECTION ("id" SERIAL NOT NULL, "chatID" integer NOT NULL, "name" character varying NOT NULL, "isPublic" boolean NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_ad3f485bbc99d875491f44d7c85" PRIMARY KEY ("id"))`
         );
         await queryRunner.query(`ALTER TABLE "upload" ADD "collectionId" integer`);
         await queryRunner.query(
