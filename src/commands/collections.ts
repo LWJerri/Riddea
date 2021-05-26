@@ -73,5 +73,7 @@ export default class extends CommandInterface {
         } else {
             await ctx.reply("List of your collections:", await this.getKeyboard(ctx)).catch((err: any) => console.log("[ERROR]: ", err));
         }
+
+        return;
     }
 }

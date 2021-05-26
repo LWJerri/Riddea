@@ -54,5 +54,7 @@ export default class extends CommandInterface {
                 `BOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
             )
             .catch((err: any) => console.log("[ERROR]: ", err));
+
+        return;
     }
 }

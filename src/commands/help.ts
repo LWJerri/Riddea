@@ -30,5 +30,7 @@ export default class extends CommandInterface {
                 },
             })
             .catch((err: any) => console.log("[ERROR]: ", err));
+
+        return;
     }
 }

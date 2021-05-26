@@ -12,5 +12,7 @@ export default class extends CommandInterface {
     async run(ctx: Scenes.SceneContext) {
         ctx.scene.current?.leave();
         await ctx.reply("Okay, happy nice day!").catch((err: any) => console.log("[ERROR]: ", err));
+
+        return;
     }
 }

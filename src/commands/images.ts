@@ -11,5 +11,7 @@ export default class extends CommandInterface {
 
     async run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
         await ctx.scene.enter("myImages").catch((err: any) => console.log("[ERROR]: ", err));
+
+        return;
     }
 }
