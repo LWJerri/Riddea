@@ -28,7 +28,7 @@ export class CommandInterface {
     }
 
     async execute(ctx: Context) {
-        await this.run(ctx)?.catch((err: any) => console.log("[ERROR]: ", err));
+        await this.run(ctx)?.catch(() => {});
 
         if (this.collectUsage) {
             await this.statisticRepository.save({ command: this.name });

@@ -16,14 +16,14 @@ export default class extends CommandInterface {
     async run(ctx: Context) {
         const url = await axios.get("https://shiro.gg/api/images/nsfw/thighs").catch(() => null);
 
-        if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch((err: any) => console.log("[ERROR]: ", err));
+        if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch(() => {});
 
         const output = url.data;
 
         if (!fileTypes.includes(output.fileType))
             return await ctx
                 .reply("Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~")
-                .catch((err: any) => console.log("[ERROR]: ", err));
+                .catch(() => {});
 
         await ctx
             .replyWithPhoto(output.url, {
@@ -38,7 +38,7 @@ export default class extends CommandInterface {
                     ],
                 },
             })
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
 
         return;
     }

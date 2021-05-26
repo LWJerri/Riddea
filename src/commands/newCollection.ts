@@ -10,7 +10,7 @@ export default class extends CommandInterface {
     }
 
     async run(ctx: Scenes.SceneContext) {
-        await ctx.scene.enter("createCollection").catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.scene.enter("createCollection").catch(() => {});
 
         return;
     }

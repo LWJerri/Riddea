@@ -29,29 +29,25 @@ const getImage = async (userID: number, skip: number) => {
 
 export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("BACK_TO_GALLERY", async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
 
-        await ctx
-            .editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard })
-            .catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard }).catch(() => {});
     })
     .enter(async (ctx) => {
         (ctx.scene.session as any).skip = 0;
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
         if (!image) {
-            await ctx
-                .reply(`You never upload here your images! Use /upload for loading your favorite image :)`)
-                .catch((err: any) => console.log("[ERROR]: ", err));
-            ctx.scene.leave().catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
+            ctx.scene.leave().catch(() => {});
 
             return;
         }
 
-        await ctx.replyWithPhoto(image.fileID, getKeyboard(ctx, image)).catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.replyWithPhoto(image.fileID, getKeyboard(ctx, image)).catch(() => {});
     })
     .action("BACK", async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
         if ((ctx.scene.session as any).skip > 0) {
             (ctx.scene.session as any).skip = (ctx.scene.session as any).skip - 1;
         } else {
@@ -70,10 +66,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
                 },
                 getKeyboard(ctx, image)
             )
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
     })
     .action("NEXT", async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
 
         const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip + 1);
 
@@ -88,14 +84,14 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
                 },
                 getKeyboard(ctx, image)
             )
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
     })
     .action("LEAVE", async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
-        await ctx.scene.leave().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
+        await ctx.scene.leave().catch(() => {});
     })
     .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
 
         const match = ctx.match.input.replace("CHOOSE_COLLECTION_", "");
         const [imageId, collectionId] = match.split("_");
@@ -114,10 +110,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
                     [{ text: "«", callback_data: "BACK_TO_GALLERY" }],
                 ],
             })
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
     })
     .action(/SWITCH_COLLECTION_\d+_\d+/, async (ctx) => {
-        await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.answerCbQuery().catch(() => {});
 
         const match = ctx.match.input.replace("SWITCH_COLLECTION_", "");
         const [imageId, collectionId] = match.split("_");

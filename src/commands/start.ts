@@ -10,7 +10,7 @@ export default class extends CommandInterface {
     }
 
     async run(ctx: Context) {
-        await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`).catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`).catch(() => {});
 
         await ctx
             .replyWithMarkdown(
@@ -37,7 +37,7 @@ export default class extends CommandInterface {
                     },
                 }
             )
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
 
         return;
     }

@@ -43,17 +43,15 @@ export default class extends CommandInterface {
 
         const msg = `COMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
 
-        await ctx.reply(msg).catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.reply(msg).catch(() => {});
 
-        await ctx
-            .reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`)
-            .catch((err: any) => console.log("[ERROR]: ", err));
+        await ctx.reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`).catch(() => {});
 
         await ctx
             .reply(
                 `BOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
             )
-            .catch((err: any) => console.log("[ERROR]: ", err));
+            .catch(() => {});
 
         return;
     }

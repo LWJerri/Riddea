@@ -35,10 +35,8 @@ export default class extends CommandInterface {
             const collection = await this.repository.findOne({ id });
             collection.isPublic = !collection.isPublic;
             await this.repository.save(collection);
-            await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
-            await ctx
-                .editMessageText("List of your collections:", await this.getKeyboard(ctx))
-                .catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.answerCbQuery().catch(() => {});
+            await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx)).catch(() => {});
         });
         bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
@@ -55,23 +53,21 @@ export default class extends CommandInterface {
                         [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
                     ],
                 })
-                .catch((err: any) => console.log("[ERROR]: ", err));
+                .catch(() => {});
         });
         bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
             const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
             await this.repository.delete({ id });
-            await ctx.answerCbQuery().catch((err: any) => console.log("[ERROR]: ", err));
-            await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup).catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.answerCbQuery().catch(() => {});
+            await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup).catch(() => {});
         });
     }
 
     async run(ctx: Context) {
         if ((ctx as any).isAction) {
-            await ctx
-                .editMessageText("List of your collections", await this.getKeyboard(ctx))
-                .catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.editMessageText("List of your collections", await this.getKeyboard(ctx)).catch(() => {});
         } else {
-            await ctx.reply("List of your collections:", await this.getKeyboard(ctx)).catch((err: any) => console.log("[ERROR]: ", err));
+            await ctx.reply("List of your collections:", await this.getKeyboard(ctx)).catch(() => {});
         }
 
         return;
