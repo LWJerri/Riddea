@@ -12,7 +12,9 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext>("createCo
         });
 
         if (isExists) {
-            return ctx.reply(`Collection with name ${isExists.name} already exists. Please, enter another name.`);
+            return ctx
+                .reply(`Collection with name ${isExists.name} already exists. Please, enter another name.`)
+                .catch((err: any) => console.log("[ERROR]: ", err));
         }
 
         await repository.save({
@@ -22,8 +24,10 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext>("createCo
         });
         (ctx.scene.session as any).collectionName = ctx.message.text;
 
-        ctx.scene.leave();
+        ctx.scene.leave().catch((err: any) => console.log("[ERROR]: ", err));
     })
     .leave((ctx) => {
-        ctx.reply(`Scene with name ${(ctx.scene.session as any).collectionName} created`);
+        ctx.reply(`Collection with name ${(ctx.scene.session as any).collectionName} created`).catch((err: any) =>
+            console.log("[ERROR]: ", err)
+        );
     });
