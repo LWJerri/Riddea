@@ -35,14 +35,14 @@ const getImage = async (userID: number, skip: number) => {
 export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("BACK_TO_GALLERY", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
-        const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
 
         await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard }).catch(() => {});
     })
     .enter(async (ctx) => {
         (ctx.scene.session as any).skip = 0;
         (ctx.scene.session as any).images = await getRepository(Upload).count({ userID: ctx.from.id });
-        const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
         if (!image) {
             await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
             ctx.scene.leave().catch(() => {});
@@ -60,7 +60,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
             return;
         }
 
-        const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
 
         if (!image) return;
 
@@ -77,7 +77,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("NEXT", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
 
-        const image = await getImage(ctx.chat.id, (ctx.scene.session as any).skip + 1);
+        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip + 1);
 
         if (!image) return;
         (ctx.scene.session as any).skip = (ctx.scene.session as any).skip + 1;
@@ -105,7 +105,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
                 inline_keyboard: [
                     [
                         { text: "Yes, delete it!", callback_data: "DELETE_IMAGE_APPROVE" },
-                        { text: "Cancel", callback_data: "BACK_TO_GALLERY" },
+                        { text: "Cancel", callback_data: "DELETE_IMAGE_DECLINE" },
                     ],
                 ],
             })
@@ -118,11 +118,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
         const selectedImage = await getRepository(Upload).findByIds([pictureID.id]);
         await getRepository(Upload).remove(selectedImage);
 
-        await ctx
-            .editMessageReplyMarkup({
-                inline_keyboard: [[{ text: "Back", callback_data: "BACK_TO_GALLERY" }]],
-            })
-            .catch(() => {});
+        await ctx.scene.reenter().catch(() => {});
+    })
+    .action("DELETE_IMAGE_DECLINE", async (ctx) => {
+        await ctx.scene.reenter().catch(() => {});
     })
     .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
