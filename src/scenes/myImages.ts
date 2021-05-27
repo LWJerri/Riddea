@@ -115,11 +115,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .catch(() => {});
     })
     .action("DELETE_IMAGE_APPROVE", async (ctx) => {
-        const pictureID = await getImage(ctx.from.id, ctx.scene.session.skip);
-        if (!pictureID) return;
+        const picture = await getImage(ctx.from.id, ctx.scene.session.skip);
+        if (!picture) return;
 
-        const selectedImage = await getRepository(Upload).findByIds([pictureID.id]);
-        await getRepository(Upload).remove(selectedImage);
+        await getRepository(Upload).remove(picture);
 
         await ctx.scene.reenter().catch(() => {});
     })
