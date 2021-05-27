@@ -22,7 +22,7 @@ export default class extends CommandInterface {
         });
 
         const keyboard = Markup.inlineKeyboard(
-            collections.map((c) => Markup.button.callback(c.name, `EDIT_COLLECTION_${c.id}`)),
+            collections.map((c) => Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `EDIT_COLLECTION_${c.id}`)),
             { columns: 1 }
         );
 
