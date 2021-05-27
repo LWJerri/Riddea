@@ -78,7 +78,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
 
         if (!image) return;
         (ctx.scene.session as any).skip = (ctx.scene.session as any).skip + 1;
-        console.log(ctx.scene.session);
+
         await ctx
             .editMessageMedia(
                 {
