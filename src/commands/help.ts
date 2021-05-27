@@ -16,6 +16,7 @@ export default class extends CommandInterface {
             .reply(`Yo! Type / for view list of all bot commands.`, {
                 reply_markup: {
                     inline_keyboard: [
+                        [{ text: "💖 Sponsors 💖", callback_data: "SEND_SPONSORS" }],
                         [
                             {
                                 text: "GitHub",
