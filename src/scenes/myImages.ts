@@ -117,11 +117,20 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
         await getRepository(Upload).remove(ctx.scene.session.currentImage);
         ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+        await ctx
+            .editMessageMedia(
+                {
+                    media: ctx.scene.session.currentImage.fileID,
+                    type: "photo",
+                },
+                getKeyboard(ctx)
+            )
+            .catch(() => {});
         await ctx.answerCbQuery().catch(() => {});
     })
     .action("DELETE_IMAGE_DECLINE", async (ctx) => {
-        await ctx.scene.reenter().catch(() => {});
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+        await ctx.answerCbQuery().catch(() => {});
     })
     .action("CHOOSE_COLLECTION", async (ctx) => {
         const currentImage = ctx.scene.session.currentImage;
