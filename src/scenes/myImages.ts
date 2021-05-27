@@ -4,18 +4,19 @@ import { Collection } from "../entities/Collection";
 import { Upload } from "../entities/Upload";
 
 interface ImageScene extends Scenes.SceneSessionData {
-    // will be available under `ctx.scene.session.mySceneSessionProp`
     skip: number;
+    currentImage: Upload;
+    totalImages: number;
 }
 
-const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>, image: Upload) => {
+const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
     return Markup.inlineKeyboard([
         [
             ctx.scene.session.skip > 0 ? { text: "Previous picture", callback_data: "BACK" } : undefined,
-            ctx.scene.session.skip + 1 !== (ctx.scene.session as any).images ? { text: "Next picture", callback_data: "NEXT" } : undefined,
+            ctx.scene.session.skip + 1 !== ctx.scene.session.totalImages ? { text: "Next picture", callback_data: "NEXT" } : undefined,
         ].filter(Boolean),
         [
-            { text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` },
+            { text: "Choose Collection", callback_data: `CHOOSE_COLLECTION` },
             { text: "Delete", callback_data: "DELETE_IMAGE" },
         ],
         [{ text: "Stop", callback_data: "LEAVE" }],
@@ -38,60 +39,58 @@ const getImage = async (userID: number, skip: number) => {
 export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("myImages")
     .action("BACK_TO_GALLERY", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
-        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
-
-        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard }).catch(() => {});
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
     })
     .enter(async (ctx) => {
         ctx.scene.session.skip = 0;
-        (ctx.scene.session as any).images = await getRepository(Upload).count({ userID: ctx.from.id });
-        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
-        if (!image) {
+        ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
+        ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
+        if (!ctx.scene.session.currentImage) {
             await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
             ctx.scene.leave().catch(() => {});
 
             return;
         }
 
-        await ctx.replyWithPhoto(image.fileID, getKeyboard(ctx, image)).catch(() => {});
+        await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, getKeyboard(ctx)).catch(() => {});
     })
     .action("BACK", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
         if (ctx.scene.session.skip > 0) {
-            ctx.scene.session.skip = ctx.scene.session.skip - 1;
+            ctx.scene.session.skip--;
         } else {
             return;
         }
 
-        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
+        ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-        if (!image) return;
+        if (!ctx.scene.session.currentImage) return;
 
         await ctx
             .editMessageMedia(
                 {
-                    media: image.fileID,
+                    media: ctx.scene.session.currentImage.fileID,
                     type: "photo",
                 },
-                getKeyboard(ctx, image)
+                getKeyboard(ctx)
             )
             .catch(() => {});
     })
     .action("NEXT", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
 
-        const image = await getImage(ctx.from.id, ctx.scene.session.skip + 1);
+        ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip + 1);
 
-        if (!image) return;
-        ctx.scene.session.skip = ctx.scene.session.skip + 1;
+        if (!ctx.scene.session.currentImage) return;
+        ctx.scene.session.skip++;
 
         await ctx
             .editMessageMedia(
                 {
-                    media: image.fileID,
+                    media: ctx.scene.session.currentImage.fileID,
                     type: "photo",
                 },
-                getKeyboard(ctx, image)
+                getKeyboard(ctx)
             )
             .catch(() => {});
     })
@@ -115,42 +114,40 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .catch(() => {});
     })
     .action("DELETE_IMAGE_APPROVE", async (ctx) => {
-        const picture = await getImage(ctx.from.id, ctx.scene.session.skip);
-        if (!picture) return;
+        await getRepository(Upload).remove(ctx.scene.session.currentImage);
+        ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-        await getRepository(Upload).remove(picture);
-
-        await ctx.scene.reenter().catch(() => {});
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+        await ctx.answerCbQuery().catch(() => {});
     })
     .action("DELETE_IMAGE_DECLINE", async (ctx) => {
         await ctx.scene.reenter().catch(() => {});
     })
-    .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
-        await ctx.answerCbQuery().catch(() => {});
-
-        const match = ctx.match.input.replace("CHOOSE_COLLECTION_", "");
-        const [imageId, collectionId] = match.split("_");
+    .action("CHOOSE_COLLECTION", async (ctx) => {
+        const currentImage = ctx.scene.session.currentImage;
+        const collectionId = currentImage.collection?.id ?? 0;
 
         const collections = await getRepository(Collection).find({
             where: {
                 userID: ctx.from.id,
-                id: Not(Number(collectionId)),
+                id: Not(collectionId),
             },
         });
 
+        await ctx.answerCbQuery().catch(() => {});
         await ctx
             .editMessageReplyMarkup({
                 inline_keyboard: [
-                    collections.map((c) => Markup.button.callback(c.name, `SWITCH_COLLECTION_${imageId}_${c.id}`)),
+                    collections.map((c) => Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)),
                     [{ text: "«", callback_data: "BACK_TO_GALLERY" }],
                 ],
             })
             .catch(() => {});
     })
-    .action(/SWITCH_COLLECTION_\d+_\d+/, async (ctx) => {
+    .action(/SWITCH_COLLECTION-\d+/, async (ctx) => {
+        const collectionId = Number(ctx.match.input.replace("SWITCH_COLLECTION-", ""));
+        ctx.scene.session.currentImage.collection = await getRepository(Collection).findOne(collectionId);
+        await getRepository(Upload).save(ctx.scene.session.currentImage);
         await ctx.answerCbQuery().catch(() => {});
-
-        const match = ctx.match.input.replace("SWITCH_COLLECTION_", "");
-        const [imageId, collectionId] = match.split("_");
-        await getRepository(Upload).update({ id: Number(imageId) }, { collection: { id: Number(collectionId) } });
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
     });

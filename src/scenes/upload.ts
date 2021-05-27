@@ -2,7 +2,11 @@ import { Scenes, Markup, Context } from "telegraf";
 import { getRepository } from "typeorm";
 import { Upload } from "../entities/Upload";
 
-export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
+interface UploadScene extends Scenes.SceneSessionData {
+    fileID: string;
+}
+
+export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext<UploadScene>>("upload")
     .enter((ctx: Context) => ctx.reply(`Okay, send me your image!`).catch(() => {}))
     .on("photo", async (ctx) => {
         await ctx
@@ -23,7 +27,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
             )
             .catch(() => {});
 
-        (ctx.scene.session as any).fileID = ctx.message.photo.pop().file_id;
+        ctx.scene.session.fileID = ctx.message.photo.pop().file_id;
     })
     .command("cancel", async (ctx) => {
         await ctx.scene.leave().catch(() => {});
@@ -35,11 +39,11 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
     .action("PUBLISH", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
 
-        const uploadTable = getRepository(Upload);
-        const newUpload = new Upload();
-        newUpload.userID = ctx.from.id;
-        newUpload.fileID = (ctx.scene.session as any).fileID;
-        await uploadTable.save(newUpload);
+        await getRepository(Upload).save({
+            userID: ctx.from.id,
+            fileID: ctx.scene.session.fileID,
+        });
+
         await ctx.reply(`Yay, your image loaded to bot database!`).catch(() => {});
         await ctx.scene.leave().catch(() => {});
     })
