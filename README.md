@@ -15,6 +15,8 @@ This Telegram bot was developed for viewing various anime content, including NSF
 -   Clone this repository: `git clone https://github.com/LWJerri/Riddea.git`.
 -   Install Node.js requirements `npm i`.
 -   Rename `.env.example` to `.env` and configurate file.
+-   Build production code `npm run build`.
+-   Run prestart script `npm run prestart`.
 -   Run production code `npm run start`.
 
 ## Contributing
