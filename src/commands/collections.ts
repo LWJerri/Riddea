@@ -17,7 +17,7 @@ export default class extends CommandInterface {
 
     private async getKeyboard(ctx: Context) {
         const collections = await this.repository.find({
-            where: { chatID: ctx.chat.id },
+            where: { userID: ctx.from.id },
             order: { createdAt: "ASC" },
         });
 

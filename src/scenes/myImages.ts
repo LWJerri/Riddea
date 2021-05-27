@@ -98,7 +98,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
 
         const collections = await getRepository(Collection).find({
             where: {
-                chatID: ctx.chat.id,
+                userID: ctx.from.id,
                 id: Not(Number(collectionId)),
             },
         });

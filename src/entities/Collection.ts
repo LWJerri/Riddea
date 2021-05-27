@@ -7,7 +7,7 @@ export class Collection {
     id: number;
 
     @Column()
-    chatID: number;
+    userID: number;
 
     @Column()
     name: string;

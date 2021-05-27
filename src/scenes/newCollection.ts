@@ -7,7 +7,7 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext>("createCo
     .on("text", async (ctx) => {
         const repository = getRepository(Collection);
         const isExists = await repository.findOne({
-            chatID: ctx.chat.id,
+            userID: ctx.from.id,
             name: ctx.message.text,
         });
 
@@ -17,7 +17,7 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext>("createCo
 
         await repository.save({
             name: ctx.message.text,
-            chatID: ctx.chat.id,
+            userID: ctx.from.id,
             isPublic: false,
         });
         (ctx.scene.session as any).collectionName = ctx.message.text;
