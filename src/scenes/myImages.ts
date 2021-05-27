@@ -11,8 +11,10 @@ const getKeyboard = (ctx: Scenes.SceneContext, image: Upload) => {
                 ? { text: "Next picture", callback_data: "NEXT" }
                 : undefined,
         ].filter(Boolean),
-        [{ text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` }],
-        [{ text: "Delete", callback_data: "DELETE_IMAGE" }],
+        [
+            { text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` },
+            { text: "Delete", callback_data: "DELETE_IMAGE" },
+        ],
         [{ text: "Stop", callback_data: "LEAVE" }],
     ]);
 };
@@ -98,13 +100,29 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("DELETE_IMAGE", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
 
+        await ctx
+            .editMessageReplyMarkup({
+                inline_keyboard: [
+                    [
+                        { text: "Yes, delete it!", callback_data: "DELETE_IMAGE_APPROVE" },
+                        { text: "Cancel", callback_data: "BACK_TO_GALLERY" },
+                    ],
+                ],
+            })
+            .catch(() => {});
+    })
+    .action("DELETE_IMAGE_APPROVE", async (ctx) => {
         const pictureID = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
         if (!pictureID) return;
 
         const selectedImage = await getRepository(Upload).findByIds([pictureID.id]);
         await getRepository(Upload).remove(selectedImage);
-        await ctx.deleteMessage(ctx.message).catch(() => {});
-        await ctx.scene.reenter().catch(() => {});
+
+        await ctx
+            .editMessageReplyMarkup({
+                inline_keyboard: [[{ text: "Back", callback_data: "BACK_TO_GALLERY" }]],
+            })
+            .catch(() => {});
     })
     .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
