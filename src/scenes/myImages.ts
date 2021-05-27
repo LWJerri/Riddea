@@ -12,6 +12,7 @@ const getKeyboard = (ctx: Scenes.SceneContext, image: Upload) => {
                 : undefined,
         ].filter(Boolean),
         [{ text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` }],
+        [{ text: "Delete", callback_data: "DELETE_IMAGE" }],
         [{ text: "Stop", callback_data: "LEAVE" }],
     ]);
 };
@@ -93,6 +94,17 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
         await ctx.answerCbQuery().catch(() => {});
         await ctx.scene.leave().catch(() => {});
         await ctx.deleteMessage(ctx.message).catch(() => {});
+    })
+    .action("DELETE_IMAGE", async (ctx) => {
+        await ctx.answerCbQuery().catch(() => {});
+
+        const pictureID = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
+        if (!pictureID) return;
+
+        const selectedImage = await getRepository(Upload).findByIds([pictureID.id]);
+        await getRepository(Upload).remove(selectedImage);
+        await ctx.deleteMessage(ctx.message).catch(() => {});
+        await ctx.scene.reenter().catch(() => {});
     })
     .action(/CHOOSE_COLLECTION_.+_.+/, async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
