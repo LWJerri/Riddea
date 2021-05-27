@@ -3,13 +3,16 @@ import { getRepository, Not } from "typeorm";
 import { Collection } from "../entities/Collection";
 import { Upload } from "../entities/Upload";
 
-const getKeyboard = (ctx: Scenes.SceneContext, image: Upload) => {
+interface ImageScene extends Scenes.SceneSessionData {
+    // will be available under `ctx.scene.session.mySceneSessionProp`
+    skip: number;
+}
+
+const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>, image: Upload) => {
     return Markup.inlineKeyboard([
         [
-            (ctx.scene.session as any).skip > 0 ? { text: "Previous picture", callback_data: "BACK" } : undefined,
-            (ctx.scene.session as any).skip + 1 !== (ctx.scene.session as any).images
-                ? { text: "Next picture", callback_data: "NEXT" }
-                : undefined,
+            ctx.scene.session.skip > 0 ? { text: "Previous picture", callback_data: "BACK" } : undefined,
+            ctx.scene.session.skip + 1 !== (ctx.scene.session as any).images ? { text: "Next picture", callback_data: "NEXT" } : undefined,
         ].filter(Boolean),
         [
             { text: "Choose Collection", callback_data: `CHOOSE_COLLECTION_${image.id}_${image.collection?.id ?? 0}` },
@@ -32,17 +35,17 @@ const getImage = async (userID: number, skip: number) => {
     )[0];
 };
 
-export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
+export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("myImages")
     .action("BACK_TO_GALLERY", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
-        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
 
         await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx, image).reply_markup.inline_keyboard }).catch(() => {});
     })
     .enter(async (ctx) => {
-        (ctx.scene.session as any).skip = 0;
+        ctx.scene.session.skip = 0;
         (ctx.scene.session as any).images = await getRepository(Upload).count({ userID: ctx.from.id });
-        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
         if (!image) {
             await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
             ctx.scene.leave().catch(() => {});
@@ -54,13 +57,13 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     })
     .action("BACK", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
-        if ((ctx.scene.session as any).skip > 0) {
-            (ctx.scene.session as any).skip = (ctx.scene.session as any).skip - 1;
+        if (ctx.scene.session.skip > 0) {
+            ctx.scene.session.skip = ctx.scene.session.skip - 1;
         } else {
             return;
         }
 
-        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
+        const image = await getImage(ctx.from.id, ctx.scene.session.skip);
 
         if (!image) return;
 
@@ -77,10 +80,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
     .action("NEXT", async (ctx) => {
         await ctx.answerCbQuery().catch(() => {});
 
-        const image = await getImage(ctx.from.id, (ctx.scene.session as any).skip + 1);
+        const image = await getImage(ctx.from.id, ctx.scene.session.skip + 1);
 
         if (!image) return;
-        (ctx.scene.session as any).skip = (ctx.scene.session as any).skip + 1;
+        ctx.scene.session.skip = ctx.scene.session.skip + 1;
 
         await ctx
             .editMessageMedia(
@@ -112,7 +115,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext>("myImages")
             .catch(() => {});
     })
     .action("DELETE_IMAGE_APPROVE", async (ctx) => {
-        const pictureID = await getImage(ctx.from.id, (ctx.scene.session as any).skip);
+        const pictureID = await getImage(ctx.from.id, ctx.scene.session.skip);
         if (!pictureID) return;
 
         const selectedImage = await getRepository(Upload).findByIds([pictureID.id]);
