@@ -31,14 +31,17 @@ export default class extends CommandInterface {
 
     private async init() {
         bot.action(/SWITCH_COLLECTION_STATE_\d+/, async (ctx) => {
+            await ctx.answerCbQuery().catch(() => {});
+
             const id = Number(ctx.match.input.replace("SWITCH_COLLECTION_STATE_", ""));
             const collection = await this.repository.findOne({ id });
             collection.isPublic = !collection.isPublic;
             await this.repository.save(collection);
-            await ctx.answerCbQuery().catch(() => {});
             await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx)).catch(() => {});
         });
         bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
+            await ctx.answerCbQuery().catch(() => {});
+
             const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
             const collection = await this.repository.findOne({ id });
             await ctx
@@ -56,9 +59,10 @@ export default class extends CommandInterface {
                 .catch(() => {});
         });
         bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
+            await ctx.answerCbQuery().catch(() => {});
+
             const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
             await this.repository.delete({ id });
-            await ctx.answerCbQuery().catch(() => {});
             await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup).catch(() => {});
         });
     }

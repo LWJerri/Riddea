@@ -29,5 +29,5 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
         ctx.scene.leave().catch(() => {});
     })
     .leave((ctx) => {
-        ctx.reply(`Collection with name ${ctx.scene.session.collectionName} created`).catch((err: any) => console.log("[ERROR]: ", err));
+        ctx.reply(`Collection with name ${ctx.scene.session.collectionName} created`).catch(() => {});
     });

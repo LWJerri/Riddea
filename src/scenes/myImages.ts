@@ -114,6 +114,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .catch(() => {});
     })
     .action("DELETE_IMAGE_APPROVE", async (ctx) => {
+        await ctx.answerCbQuery().catch(() => {});
+
         await getRepository(Upload).remove(ctx.scene.session.currentImage);
         ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
@@ -126,13 +128,14 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
                 getKeyboard(ctx)
             )
             .catch(() => {});
-        await ctx.answerCbQuery().catch(() => {});
     })
     .action("DELETE_IMAGE_DECLINE", async (ctx) => {
-        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
         await ctx.answerCbQuery().catch(() => {});
+        await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
     })
     .action("CHOOSE_COLLECTION", async (ctx) => {
+        await ctx.answerCbQuery().catch(() => {});
+
         const currentImage = ctx.scene.session.currentImage;
         const collectionId = currentImage.collection?.id ?? 0;
 
@@ -143,7 +146,6 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             },
         });
 
-        await ctx.answerCbQuery().catch(() => {});
         await ctx
             .editMessageReplyMarkup({
                 inline_keyboard: [
@@ -154,9 +156,10 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .catch(() => {});
     })
     .action(/SWITCH_COLLECTION-\d+/, async (ctx) => {
+        await ctx.answerCbQuery().catch(() => {});
+
         const collectionId = Number(ctx.match.input.replace("SWITCH_COLLECTION-", ""));
         ctx.scene.session.currentImage.collection = await getRepository(Collection).findOne(collectionId);
         await getRepository(Upload).save(ctx.scene.session.currentImage);
-        await ctx.answerCbQuery().catch(() => {});
         await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
     });

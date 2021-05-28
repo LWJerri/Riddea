@@ -30,7 +30,7 @@ export async function loadCommands() {
 
         if (command.action) {
             bot.action(command.action, async (ctx) => {
-                await ctx.answerCbQuery();
+                await ctx.answerCbQuery().catch(() => {});
                 (ctx as any).isAction = true;
                 command.execute(ctx);
             });

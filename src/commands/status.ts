@@ -25,7 +25,6 @@ export default class extends CommandInterface {
         });
 
         const statisticRepository = getRepository(Statistic);
-
         const commands = commandsStore.filter((c) => c.collectUsage).map((c) => c.name);
         const stats = await Promise.all(
             commands.map((command) =>
@@ -41,17 +40,11 @@ export default class extends CommandInterface {
             return [...prev, [[current], stats[index]]];
         }, []);
 
-        const msg = `COMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
+        const cmdStats = `\n\nCOMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
+        const imgStats = `\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`;
+        const botStats = `\n\nBOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
 
-        await ctx.reply(msg).catch(() => {});
-
-        await ctx.reply(`UPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`).catch(() => {});
-
-        await ctx
-            .reply(
-                `BOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`
-            )
-            .catch(() => {});
+        await ctx.reply(`${cmdStats}${imgStats}${botStats}`).catch(() => {});
 
         return;
     }
