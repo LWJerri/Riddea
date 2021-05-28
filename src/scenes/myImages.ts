@@ -119,7 +119,6 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
         await getRepository(Upload).remove(ctx.scene.session.currentImage);
         ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-        console.log(ctx.scene.session.currentImage);
         if (!ctx.scene.session.currentImage) return ctx.scene.reenter();
 
         await ctx
