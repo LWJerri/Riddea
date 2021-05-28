@@ -17,16 +17,10 @@ export default class extends CommandInterface {
         const url = await axios.get("https://shiro.gg/api/images/nsfw/bondage").catch(() => null);
 
         if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch(() => {});
-
-        const output = url.data;
-
-        if (!fileTypes.includes(output.fileType))
-            return await ctx
-                .reply("Oops! Sometimes I can't send you an image and now it's this moment. Please, repeat your command (~‾▿‾)~")
-                .catch(() => {});
+        const output = fileTypes.includes(url.data.fileType) ? url.data.url : url.data.url.replace(url.data.fileType, "png");
 
         await ctx
-            .replyWithPhoto(output.url, {
+            .replyWithPhoto(output, {
                 reply_markup: {
                     inline_keyboard: [
                         [
