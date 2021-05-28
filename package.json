@@ -1,6 +1,6 @@
 {
     "name": "riddea",
-    "version": "2.1.8",
+    "version": "2.1.9",
     "description": "Telegram bot for store your images, view NSFW content and etc.",
     "main": "./dist/src/app.js",
     "scripts": {

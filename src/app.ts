@@ -6,17 +6,23 @@ import readyEvent from "./events/ready";
 import { createConnection } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
+import photoEvent from "./events/photo";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
 
 bot.use(session());
 bot.use(stage.middleware());
+bot.on("photo", photoEvent);
 
 async function bootstrap() {
-    await createConnection();
-    await loadCommands();
-    await bot.launch();
-    await readyEvent();
+    try {
+        await createConnection();
+        await loadCommands();
+        await bot.launch();
+        await readyEvent();
+    } catch (err: any) {
+        console.log(`[ERROR]: `, err);
+    }
 }
 
 bootstrap();
