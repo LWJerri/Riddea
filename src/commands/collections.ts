@@ -54,6 +54,7 @@ export default class extends CommandInterface {
                             },
                         ],
                         [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
+                        [{ text: `«`, callback_data: `COLLECTION_LIST` }],
                     ],
                 })
                 .catch(() => {});
