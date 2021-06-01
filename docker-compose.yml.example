@@ -1,0 +1,32 @@
+version: '3.2'
+
+services:
+  bot:
+    build: 
+      context: .
+    image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    restart: always
+    working_dir: /app/apps/bot
+    env_file:
+      - ./apps/bot/.env
+    command: yarn start
+    networks: 
+      - layer
+  api:
+    build: 
+      context: .
+    image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    restart: always
+    working_dir: /app/apps/api
+    env_file:
+      - ./apps/api/.env
+    depends_on:
+      - bot
+    command: yarn start
+    networks: 
+      - layer
+    ports:
+      - 3000:3000
+
+networks:
+  layer:

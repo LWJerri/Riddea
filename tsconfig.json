@@ -1,19 +1,20 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "target": "ESNext",
-        "module": "commonjs",
-        "inlineSourceMap": true,
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
-        "declaration": true,
-        "typeRoots": ["node_modules/@types", "src/typings"]
-    },
-
-    "include": ["./src", "ormconfig.ts"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "module": "commonjs",
+    "inlineSourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "composite": true,
+    "typeRoots": ["node_modules/@types", "src/typings"],
+    "paths": {
+      "@riddea/typeorm/*": ["./packages/typeorm"]
+    }
+  },
 }

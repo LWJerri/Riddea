@@ -1,0 +1,43 @@
+{
+    "name": "@riddea/api",
+    "version": "2.1.7",
+    "private": true,
+    "main": "dist/main",
+    "types": "dist/main",
+    "scripts": {
+        "clean": "rimraf dist",
+        "prebuild": "yarn clean",
+        "build": "tsc -b",
+        "start": "nest start",
+        "dev": "cross-env NODE_ENV=development nest start --watch",
+        "migration:run": "cross-env NODE_ENV=production typeorm migration:run",
+        "start:debug": "nest start --debug --watch",
+        "prestart": "npm run migration:run"
+    },
+    "dependencies": {
+        "@nestjs/common": "^7.6.15",
+        "@nestjs/core": "^7.6.15",
+        "@nestjs/microservices": "^7.6.17",
+        "@nestjs/platform-fastify": "^7.6.17",
+        "@nestjs/typeorm": "^7.1.5",
+        "cache-manager": "^3.4.3",
+        "cross-env": "^7.0.3",
+        "is-docker": "^2.2.1",
+        "pg": "^8.6.0",
+        "reflect-metadata": "^0.1.13",
+        "rimraf": "^3.0.2",
+        "typeorm": "^0.2.32",
+        "typescript": "^4.3.2"
+    },
+    "devDependencies": {
+        "@nestjs/cli": "^7.6.0",
+        "@nestjs/schematics": "^7.3.0",
+        "@types/node": "^14.14.36",
+        "@types/supertest": "^2.0.10",
+        "cross-env": "^7.0.3",
+        "ts-loader": "^8.0.18",
+        "ts-node": "^9.1.1",
+        "tsconfig-paths": "^3.9.0",
+        "typescript": "^4.2.3"
+    }
+}

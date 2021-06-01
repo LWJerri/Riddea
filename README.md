@@ -9,14 +9,17 @@ This Telegram bot was developed for viewing various anime content, including NSF
 -   You need Node.js v12 or high.
 -   You need to have a PSQL database.
 -   Token from Telegram bot.
+-   Yarn installed
 
 ### Installing
 
--   Clone this repository: `git clone https://github.com/LWJerri/Riddea.git`.
--   Install Node.js requirements `npm i`.
--   Rename `.env.example` to `.env` and configurate file.
--   Build production code `npm run build`.
--   Run production code `npm run start`.
+-   Clone this repository: `git clone https://github.com/Riddea/Riddea.git`.
+-   Install Node.js requirements `yarn`.
+-   Rename `.env.example` to `.env` in every folder you can find, and configurate file.
+-   Build production code `yarn build`.
+-   Run production code:
+    - Bot: `yarn start:bot`
+    - Api: `yarn start:api`
 
 ## Contributing
 
