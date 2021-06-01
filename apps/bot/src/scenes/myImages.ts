@@ -70,6 +70,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .editMessageMedia(
                 {
                     media: ctx.scene.session.currentImage.fileID,
+                    caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages}`,
                     type: "photo",
                 },
                 getKeyboard(ctx)
@@ -88,6 +89,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             .editMessageMedia(
                 {
                     media: ctx.scene.session.currentImage.fileID,
+                    caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages}`,
                     type: "photo",
                 },
                 getKeyboard(ctx)
@@ -118,6 +120,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
 
         await getRepository(Upload).remove(ctx.scene.session.currentImage);
         ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
+
+        if (!ctx.scene.session.currentImage) return ctx.scene.reenter();
 
         await ctx
             .editMessageMedia(

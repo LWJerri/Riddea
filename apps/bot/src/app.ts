@@ -10,11 +10,13 @@ import { createConnection } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
 import { microserviceInit } from "./api";
+import photoEvent from "./events/photo";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
 
 bot.use(session());
 bot.use(stage.middleware());
+bot.on("photo", photoEvent);
 
 async function bootstrap() {
     await createConnection();
