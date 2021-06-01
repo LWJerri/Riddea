@@ -1,6 +1,6 @@
 import { Scenes } from "telegraf";
 import { getRepository } from "typeorm";
-import { Collection } from "../entities/Collection";
+import { Collection } from "@riddea/typeorm";
 
 interface NewCollectionScene extends Scenes.SceneSessionData {
     collectionName: string;

@@ -1,7 +1,7 @@
 import { Context, Markup } from "telegraf";
 import { getRepository } from "typeorm";
 import { bot } from "../app";
-import { Collection } from "../entities/Collection";
+import { Collection } from "@riddea/typeorm";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {

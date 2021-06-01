@@ -1,0 +1,22 @@
+name: Publish Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-docker]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Publish Image
+        uses: craftech-io/package-action@v3.1.0
+        with:
+          tags: latest
+          access_token: ${{ secrets.ACTIONS_TOKEN }}
+          repository: riddea/riddea
+          image_name: nightly
+

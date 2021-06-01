@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
-import { getRepository } from "typeorm";
-import { Statistic } from "../entities/Statistic";
+import { getConnection, getRepository, Repository } from "typeorm";
+import { Statistic } from "@riddea/typeorm";
 
 export type CommandOptions = {
     name: string;

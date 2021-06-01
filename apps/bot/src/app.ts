@@ -1,4 +1,7 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+
+dotenv.config();
+
 import "source-map-support";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
@@ -6,6 +9,7 @@ import readyEvent from "./events/ready";
 import { createConnection } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
+import { microserviceInit } from "./api";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
 
@@ -17,6 +21,8 @@ async function bootstrap() {
     await loadCommands();
     await bot.launch();
     await readyEvent();
+
+    await microserviceInit();
 }
 
 bootstrap();

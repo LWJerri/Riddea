@@ -1,7 +1,7 @@
 import { Markup, Scenes } from "telegraf";
 import { getRepository, Not } from "typeorm";
-import { Collection } from "../entities/Collection";
-import { Upload } from "../entities/Upload";
+import { Collection } from "@riddea/typeorm";
+import { Upload } from "@riddea/typeorm";
 
 interface ImageScene extends Scenes.SceneSessionData {
     skip: number;

@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
-import { Statistic } from "../entities/Statistic";
-import { Upload } from "../entities/Upload";
+import { Statistic } from "@riddea/typeorm";
+import { Upload } from "@riddea/typeorm";
 import humanize from "humanize-duration";
 import { resolve } from "path";
 import { CommandInterface } from "./_interface";

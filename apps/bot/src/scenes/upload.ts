@@ -1,6 +1,6 @@
 import { Scenes, Markup, Context } from "telegraf";
 import { getRepository } from "typeorm";
-import { Upload } from "../entities/Upload";
+import { Upload } from "@riddea/typeorm";
 
 interface UploadScene extends Scenes.SceneSessionData {
     fileID: string;

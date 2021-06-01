@@ -1,47 +1,32 @@
 {
-    "name": "riddea",
-    "version": "2.1.7",
-    "description": "Telegram bot for store your images, view NSFW content and etc.",
-    "main": "./dist/src/app.js",
-    "scripts": {
-        "start": "cross-env NODE_ENV=production node ./dist/src/app.js",
-        "dev": "cross-env NODE_ENV=development nodemon",
-        "prestart": "npm run migration:run",
-        "migration:run": "cross-env NODE_ENV=production typeorm migration:run",
-        "migration:generate": "cross-env NODE_ENV=production typeorm migration:generate -n",
-        "prebuild": "rimraf dist",
-        "build": "tsc",
-        "prettier": "prettier --write src",
-        "setup:simple-git-hooks": "simple-git-hooks",
-        "postinstall": "npm run setup:simple-git-hooks"
-    },
-    "engines": {
-        "node": "12"
-    },
-    "repository": "https://github.com/LWJerri/Riddea",
-    "author": "LWJerri (lwjerri.js.org)",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "humanize-duration": "^3.26.0",
-        "pg": "^8.6.0",
-        "reflect-metadata": "^0.1.13",
-        "source-map-support": "^0.5.19",
-        "telegraf": "^4.3.0",
-        "typegram": "^3.3.1",
-        "typeorm": "^0.2.32"
-    },
-    "devDependencies": {
-        "@types/humanize-duration": "^3.25.0",
-        "@types/node": "^15.0.3",
-        "@types/source-map-support": "^0.5.3",
-        "cross-env": "^7.0.3",
-        "dotenv": "^8.6.0",
-        "nodemon": "^2.0.7",
-        "prettier": "^2.3.0",
-        "rimraf": "^3.0.2",
-        "simple-git-hooks": "^2.4.1",
-        "ts-node": "^9.1.1",
-        "typescript": "^4.2.4"
-    }
+  "name": "riddea",
+  "version": "2.1.7",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/typeorm/**",
+      "**/typeorm"
+    ]
+  },
+  "scripts": {
+    "build": "lerna run build --stream",
+    "prettier": "prettier --write apps/**/*.ts packages/**/*.ts",
+    "clean": "lerna run clean --parallel",
+    "lerna": "lerna",
+    "start:bot": "lerna exec yarn start --scope=@riddea/bot",
+    "start:api": "lerna exec yarn start --scope=@riddea/api",
+    "dev:bot": "lerna exec yarn dev --scope=@riddea/bot",
+    "dev:api": "lerna exec yarn dev --scope=@riddea/api",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^6.0.0",
+    "lerna": "^3.22.1",
+    "prettier": "^2.2.1"
+  }
 }
