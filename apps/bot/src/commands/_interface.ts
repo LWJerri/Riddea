@@ -1,5 +1,5 @@
 import { Context } from "telegraf";
-import { getConnection, getRepository, Repository } from "typeorm";
+import { getRepository } from "typeorm";
 import { Statistic } from "@riddea/typeorm";
 
 export type CommandOptions = {
