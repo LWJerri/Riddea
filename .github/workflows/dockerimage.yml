@@ -35,6 +35,6 @@ jobs:
           USERNAME: ${{ secrets.QUAY_USER }}
           PASSWORD: ${{ secrets.QUAY_PASSWORD }}
           DOCKERFILE: "Dockerfile"
-          IMAGE_NAME: "riddea/nightly"
+          IMAGE_NAME: "riddea/riddea"
           TAG_NAME: ${{ github.sha }}
           LATEST: "true"
