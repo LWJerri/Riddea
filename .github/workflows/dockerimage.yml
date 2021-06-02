@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-docker]')"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       
@@ -26,7 +26,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           image: nightly
-          tags: ${{ steps.build-image.outputs.tags }}
+          tags: latest
           registry: docker.pkg.github.com/riddea
           password: ${{ secrets.ACTIONS_TOKEN }}
 
@@ -35,7 +35,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
+          tags: latest
           registry: quay.io/${{ secrets.QUAY_USER }}
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
