@@ -11,36 +11,31 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Build Image
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: riddea
-          tags: latest ${{ github.sha }}
-          dockerfiles: |
-            ./Dockerfile
 
-      - name: Push To github registry
-        id: push-to-github
-        uses: redhat-actions/push-to-registry@v2
+      - name: Build & Push to GitHub Package with shasum
+          uses: opspresso/action-docker@v0.2.1
+          env:
+            PASSWORD: ${{ secrets.ACTIONS_TOKEN }}
+            REGISTRY: docker.pkg.github.com
+            IMAGE_NAME: "riddea/riddea"
+            TAG_NAME: nightly:${{ github.sha }}
+      - name: Build & Push to GitHub Package as latest
+          uses: opspresso/action-docker@v0.2.1
+          env:
+            USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            REGISTRY: docker.pkg.github.com
+            IMAGE_NAME: "riddea/riddea"
+            TAG_NAME: nightly:latest
+      - name: Docker Build & Push to Quay
+        uses: opspresso/action-docker@v0.2.8
         with:
-          image: nightly
-          tags: latest
-          registry: docker.pkg.github.com/riddea
-          password: ${{ secrets.ACTIONS_TOKEN }}
-
-      - name: Push To quay.io
-        id: push-to-quay
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: latest
-          registry: quay.io/${{ secrets.QUAY_USER }}
-          username: ${{ secrets.QUAY_USER }}
-          password: ${{ secrets.QUAY_PASSWORD }}
-
-      - name: Print image url of github registry
-        run: echo "Image pushed to ${{ steps.push-push-to-github.outputs.registry-paths }}"
-      - name: Print image url of quay registry
-        run: echo "Image pushed to ${{ steps.push-push-to-quay.outputs.registry-paths }}"
+          args: --docker
+        env:
+          REGISTRY: quay.io
+          USERNAME: ${{ secrets.QUAY_USER }}
+          PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          DOCKERFILE: "Dockerfile"
+          IMAGE_NAME: "riddea/nightly"
+          TAG_NAME: ${{ github.sha }}
+          LATEST: "true"
