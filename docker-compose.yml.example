@@ -4,7 +4,8 @@ services:
   bot:
     build: 
       context: .
-    image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    #image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    image: quay.io/riddea/riddea
     restart: always
     working_dir: /app/apps/bot
     env_file:
@@ -15,7 +16,8 @@ services:
   api:
     build: 
       context: .
-    image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    #image: docker.pkg.github.com/riddea/riddea/nightly:latest
+    image: quay.io/riddea/riddea
     restart: always
     working_dir: /app/apps/api
     env_file:
