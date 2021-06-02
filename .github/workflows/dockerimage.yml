@@ -13,19 +13,19 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build & Push to GitHub Package with shasum
-          uses: opspresso/action-docker@v0.2.1
-          env:
-            PASSWORD: ${{ secrets.ACTIONS_TOKEN }}
-            REGISTRY: docker.pkg.github.com
-            IMAGE_NAME: "riddea/riddea"
-            TAG_NAME: nightly:${{ github.sha }}
+        uses: opspresso/action-docker@v0.2.1
+        env:
+          PASSWORD: ${{ secrets.ACTIONS_TOKEN }}
+          REGISTRY: docker.pkg.github.com
+          IMAGE_NAME: "riddea/riddea"
+          TAG_NAME: nightly:${{ github.sha }}
       - name: Build & Push to GitHub Package as latest
-          uses: opspresso/action-docker@v0.2.1
-          env:
-            PASSWORD: ${{ secrets.ACTIONS_TOKEN }}
-            REGISTRY: docker.pkg.github.com
-            IMAGE_NAME: "riddea/riddea"
-            TAG_NAME: nightly:latest
+        uses: opspresso/action-docker@v0.2.1
+        env:
+          PASSWORD: ${{ secrets.ACTIONS_TOKEN }}
+          REGISTRY: docker.pkg.github.com
+          IMAGE_NAME: "riddea/riddea"
+          TAG_NAME: nightly:latest
       - name: Docker Build & Push to Quay
         uses: opspresso/action-docker@v0.2.8
         with:
