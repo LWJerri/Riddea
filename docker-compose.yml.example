@@ -2,8 +2,6 @@ version: '3.2'
 
 services:
   bot:
-    build: 
-      context: .
     #image: docker.pkg.github.com/riddea/riddea/nightly:latest
     image: quay.io/riddea/riddea
     restart: always
@@ -14,8 +12,6 @@ services:
     networks: 
       - layer
   api:
-    build: 
-      context: .
     #image: docker.pkg.github.com/riddea/riddea/nightly:latest
     image: quay.io/riddea/riddea
     restart: always
@@ -29,6 +25,3 @@ services:
       - layer
     ports:
       - 3000:3000
-
-networks:
-  layer:
