@@ -9,8 +9,8 @@
         "prebuild": "yarn clean",
         "build": "tsc -b",
         "start": "nest start",
-        "dev": "cross-env NODE_ENV=development nest start --watch",
-        "migration:run": "cross-env NODE_ENV=production typeorm migration:run",
+        "dev": "nest start --watch",
+        "migration:run": "typeorm migration:run",
         "start:debug": "nest start --debug --watch",
         "prestart": "npm run migration:run"
     },
