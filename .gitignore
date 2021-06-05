@@ -5,3 +5,5 @@ tsconfig.tsbuildinfo
 .env
 docker-compose.yml
 yarn-error.log
+docker-compose.*
+!!docker-compose.yml.example
