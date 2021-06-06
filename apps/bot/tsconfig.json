@@ -2,9 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
-        "outDir": "dist",
-        "typeRoots": ["./typings"],
-        "composite": true
+        "typeRoots": ["./typings"]
     },
     "references": [
         {

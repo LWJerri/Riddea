@@ -7,7 +7,7 @@
     "scripts": {
         "clean": "rimraf dist",
         "prebuild": "yarn clean",
-        "build": "tsc -b",
+        "build": "tsc -b tsconfig.json",
         "start": "nest start",
         "dev": "nest start --watch",
         "migration:run": "typeorm migration:run",
