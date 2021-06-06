@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: findConfig(".env") });
 
-import "source-map-support";
+import "source-map-support/register";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";

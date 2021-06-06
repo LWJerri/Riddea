@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "ESNext",
     "module": "commonjs",
     "inlineSourceMap": true,
@@ -13,7 +12,6 @@
     "declaration": true,
     "composite": true,
     "typeRoots": ["node_modules/@types", "src/typings"],
-    "outDir": "./dist",
     "paths": {
       "@riddea/typeorm/*": ["./packages/typeorm"],
     }
