@@ -13,7 +13,7 @@ import { stage } from "./constants/stages";
 import { microserviceInit } from "./api";
 import photoEvent from "./events/photo";
 
-import { entities } from '@riddea/typeorm'
+import * as typeormEntitites from '@riddea/typeorm'
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -23,7 +23,7 @@ bot.on("photo", photoEvent);
 
 async function bootstrap() {
     const connectionOptions = await getConnectionOptions()
-    await createConnection(Object.assign(connectionOptions, { entities }));
+    await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
     await loadCommands();
     await bot.launch();
     await readyEvent();
