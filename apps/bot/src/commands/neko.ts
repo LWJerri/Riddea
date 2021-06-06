@@ -1,7 +1,6 @@
-import { Context } from "telegraf";
-import axios from "axios";
-import { fileTypes } from "../constants";
+import { Context, Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
+import { shiroApi } from "../helpers/shiroApi";
 
 export default class extends CommandInterface {
   constructor() {
@@ -14,26 +13,17 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    const url = await axios.get("https://shiro.gg/api/images/neko").catch(() => null);
+    const images = await shiroApi({ endPoint: "neko", amount: 10 });
 
-    if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch(() => {});
-    const output = fileTypes.includes(url.data.fileType) ? url.data.url : url.data.url.replace(url.data.fileType, "png");
+    await ctx.replyWithMediaGroup(
+      images.map((image) => {
+        return {
+          type: "photo",
+          media: image.url,
+        };
+      }),
+    );
 
-    await ctx
-      .replyWithPhoto(output, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "Show new neko image",
-                callback_data: "NEW_NEKO",
-              },
-            ],
-          ],
-        },
-      })
-      .catch(() => {});
-
-    return;
+    await ctx.reply("Do you like to see more avatars?", Markup.inlineKeyboard([Markup.button.callback("Give me more!", this.action)]));
   }
 }

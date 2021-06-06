@@ -30,8 +30,5 @@ export default class extends CommandInterface {
           ],
         },
       })
-      .catch(() => {});
-
-    return;
   }
 }

@@ -10,7 +10,7 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`).catch(() => {});
+    await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`)
 
     await ctx
       .replyWithMarkdown(
@@ -37,8 +37,5 @@ export default class extends CommandInterface {
           },
         },
       )
-      .catch(() => {});
-
-    return;
   }
 }

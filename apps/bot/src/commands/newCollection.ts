@@ -10,8 +10,6 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Scenes.SceneContext) {
-    await ctx.scene.enter("createCollection").catch(() => {});
-
-    return;
+    await ctx.scene.enter("createCollection")
   }
 }

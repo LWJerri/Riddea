@@ -11,8 +11,6 @@ export default class extends CommandInterface {
 
   async run(ctx: Scenes.SceneContext) {
     ctx.scene.current?.leave();
-    await ctx.reply("Okay, happy nice day!").catch(() => {});
-
-    return;
+    await ctx.reply("Okay, happy nice day!")
   }
 }

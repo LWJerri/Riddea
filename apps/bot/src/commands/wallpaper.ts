@@ -1,7 +1,8 @@
-import { Context } from "telegraf";
+import { Context, Markup } from "telegraf";
 import axios from "axios";
 import { fileTypes } from "../constants";
 import { CommandInterface } from "./_interface";
+import { shiroApi } from "src/helpers/shiroApi";
 
 export default class extends CommandInterface {
   constructor() {
@@ -14,26 +15,17 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    const url = await axios.get("https://shiro.gg/api/images/wallpapers").catch(() => null);
+    const images = await shiroApi({ endPoint: "wallpaper", amount: 10 });
 
-    if (!url) return await ctx.reply("Oops! Can't get response from API :c").catch(() => {});
-    const output = fileTypes.includes(url.data.fileType) ? url.data.url : url.data.url.replace(url.data.fileType, "png");
+    await ctx.replyWithMediaGroup(
+      images.map((image) => {
+        return {
+          type: "photo",
+          media: image.url,
+        };
+      }),
+    );
 
-    await ctx
-      .replyWithPhoto(output, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "Show new wallpaper image",
-                callback_data: "NEW_WALLPAPER",
-              },
-            ],
-          ],
-        },
-      })
-      .catch(() => {});
-
-    return;
+    await ctx.reply("Do you like to see more wallpapers?", Markup.inlineKeyboard([Markup.button.callback("Give me more!", this.action)]));
   }
 }

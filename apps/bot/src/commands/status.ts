@@ -44,8 +44,6 @@ export default class extends CommandInterface {
     const imgStats = `\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`;
     const botStats = `\n\nBOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
 
-    await ctx.reply(`${cmdStats}${imgStats}${botStats}`).catch(() => {});
-
-    return;
+    await ctx.reply(`${cmdStats}${imgStats}${botStats}`)
   }
 }

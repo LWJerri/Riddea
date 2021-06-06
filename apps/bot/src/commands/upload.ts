@@ -11,8 +11,6 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
-    await ctx.scene.enter("upload").catch(() => {});
-
-    return;
+    await ctx.scene.enter("upload")
   }
 }
