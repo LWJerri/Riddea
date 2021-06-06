@@ -4,6 +4,8 @@ services:
   migrator:
     image: quay.io/riddea/riddea
     command: yarn migration:run
+    env_file:
+      - .env
 
   bot:
     #image: docker.pkg.github.com/riddea/riddea/nightly:latest
