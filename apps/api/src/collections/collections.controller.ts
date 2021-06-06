@@ -10,4 +10,10 @@ export class CollectionsController {
   getCollection(@Param("id") id: string) {
     return this.service.getCollection(id);
   }
+
+  @Get("/:id/images")
+  @UseInterceptors(CacheInterceptor)
+  getCollectionImages(@Param("id") id: string) {
+    return this.service.getCollectionImages(id);
+  }
 }

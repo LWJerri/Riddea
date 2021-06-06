@@ -15,4 +15,9 @@ export class AppController {
   getCommandUsageList() {
     return this.service.getCommandUsageList();
   }
+
+  @MessagePattern({ cmd: "getImagesLinks" })
+  getCollectionImages(ids: string[]) {
+    return this.service.getImagesLinks(ids);
+  }
 }
