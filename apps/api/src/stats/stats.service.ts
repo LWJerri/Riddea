@@ -11,7 +11,7 @@ export class StatsService {
   constructor(
     @InjectRepository(Statistic) private statisticRepository: Repository<Statistic>,
     @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
-    @Inject("BOT") private botMicroservice: ClientProxy,
+    @Inject("BOT_SERVICE") private botMicroservice: ClientProxy,
   ) {}
 
   async stats() {

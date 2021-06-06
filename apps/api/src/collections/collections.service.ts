@@ -10,7 +10,7 @@ export class CollectionsService {
   constructor(
     @InjectRepository(Collection) private collectionRepository: Repository<Collection>,
     @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
-    @Inject("BOT") private botMicroservice: ClientProxy,
+    @Inject("BOT_SERVICE") private botMicroservice: ClientProxy,
   ) {}
 
   async getCollection(id: string) {

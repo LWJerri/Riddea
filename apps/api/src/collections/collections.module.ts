@@ -3,25 +3,16 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { CollectionsController } from "./collections.controller";
 import { CollectionsService } from "./collections.service";
 import { Collection, Upload } from "@riddea/typeorm";
-import { ClientsModule } from "@nestjs/microservices";
-import isDocker from "is-docker";
+import { MicroserviceModule } from "../microservice.module";
 
 @Module({
   imports: [
-    ClientsModule.register([
-      {
-        name: "BOT",
-        options: {
-          host: isDocker() ? "bot" : process.env.BOT_SERVICE_HOST ?? "localhost",
-          port: Number(process.env.BOT_PORT ?? 3001),
-        },
-      },
-    ]),
     TypeOrmModule.forFeature([Collection, Upload]),
     CacheModule.register({
       ttl: process.env.NODE_ENV === "development" ? 5 : 120,
       max: 1000,
     }),
+    MicroserviceModule,
   ],
   controllers: [CollectionsController],
   providers: [CollectionsService],
