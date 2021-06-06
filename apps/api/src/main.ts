@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import findConfig from 'find-config'
-import dotenv from 'dotenv'
+import findConfig from "find-config";
+import dotenv from "dotenv";
 
-dotenv.config({ path: findConfig('.env')})
+dotenv.config({ path: findConfig(".env") });
 
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";

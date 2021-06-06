@@ -12,9 +12,9 @@ import { getConnectionOptions } from "typeorm";
         CollectionsModule,
         TypeOrmModule.forRootAsync({
             useFactory: async () =>
-              Object.assign(await getConnectionOptions(), {
-                autoLoadEntities: true,
-              }),
+                Object.assign(await getConnectionOptions(), {
+                    autoLoadEntities: true,
+                }),
         }),
         UsersModule,
         StatsModule,
