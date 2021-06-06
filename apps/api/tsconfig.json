@@ -1,8 +1,7 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "baseUrl": ".",
-        "outDir": "dist"
+        "outDir": "./dist"
     },
     "references": [
         {
@@ -12,6 +11,6 @@
             "path": "../../packages/helpers"
         }
     ],
-    "include": ["src", "ormconfig.ts"],
+    "include": ["src"],
     "exclude": ["node_modules", "dist"]
 }

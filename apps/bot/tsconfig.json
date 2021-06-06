@@ -1,15 +1,14 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "baseUrl": ".",
         "typeRoots": ["./typings"],
-        "outDir": "dist"
+        "outDir": "./dist"
     },
     "references": [
         {
             "path": "../../packages/typeorm"
         }
     ],
-    "include": ["src", "./ormconfig.ts"],
+    "include": ["src"],
     "exclude": ["node_modules", "dist"]
 }
