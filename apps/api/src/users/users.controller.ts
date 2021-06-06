@@ -1,5 +1,5 @@
 import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from "@nestjs/common";
-import { CollectionsService } from "src/collections/collections.service";
+import { CollectionsService } from "../collections/collections.service";
 
 @Controller("/v1/users")
 export class UsersController {

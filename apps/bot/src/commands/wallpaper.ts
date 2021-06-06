@@ -1,8 +1,6 @@
 import { Context, Markup } from "telegraf";
-import axios from "axios";
-import { fileTypes } from "../constants";
 import { CommandInterface } from "./_interface";
-import { shiroApi } from "src/helpers/shiroApi";
+import { shiroApi } from "../helpers/shiroApi";
 
 export default class extends CommandInterface {
   constructor() {
