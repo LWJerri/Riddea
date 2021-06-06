@@ -1,7 +1,7 @@
 import { CacheModule, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Collection } from "@riddea/typeorm";
-import { CollectionsService } from "src/collections/collections.service";
+import { CollectionsService } from "../collections/collections.service";
 import { UsersController } from "./users.controller";
 
 @Module({
