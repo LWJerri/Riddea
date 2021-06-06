@@ -2,6 +2,7 @@ import { bot } from "../app";
 import { promises as fs } from "fs";
 import { resolve } from "path";
 import { CommandInterface } from "../commands/_interface";
+import { botLogger } from "./logger";
 
 export const commands: Array<CommandInterface> = [];
 
@@ -15,7 +16,7 @@ export async function loadCommands() {
         const command: CommandInterface = new ((await import(resolve(commandsDirPath, commandPath)))?.default)();
 
         if (!command) {
-            console.log(`[!]: Command ${commandPath} havent exported class, will not work!`);
+            botLogger.log(`[!]: Command ${commandPath} havent exported class, will not work!`);
 
             return;
         }
@@ -34,10 +35,10 @@ export async function loadCommands() {
                 (ctx as any).isAction = true;
                 command.execute(ctx);
             });
-            console.log(`[ACTIONS]: Action ${command.action} loaded`);
+            botLogger.log(`[ACTIONS]: Action ${command.action} loaded`);
         }
 
         commands.push(command);
-        console.log(`[COMMANDS]: Command ${command.name} loaded`);
+        botLogger.log(`[COMMANDS]: Command ${command.name} loaded`);
     }
 }

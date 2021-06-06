@@ -14,6 +14,7 @@ import { microserviceInit } from "./api";
 import photoEvent from "./events/photo";
 
 import * as typeormEntitites from "@riddea/typeorm";
+import { botLogger } from "./helpers/logger";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -35,5 +36,5 @@ bootstrap();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
 process.once("SIGTERM", () => bot.stop("SIGTERM"));
-process.on("unhandledRejection", (reason) => console.log(reason));
-process.on("uncaughtException", (reason) => console.log(reason));
+process.on("unhandledRejection", (reason) => botLogger.error(reason));
+process.on("uncaughtException", (reason) => botLogger.error(reason));
