@@ -8,9 +8,6 @@
     "scripts": {
         "start": "cross-env NODE_ENV=production node ./dist/src/app.js",
         "dev": "nodemon",
-        "prestart": "npm run migration:run",
-        "migration:run": "typeorm migration:run",
-        "migration:generate": "typeorm migration:generate -n",
         "clean": "rimraf dist",
         "prebuild": "yarn clean",
         "build": "tsc -b",
@@ -27,6 +24,7 @@
         "@nestjs/core": "^7.6.17",
         "@nestjs/microservices": "^7.6.17",
         "axios": "^0.21.1",
+        "find-config": "^1.0.0",
         "humanize-duration": "^3.26.0",
         "is-docker": "^2.2.1",
         "pg": "^8.6.0",
@@ -39,6 +37,7 @@
     },
     "devDependencies": {
         "@nestjs/schematics": "^7.3.1",
+        "@types/find-config": "^1.0.0",
         "@types/humanize-duration": "^3.25.0",
         "@types/node": "^15.0.3",
         "@types/source-map-support": "^0.5.3",

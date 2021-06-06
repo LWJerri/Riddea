@@ -1,25 +1,29 @@
-import dotenv from "dotenv";
+import findConfig from 'find-config'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config({ path: findConfig('.env') })
 
 import "source-map-support";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";
-import { createConnection } from "typeorm";
+import { createConnection, getConnectionOptions } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
 import { microserviceInit } from "./api";
 import photoEvent from "./events/photo";
 
-export const bot = new Telegraf<Scenes.SceneContext>(process.env.TOKEN);
+import { entities } from '@riddea/typeorm'
+
+export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.use(session());
 bot.use(stage.middleware());
 bot.on("photo", photoEvent);
 
 async function bootstrap() {
-    await createConnection();
+    const connectionOptions = await getConnectionOptions()
+    await createConnection(Object.assign(connectionOptions, { entities }));
     await loadCommands();
     await bot.launch();
     await readyEvent();

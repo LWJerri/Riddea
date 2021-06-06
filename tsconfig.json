@@ -15,7 +15,7 @@
     "typeRoots": ["node_modules/@types", "src/typings"],
     "outDir": "./dist",
     "paths": {
-      "@riddea/typeorm/*": ["./packages/typeorm"]
+      "@riddea/typeorm/*": ["./packages/typeorm"],
     }
   },
 }

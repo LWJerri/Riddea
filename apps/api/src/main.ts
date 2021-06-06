@@ -1,4 +1,8 @@
 import "reflect-metadata";
+import findConfig from 'find-config'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: findConfig('.env')})
 
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
@@ -8,7 +12,7 @@ import cluster from "cluster";
 import os from "os";
 
 const logger = new Logger("API");
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.API_PORT ?? 3000;
 
 async function bootstrap() {
     if (cluster.isMaster) {

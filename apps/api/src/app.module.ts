@@ -5,9 +5,20 @@ import { AppService } from "./app.service";
 import { CollectionsModule } from "./collections/collections.module";
 import { UsersModule } from "./users/users.module";
 import { StatsModule } from "./stats/stats.module";
+import { getConnectionOptions } from "typeorm";
 
 @Module({
-    imports: [CollectionsModule, TypeOrmModule.forRoot(), UsersModule, StatsModule],
+    imports: [
+        CollectionsModule,
+        TypeOrmModule.forRootAsync({
+            useFactory: async () =>
+              Object.assign(await getConnectionOptions(), {
+                autoLoadEntities: true,
+              }),
+        }),
+        UsersModule,
+        StatsModule,
+    ],
     controllers: [AppController],
     providers: [AppService],
 })

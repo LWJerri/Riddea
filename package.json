@@ -22,11 +22,16 @@
     "start:api": "lerna exec yarn start --scope=@riddea/api",
     "dev:bot": "lerna exec yarn dev --scope=@riddea/bot",
     "dev:api": "lerna exec yarn dev --scope=@riddea/api",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migration:run": "typeorm migration:run",
+    "migration:generate": "typeorm migration:generate -n"
   },
   "devDependencies": {
     "husky": "^6.0.0",
     "lerna": "^3.22.1",
     "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "typeorm": "^0.2.34"
   }
 }

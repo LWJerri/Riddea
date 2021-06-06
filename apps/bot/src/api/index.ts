@@ -5,7 +5,7 @@ import { AppModule } from "./app.module";
 import isDocker from "is-docker";
 
 const logger = new Logger("BOT API");
-const PORT = process.env.PORT ?? 3001;
+const PORT = process.env.BOT_PORT ?? 3001;
 
 export async function microserviceInit() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
