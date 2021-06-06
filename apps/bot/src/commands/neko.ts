@@ -24,6 +24,6 @@ export default class extends CommandInterface {
       }),
     );
 
-    await ctx.reply("Do you like to see more avatars?", Markup.inlineKeyboard([Markup.button.callback("Give me more!", this.action)]));
+    await ctx.reply("Do you like to see more neko?", Markup.inlineKeyboard([Markup.button.callback("Give me more!", this.action)]));
   }
 }
