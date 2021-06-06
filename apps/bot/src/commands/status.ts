@@ -10,42 +10,42 @@ import { commands as commandsStore } from "../helpers/loadCommands";
 const pkg = require(resolve(process.cwd(), "package.json"));
 
 export default class extends CommandInterface {
-    constructor() {
-        super({
-            name: "status",
-            description: "Send bot statistic",
-            action: "SEND_STATISTIC",
-        });
-    }
+  constructor() {
+    super({
+      name: "status",
+      description: "Send bot statistic",
+      action: "SEND_STATISTIC",
+    });
+  }
 
-    async run(ctx: Context) {
-        const uptime = humanize(Math.floor(process.uptime()) * 1000, {
-            round: true,
-            language: "en",
-        });
+  async run(ctx: Context) {
+    const uptime = humanize(Math.floor(process.uptime()) * 1000, {
+      round: true,
+      language: "en",
+    });
 
-        const statisticRepository = getRepository(Statistic);
-        const commands = commandsStore.filter((c) => c.collectUsage).map((c) => c.name);
-        const stats = await Promise.all(
-            commands.map((command) =>
-                statisticRepository.count({
-                    where: {
-                        command,
-                    },
-                })
-            )
-        );
+    const statisticRepository = getRepository(Statistic);
+    const commands = commandsStore.filter((c) => c.collectUsage).map((c) => c.name);
+    const stats = await Promise.all(
+      commands.map((command) =>
+        statisticRepository.count({
+          where: {
+            command,
+          },
+        }),
+      ),
+    );
 
-        const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
-            return [...prev, [[current], stats[index]]];
-        }, []);
+    const commandsStats: Array<[string, number]> = commands.reduce((prev, current, index) => {
+      return [...prev, [[current], stats[index]]];
+    }, []);
 
-        const cmdStats = `\n\nCOMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
-        const imgStats = `\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`;
-        const botStats = `\n\nBOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
+    const cmdStats = `\n\nCOMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
+    const imgStats = `\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`;
+    const botStats = `\n\nBOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
 
-        await ctx.reply(`${cmdStats}${imgStats}${botStats}`).catch(() => {});
+    await ctx.reply(`${cmdStats}${imgStats}${botStats}`).catch(() => {});
 
-        return;
-    }
+    return;
+  }
 }

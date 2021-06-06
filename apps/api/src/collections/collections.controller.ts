@@ -3,11 +3,11 @@ import { CollectionsService } from "./collections.service";
 
 @Controller("/v1/collections")
 export class CollectionsController {
-    constructor(private service: CollectionsService) {}
+  constructor(private service: CollectionsService) {}
 
-    @Get("/:id")
-    @UseInterceptors(CacheInterceptor)
-    getCollection(@Param("id") id: string) {
-        return this.service.getCollection(id);
-    }
+  @Get("/:id")
+  @UseInterceptors(CacheInterceptor)
+  getCollection(@Param("id") id: string) {
+    return this.service.getCollection(id);
+  }
 }

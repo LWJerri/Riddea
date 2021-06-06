@@ -5,14 +5,14 @@ import { CollectionsService } from "../collections/collections.service";
 import { UsersController } from "./users.controller";
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([Collection]),
-        CacheModule.register({
-            ttl: process.env.NODE_ENV === "development" ? 5 : 120,
-            max: 1000,
-        }),
-    ],
-    controllers: [UsersController],
-    providers: [CollectionsService],
+  imports: [
+    TypeOrmModule.forFeature([Collection]),
+    CacheModule.register({
+      ttl: process.env.NODE_ENV === "development" ? 5 : 120,
+      max: 1000,
+    }),
+  ],
+  controllers: [UsersController],
+  providers: [CollectionsService],
 })
 export class UsersModule {}

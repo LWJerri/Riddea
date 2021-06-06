@@ -23,13 +23,13 @@ bot.use(stage.middleware());
 bot.on("photo", photoEvent);
 
 async function bootstrap() {
-    const connectionOptions = await getConnectionOptions();
-    await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
-    await loadCommands();
-    await bot.launch();
-    await readyEvent();
+  const connectionOptions = await getConnectionOptions();
+  await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
+  await loadCommands();
+  await bot.launch();
+  await readyEvent();
 
-    await microserviceInit();
+  await microserviceInit();
 }
 
 bootstrap();

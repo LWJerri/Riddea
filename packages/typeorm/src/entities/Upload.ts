@@ -3,18 +3,18 @@ import { Collection } from "./Collection";
 
 @Entity()
 export class Upload {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    userID: number;
+  @Column()
+  userID: number;
 
-    @Column("text")
-    fileID: string;
+  @Column("text")
+  fileID: string;
 
-    @ManyToOne(() => Collection, (collection) => collection.uploads, {
-        nullable: true,
-        onDelete: "SET NULL",
-    })
-    collection?: Collection;
+  @ManyToOne(() => Collection, (collection) => collection.uploads, {
+    nullable: true,
+    onDelete: "SET NULL",
+  })
+  collection?: Collection;
 }

@@ -6,42 +6,42 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class StatsService {
-    private readonly logger = new Logger(StatsService.name);
+  private readonly logger = new Logger(StatsService.name);
 
-    constructor(
-        @InjectRepository(Statistic) private statisticRepository: Repository<Statistic>,
-        @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
-        @Inject("BOT") private botMicroservice: ClientProxy
-    ) {}
+  constructor(
+    @InjectRepository(Statistic) private statisticRepository: Repository<Statistic>,
+    @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
+    @Inject("BOT") private botMicroservice: ClientProxy,
+  ) {}
 
-    async stats() {
-        const commands = await this.botMicroservice
-            .send({ cmd: "getCommandsUsageList" }, {})
-            .toPromise()
-            .catch(() => null);
+  async stats() {
+    const commands = await this.botMicroservice
+      .send({ cmd: "getCommandsUsageList" }, {})
+      .toPromise()
+      .catch(() => null);
 
-        const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command })));
-        const commandsUsage = commands.reduce((prev, current, index) => {
-            return {
-                ...prev,
-                [current]: counts[index],
-            };
-        }, {});
+    const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command })));
+    const commandsUsage = commands.reduce((prev, current, index) => {
+      return {
+        ...prev,
+        [current]: counts[index],
+      };
+    }, {});
 
-        const uploads = await this.uploadRepository.count();
+    const uploads = await this.uploadRepository.count();
 
-        let botInfo: any;
-        try {
-            botInfo = await this.botMicroservice.send({ cmd: "getBotInfo" }, {}).toPromise();
-        } catch (error) {
-            this.logger.error(`BOT Microservice Unreacheable, setted botInfo to null. Reason: ${error.message}`);
-            botInfo = null;
-        }
-
-        return {
-            commandsUsage,
-            uploads,
-            botInfo,
-        };
+    let botInfo: any;
+    try {
+      botInfo = await this.botMicroservice.send({ cmd: "getBotInfo" }, {}).toPromise();
+    } catch (error) {
+      this.logger.error(`BOT Microservice Unreacheable, setted botInfo to null. Reason: ${error.message}`);
+      botInfo = null;
     }
+
+    return {
+      commandsUsage,
+      uploads,
+      botInfo,
+    };
+  }
 }

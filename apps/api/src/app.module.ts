@@ -8,18 +8,18 @@ import { StatsModule } from "./stats/stats.module";
 import { getConnectionOptions } from "typeorm";
 
 @Module({
-    imports: [
-        CollectionsModule,
-        TypeOrmModule.forRootAsync({
-            useFactory: async () =>
-                Object.assign(await getConnectionOptions(), {
-                    autoLoadEntities: true,
-                }),
+  imports: [
+    CollectionsModule,
+    TypeOrmModule.forRootAsync({
+      useFactory: async () =>
+        Object.assign(await getConnectionOptions(), {
+          autoLoadEntities: true,
         }),
-        UsersModule,
-        StatsModule,
-    ],
-    controllers: [AppController],
-    providers: [AppService],
+    }),
+    UsersModule,
+    StatsModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

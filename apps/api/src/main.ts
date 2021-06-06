@@ -15,8 +15,8 @@ const logger = new Logger("API");
 const PORT = process.env.API_PORT ?? 3000;
 
 async function bootstrap() {
-    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger });
-    app.enableCors();
-    await app.listen(PORT, "0.0.0.0");
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger });
+  app.enableCors();
+  await app.listen(PORT, "0.0.0.0");
 }
 bootstrap();

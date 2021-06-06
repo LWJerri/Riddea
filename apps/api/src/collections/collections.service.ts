@@ -5,23 +5,23 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class CollectionsService {
-    constructor(@InjectRepository(Collection) private collectionRepository: Repository<Collection>) {}
+  constructor(@InjectRepository(Collection) private collectionRepository: Repository<Collection>) {}
 
-    async getCollection(id: string) {
-        const collection = await this.collectionRepository.findOne(id);
+  async getCollection(id: string) {
+    const collection = await this.collectionRepository.findOne(id);
 
-        if (!collection) {
-            throw new NotFoundException(`Collection ${id} not found.`);
-        }
-
-        if (!collection.isPublic) {
-            throw new UnauthorizedException(`Collection ${id} is private`);
-        }
-
-        return collection;
+    if (!collection) {
+      throw new NotFoundException(`Collection ${id} not found.`);
     }
 
-    getCollectionsByUser(userID: string | number) {
-        return this.collectionRepository.find({ userID: Number(userID), isPublic: true });
+    if (!collection.isPublic) {
+      throw new UnauthorizedException(`Collection ${id} is private`);
     }
+
+    return collection;
+  }
+
+  getCollectionsByUser(userID: string | number) {
+    return this.collectionRepository.find({ userID: Number(userID), isPublic: true });
+  }
 }

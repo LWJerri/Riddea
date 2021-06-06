@@ -2,17 +2,17 @@ import { Scenes } from "telegraf";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
-    constructor() {
-        super({
-            description: "Cancel any stage you entered",
-            name: "cancel",
-        });
-    }
+  constructor() {
+    super({
+      description: "Cancel any stage you entered",
+      name: "cancel",
+    });
+  }
 
-    async run(ctx: Scenes.SceneContext) {
-        ctx.scene.current?.leave();
-        await ctx.reply("Okay, happy nice day!").catch(() => {});
+  async run(ctx: Scenes.SceneContext) {
+    ctx.scene.current?.leave();
+    await ctx.reply("Okay, happy nice day!").catch(() => {});
 
-        return;
-    }
+    return;
+  }
 }
