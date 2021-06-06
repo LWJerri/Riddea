@@ -15,7 +15,10 @@ export class StatsService {
     ) {}
 
     async stats() {
-        const commands = ["avatar", "bondage", "hentai", "neko", "thighs", "trap", "upload", "wallpaper"];
+        const commands = await this.botMicroservice
+            .send({ cmd: "getCommandsUsageList" }, {})
+            .toPromise()
+            .catch(() => null);
 
         const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command })));
         const commandsUsage = commands.reduce((prev, current, index) => {

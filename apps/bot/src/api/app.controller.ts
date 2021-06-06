@@ -10,4 +10,9 @@ export class AppController {
     botInfo() {
         return this.service.getBotInfo();
     }
+
+    @MessagePattern({ cmd: "getCommandsUsageList" })
+    getCommandUsageList() {
+        return this.service.getCommandUsageList();
+    }
 }
