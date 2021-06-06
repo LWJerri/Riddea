@@ -1,6 +1,7 @@
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
 import { Statistic } from "@riddea/typeorm";
+import { botLogger } from "../helpers/logger";
 
 export type CommandOptions = {
     name: string;
@@ -28,7 +29,12 @@ export class CommandInterface {
     }
 
     async execute(ctx: Context) {
-        await this.run(ctx)?.catch(() => {});
+        try {
+            await this.run(ctx);
+        } catch (e) {
+            ctx.reply("We are sorry, some error happend on our side. :(");
+            botLogger.error(e, e.stack);
+        }
 
         if (this.collectUsage) {
             await this.statisticRepository.save({ command: this.name });

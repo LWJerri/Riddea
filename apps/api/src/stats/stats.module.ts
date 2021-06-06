@@ -10,12 +10,12 @@ import isDocker from "is-docker";
     imports: [
         ClientsModule.register([
             {
-                name: 'BOT',
+                name: "BOT",
                 options: {
                     host: isDocker() ? "bot" : process.env.BOT_SERVICE_HOST ?? "localhost",
                     port: Number(process.env.BOT_PORT ?? 3001),
-                }
-            }
+                },
+            },
         ]),
         TypeOrmModule.forFeature([Statistic, Upload]),
         CacheModule.register({
