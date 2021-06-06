@@ -2,7 +2,7 @@ import { CacheModule, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CollectionsController } from "./collections.controller";
 import { CollectionsService } from "./collections.service";
-import { Collection } from "@riddea/typeorm";
+import { Collection, Upload } from "@riddea/typeorm";
 import { ClientsModule } from "@nestjs/microservices";
 import isDocker from "is-docker";
 
@@ -17,7 +17,7 @@ import isDocker from "is-docker";
         },
       },
     ]),
-    TypeOrmModule.forFeature([Collection]),
+    TypeOrmModule.forFeature([Collection, Upload]),
     CacheModule.register({
       ttl: process.env.NODE_ENV === "development" ? 5 : 120,
       max: 1000,

@@ -1,5 +1,7 @@
-import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from "@nestjs/common";
+import { CacheInterceptor, Controller, Get, Param, Query, Res, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
+import { GetCollectionImagesDto } from "./dto/getCollectionImages.dto";
+import { FastifyReply } from "fastify";
 
 @Controller("/v1/collections")
 export class CollectionsController {
@@ -13,7 +15,12 @@ export class CollectionsController {
 
   @Get("/:id/images")
   @UseInterceptors(CacheInterceptor)
-  getCollectionImages(@Param("id") id: string) {
-    return this.service.getCollectionImages(id);
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async getCollectionImages(@Query() query: GetCollectionImagesDto, @Param("id") id: string, @Res() res: FastifyReply) {
+    const [images, total] = await this.service.getCollectionImages(id, query);
+    res.headers({
+      total,
+    });
+    res.send(images);
   }
 }

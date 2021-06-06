@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Collection } from "./Collection";
 
 @Entity()
@@ -17,4 +17,10 @@ export class Upload {
     onDelete: "SET NULL",
   })
   collection?: Collection;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
