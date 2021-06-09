@@ -30,8 +30,4 @@ export class AppService {
   async getCommandUsageList() {
     return commands.filter((c) => c.collectUsage).map((c) => c.name);
   }
-
-  getImagesLinks(ids: string[]) {
-    return Promise.all(ids.map(async (id) => await bot.telegram.getFileLink(id)));
-  }
 }

@@ -12,6 +12,9 @@ export class Upload {
   @Column("text")
   fileID: string;
 
+  @Column('text', { nullable: true })
+  data: string
+
   @ManyToOne(() => Collection, (collection) => collection.uploads, {
     nullable: true,
     onDelete: "SET NULL",

@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException, UnauthorizedException } from "@n
 import { ClientProxy } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Collection, Upload } from "@riddea/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Not, Repository } from "typeorm";
 import { GetCollectionImagesDto } from "./dto/getCollectionImages.dto";
 
 @Injectable()
@@ -43,6 +43,7 @@ export class CollectionsService {
           collection: {
             id,
           },
+          data: Not(IsNull())
         },
         take: Number(query.limit),
         skip: Number(query.limit) * (Number(query.page) - 1),
@@ -55,6 +56,7 @@ export class CollectionsService {
           collection: {
             id,
           },
+          data: Not(IsNull())
         },
       }),
     ]);
@@ -67,14 +69,7 @@ export class CollectionsService {
       throw new UnauthorizedException(`Collection ${id} is private`);
     }
 
-    const images = uploads.length
-      ? ((await this.botMicroservice
-          .send(
-            { cmd: "getImagesLinks" },
-            uploads.map((u) => u.fileID),
-          )
-          .toPromise()) as string[])
-      : [];
+    const images = uploads.map(u => u.data);
 
     return [images, total];
   }
