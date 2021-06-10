@@ -1,6 +1,6 @@
 {
   "name": "riddea",
-  "version": "2.1.7",
+  "version": "2.0.0",
   "license": "MIT",
   "private": true,
   "workspaces": {
