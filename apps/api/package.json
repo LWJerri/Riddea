@@ -1,6 +1,6 @@
 {
   "name": "@riddea/api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "main": "dist/main",
   "types": "dist/main",
