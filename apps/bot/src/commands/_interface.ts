@@ -37,7 +37,7 @@ export class CommandInterface {
     }
 
     if (this.collectUsage) {
-      await this.statisticRepository.save({ command: this.name });
+      await this.statisticRepository.save({ command: this.name, userID: ctx.from.id });
     }
   }
 

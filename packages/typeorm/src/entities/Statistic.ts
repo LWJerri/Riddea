@@ -8,6 +8,9 @@ export class Statistic {
   @Column()
   command: string;
 
+  @Column()
+  userID: number;
+
   @CreateDateColumn()
   createdAt: Date;
 }
