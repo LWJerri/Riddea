@@ -22,6 +22,6 @@ export class CollectionsController {
       total,
     });
 
-    res.send({ nextPage: isNext, pictures: images });
+    res.send({ nextPage: isNext, data: images });
   }
 }
