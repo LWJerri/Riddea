@@ -17,10 +17,11 @@ export class CollectionsController {
   @UseInterceptors(CacheInterceptor)
   @UsePipes(new ValidationPipe({ transform: true }))
   async getCollectionImages(@Query() query: GetCollectionImagesDto, @Param("id") id: string, @Res() res: FastifyReply) {
-    const [images, total] = await this.service.getCollectionImages(id, query);
+    const [images, total, isNext] = await this.service.getCollectionImages(id, query);
     res.headers({
       total,
     });
-    res.send(images);
+
+    res.send({ nextPage: isNext, pictures: images });
   }
 }

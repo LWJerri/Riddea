@@ -32,12 +32,13 @@ export class CollectionsService {
   }
 
   async getCollectionImages(id: string, query: GetCollectionImagesDto) {
-    const [collection, uploads, total] = await Promise.all([
+    const [collection, uploads, isNext, total] = await Promise.all([
       this.collectionRepository.findOne({
         where: {
           id,
         },
       }),
+
       this.uploadRepository.find({
         where: {
           collection: {
@@ -51,6 +52,21 @@ export class CollectionsService {
           createdAt: "DESC",
         },
       }),
+
+      this.uploadRepository.find({
+        where: {
+          collection: {
+            id,
+          },
+          data: Not(IsNull()),
+        },
+        take: Number(query.limit),
+        skip: Number(query.limit) * Number(query.page),
+        order: {
+          createdAt: "ASC",
+        },
+      }),
+
       this.uploadRepository.count({
         where: {
           collection: {
@@ -71,6 +87,6 @@ export class CollectionsService {
 
     const images = uploads.map((u) => u.data);
 
-    return [images, total];
+    return [images, total, Boolean(isNext.length)];
   }
 }
