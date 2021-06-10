@@ -19,7 +19,7 @@ import { getConnectionOptions } from "typeorm";
     UsersModule,
     StatsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
