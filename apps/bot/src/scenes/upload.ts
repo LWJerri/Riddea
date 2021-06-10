@@ -1,12 +1,53 @@
-import { Scenes } from "telegraf";
+import { Context, Markup, Scenes } from "telegraf";
 import { getRepository } from "typeorm";
-import { Upload } from "@riddea/typeorm";
+import { Collection, Upload } from "@riddea/typeorm";
 import base64Data from "../helpers/base64Decoder";
 
+async function getKeyboard(ctx: Context) {
+  const collections = await getRepository(Collection).find({
+    where: { userID: ctx.from.id },
+    order: { createdAt: "ASC" },
+  });
+
+  const test = collections.map((c) => Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`));
+  test.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
+
+  const keyboard = Markup.inlineKeyboard(test, { columns: 1 });
+
+  return keyboard;
+}
+
 export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
-  .enter((ctx) => ctx.reply(`Okay, send me your image!`).catch(() => {}))
+  .enter((ctx) => {
+    ctx.reply(`Boop-beep, send me your image!`).catch(() => {});
+  })
   .on("photo", async (ctx) => {
-    const photo = ctx.message.photo.pop();
+    await ctx.replyWithPhoto(ctx.message.photo.pop().file_id, await getKeyboard(ctx));
+  })
+  .action(/IMAGE_ADD_COLLECTION_\d+/, async (ctx) => {
+    await ctx.answerCbQuery();
+
+    const photo = (ctx.update.callback_query.message as any).photo.pop();
+    const dataDB = await base64Data(photo);
+    const id = Number(ctx.match.input.replace("IMAGE_ADD_COLLECTION_", ""));
+    const collectionName = (await getRepository(Collection).findOne({ id: id })).name;
+
+    await getRepository(Upload).save({
+      userID: ctx.from.id,
+      fileID: photo.file_id,
+      data: dataDB,
+      collection: { id },
+    });
+
+    await ctx
+      .reply(`Your image loaded to database in ${collectionName} collection! Type /cancel if you don't want upload pictures anymore.`)
+      .catch(() => {});
+    await ctx.deleteMessage(ctx.message).catch(() => {});
+  })
+  .action("IMAGE_ADD_COLLECTION_SKIP", async (ctx) => {
+    await ctx.answerCbQuery();
+
+    const photo = (ctx.update.callback_query.message as any).photo.pop();
     const dataDB = await base64Data(photo);
 
     await getRepository(Upload).save({
@@ -15,7 +56,10 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       data: dataDB,
     });
 
-    await ctx.reply(`Yay, your image loaded to bot database! Type /cancel if you don't want upload pictures anymore.`).catch(() => {});
+    await ctx
+      .reply(`Your image loaded to database but not added to collection! Type /cancel if you don't want upload pictures anymore.`)
+      .catch(() => {});
+    await ctx.deleteMessage(ctx.message).catch(() => {});
   })
   .command("cancel", async (ctx) => {
     await ctx.scene.leave().catch(() => {});

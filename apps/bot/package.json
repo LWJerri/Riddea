@@ -1,6 +1,6 @@
 {
   "name": "@riddea/bot",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Telegram bot for store your images, view NSFW content and etc.",
   "main": "dist/app",
   "types": "dist/app",
