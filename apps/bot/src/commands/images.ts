@@ -10,6 +10,6 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {
-    await ctx.scene.enter("myImages")
+    await ctx.scene.enter("myImages");
   }
 }

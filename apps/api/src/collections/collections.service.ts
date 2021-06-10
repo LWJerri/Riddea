@@ -43,7 +43,7 @@ export class CollectionsService {
           collection: {
             id,
           },
-          data: Not(IsNull())
+          data: Not(IsNull()),
         },
         take: Number(query.limit),
         skip: Number(query.limit) * (Number(query.page) - 1),
@@ -56,7 +56,7 @@ export class CollectionsService {
           collection: {
             id,
           },
-          data: Not(IsNull())
+          data: Not(IsNull()),
         },
       }),
     ]);
@@ -69,7 +69,7 @@ export class CollectionsService {
       throw new UnauthorizedException(`Collection ${id} is private`);
     }
 
-    const images = uploads.map(u => u.data);
+    const images = uploads.map((u) => u.data);
 
     return [images, total];
   }

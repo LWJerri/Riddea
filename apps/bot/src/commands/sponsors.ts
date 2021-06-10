@@ -18,6 +18,6 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    await ctx.reply(`Here you can find a list of all our sponsors. We are very grateful for their support!`, keyboard)
+    await ctx.reply(`Here you can find a list of all our sponsors. We are very grateful for their support!`, keyboard);
   }
 }
