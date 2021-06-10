@@ -1,18 +1,15 @@
-import { Context, Scenes } from "telegraf";
 import { getRepository } from "typeorm";
 import { Upload } from "@riddea/typeorm";
-import axios from "axios";
+import base64Data from "../helpers/base64Decoder";
 
 export default async function photoEvent(ctx: any) {
   const photo = ctx.message.photo.pop();
-  const photoRequest = await axios.get((await ctx.telegram.getFileLink(photo.file_id)).href, {
-    responseType: "arraybuffer",
-  });
+  const dataDB = await base64Data(photo);
 
   await getRepository(Upload).save({
     userID: ctx.from.id,
     fileID: (ctx.message as any).photo.pop().file_id,
-    data: `data:image/jpeg;base64,${Buffer.from(photoRequest.data, "binary").toString("base64")}`,
+    data: dataDB,
   });
 
   await ctx.reply(`Yay, your image loaded to bot database!`).catch(() => {});
