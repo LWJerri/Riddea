@@ -8,7 +8,7 @@ export class Statistic {
   @Column()
   command: string;
 
-  @Column()
+  @Column({ nullable: true })
   userID: number;
 
   @CreateDateColumn()
