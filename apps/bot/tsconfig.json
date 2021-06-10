@@ -1,14 +1,14 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "typeRoots": ["./typings"],
-        "outDir": "./dist"
-    },
-    "references": [
-        {
-            "path": "../../packages/typeorm"
-        }
-    ],
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": ["./typings"],
+    "outDir": "./dist"
+  },
+  "references": [
+    {
+      "path": "../../packages/typeorm"
+    }
+  ],
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

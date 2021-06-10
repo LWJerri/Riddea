@@ -13,7 +13,7 @@
     "composite": true,
     "typeRoots": ["node_modules/@types", "src/typings"],
     "paths": {
-      "@riddea/typeorm/*": ["./packages/typeorm"],
+      "@riddea/typeorm/*": ["./packages/typeorm"]
     }
-  },
+  }
 }

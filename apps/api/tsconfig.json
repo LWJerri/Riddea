@@ -1,16 +1,16 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./dist"
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "references": [
+    {
+      "path": "../../packages/typeorm"
     },
-    "references": [
-        {
-            "path": "../../packages/typeorm"
-        },
-        {
-            "path": "../../packages/helpers"
-        }
-    ],
-    "include": ["src"],
-    "exclude": ["node_modules", "dist"]
+    {
+      "path": "../../packages/helpers"
+    }
+  ],
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

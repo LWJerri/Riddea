@@ -2,6 +2,6 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src/api",
   "generateOptions": {
-      "spec": false
+    "spec": false
   }
 }
