@@ -17,6 +17,7 @@
     "build": "lerna run build --stream",
     "prettier": "prettier --write apps/**/*.ts packages/**/*.ts",
     "clean": "lerna run clean --parallel",
+    "clean:modules": "rimraf ./**/node_modules",
     "lerna": "lerna",
     "start:bot": "lerna exec yarn start --scope=@riddea/bot",
     "start:api": "lerna exec yarn start --scope=@riddea/api",
@@ -32,6 +33,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
+    "rimraf": "^3.0.2",
     "typeorm": "^0.2.34"
   }
 }

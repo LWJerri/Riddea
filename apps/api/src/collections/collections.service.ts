@@ -1,9 +1,9 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Collection, Upload } from "@riddea/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
-import { GetCollectionImagesDto } from "./dto/getCollectionImages.dto";
+import { GetCollectionImages } from "./validations/getCollectionImages";
 
 @Injectable()
 export class CollectionsService {
@@ -21,7 +21,7 @@ export class CollectionsService {
     }
 
     if (!collection.isPublic) {
-      throw new UnauthorizedException(`Collection ${id} is private`);
+      throw new ForbiddenException(`Collection ${id} is private`);
     }
 
     return collection;
@@ -31,7 +31,7 @@ export class CollectionsService {
     return this.collectionRepository.find({ userID: Number(userID), isPublic: true });
   }
 
-  async getCollectionImages(id: string, query: GetCollectionImagesDto) {
+  async getCollectionImages(id: string, query: GetCollectionImages) {
     const [collection, uploads, isNext, total] = await Promise.all([
       this.collectionRepository.findOne({
         where: {
@@ -82,7 +82,7 @@ export class CollectionsService {
     }
 
     if (!collection.isPublic) {
-      throw new UnauthorizedException(`Collection ${id} is private`);
+      throw new ForbiddenException(`Collection ${id} is private`);
     }
 
     const images = uploads.map((u) => u.data);

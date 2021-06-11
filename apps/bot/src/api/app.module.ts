@@ -8,11 +8,12 @@ import { AppService } from "./app.service";
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
-        ...(await getConnectionOptions()),
-        name: "microservice",
-        entities: Object.values(typeOrmEntities),
-      }),
+      useFactory: async () =>
+        ({
+          ...(await getConnectionOptions()),
+          name: "microservice",
+          entities: Object.values(typeOrmEntities),
+        } as any),
     }),
     TypeOrmModule.forFeature(Object.values(typeOrmEntities)),
   ],
