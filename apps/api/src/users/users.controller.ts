@@ -1,5 +1,5 @@
 import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from "@nestjs/common";
-import { ApiResponse} from "@nestjs/swagger";
+import { ApiResponse } from "@nestjs/swagger";
 import { CollectionsService } from "../collections/collections.service";
 import { CollectionDTO } from "../collections/dto/collection.dto";
 
