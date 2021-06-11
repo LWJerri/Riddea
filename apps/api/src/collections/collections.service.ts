@@ -85,8 +85,6 @@ export class CollectionsService {
       throw new ForbiddenException(`Collection ${id} is private`);
     }
 
-    const images = uploads.map((u) => u.data);
-
-    return [images, total, Boolean(isNext.length)];
+    return [uploads, total, Boolean(isNext.length)];
   }
 }

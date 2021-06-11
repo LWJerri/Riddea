@@ -4,6 +4,7 @@ import { Collection } from "./Collection";
 
 @Entity()
 export class Upload {
+  @ApiProperty({ example: 1234567890 })
   @PrimaryGeneratedColumn()
   id: number;
 
