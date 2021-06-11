@@ -3,6 +3,7 @@ import { ClientProxy } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Statistic, Upload } from "@riddea/typeorm";
 import { Repository } from "typeorm";
+import { StatsDTO } from "./dto/stats.dto";
 
 @Injectable()
 export class StatsService {
@@ -14,7 +15,7 @@ export class StatsService {
     @Inject("BOT_SERVICE") private botMicroservice: ClientProxy,
   ) {}
 
-  async stats() {
+  async stats(): Promise<StatsDTO> {
     const commands = await this.botMicroservice
       .send({ cmd: "getCommandsUsageList" }, {})
       .toPromise()

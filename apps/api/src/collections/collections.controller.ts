@@ -1,9 +1,10 @@
 import { CacheInterceptor, Controller, Get, Param, Query, Res, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
-import { GetCollectionImagesDto } from "./dto/getCollectionImages.dto";
+import { GetCollectionImages } from "./validations/getCollectionImages";
 import { FastifyReply } from "fastify";
-import { Collection, Upload } from "@riddea/typeorm";
-import { ApiResponse, OmitType, PartialType } from "@nestjs/swagger";
+import { ApiForbiddenResponse, ApiResponse } from "@nestjs/swagger";
+import { CollectionDTO } from "./dto/collection.dto";
+import { UploadsDTO } from "./dto/upload.dto";
 
 @Controller("/v1/collections")
 export class CollectionsController {
@@ -14,8 +15,9 @@ export class CollectionsController {
   @ApiResponse({
     status: 200,
     description: "The found collection",
-    type: class CollectionDTO extends PartialType(OmitType(Collection, ["uploads"] as const)) {},
+    type: CollectionDTO,
   })
+  @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   getCollection(@Param("id") id: string) {
     return this.service.getCollection(id);
   }
@@ -26,9 +28,10 @@ export class CollectionsController {
   @ApiResponse({
     status: 200,
     description: "The found images",
-    type: [class UploadsDTO extends PartialType(OmitType(Upload, ["collection"] as const)) {}],
+    type: [UploadsDTO],
   })
-  async getCollectionImages(@Query() query: GetCollectionImagesDto, @Param("id") id: string, @Res() res: FastifyReply) {
+  @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
+  async getCollectionImages(@Query() query: GetCollectionImages, @Param("id") id: string, @Res() res: FastifyReply) {
     const [images, total, isNext] = await this.service.getCollectionImages(id, query);
     res.headers({
       total,

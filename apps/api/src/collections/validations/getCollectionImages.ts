@@ -1,6 +1,6 @@
 import { IsNumberString } from "class-validator";
 
-export class GetCollectionImagesDto {
+export class GetCollectionImages {
   @IsNumberString()
   page: number = 1;
 
