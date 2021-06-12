@@ -1,4 +1,5 @@
 import { Controller, Get, Response, Query, Request } from "@nestjs/common";
+import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { TelegramService } from "./telegram.service";
 
@@ -6,6 +7,7 @@ import { TelegramService } from "./telegram.service";
 export class TelegramController {
   constructor(private readonly telegramService: TelegramService) {}
 
+  @ApiExcludeEndpoint()
   @Get("callback")
   async telegramCallback(@Query() query: any, @Request() req: FastifyRequest, @Response() res: FastifyReply) {
     const user = await this.telegramService.confirmLogin(query);
