@@ -1,5 +1,6 @@
-import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from "@nestjs/common";
+import { CacheInterceptor, Controller, Get, Param, UseInterceptors, Request } from "@nestjs/common";
 import { ApiResponse } from "@nestjs/swagger";
+import { FastifyRequest } from "fastify";
 import { CollectionsService } from "../collections/collections.service";
 import { CollectionDTO } from "../collections/dto/collection.dto";
 
@@ -14,7 +15,7 @@ export class UsersController {
     description: "The found collections",
     type: [CollectionDTO],
   })
-  getUserCollections(@Param("userId") userId: string) {
-    return this.collectionsService.getCollectionsByUser(userId);
+  getUserCollections(@Param("userId") userId: string, @Request() req: FastifyRequest) {
+    return this.collectionsService.getCollectionsByUser(userId, req.session);
   }
 }

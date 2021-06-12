@@ -10,7 +10,7 @@ import { UsersController } from "./users.controller";
     MicroserviceModule,
     TypeOrmModule.forFeature([Collection, Upload]),
     CacheModule.register({
-      ttl: process.env.NODE_ENV === "development" ? 5 : 120,
+      ttl: process.env.NODE_ENV === "production" ? 120 : 5,
       max: 1000,
     }),
   ],
