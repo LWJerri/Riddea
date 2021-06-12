@@ -9,7 +9,7 @@ export class Session {
 
   @Index()
   @Column('bigint', { default: Date.now() })
-  expiredAt: number
+  expireAt: number
 
   @Index()
   @Column('varchar')

@@ -4,6 +4,14 @@ import { getRepository } from "typeorm";
 
 export class TypeormStore<T extends SessionData = SessionData> implements SessionStore {
   private readonly repository = getRepository(Session)
+  private ttl: number
+  constructor(
+    {
+      ttl = 86400
+    }: { ttl?: number } = {}
+  ) {
+    this.ttl = ttl * 1000
+  }
 
   async get(sid: string): Promise<[T, number]> {
     try {
@@ -13,11 +21,11 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
         return null
       }
 
-      if (session?.expiredAt <= Date.now()) {
+      if (session?.expireAt <= Date.now()) {
         return null;
       }
 
-      return [JSON.parse(session?.json ?? {}) as T, session?.expiredAt]
+      return [JSON.parse(session?.json ?? {}) as T, session?.expireAt]
     } catch (error) {
       console.error(error)
       return [null, null]
@@ -25,12 +33,13 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
     
   }
 
-  async set(sid: string, session: T, expiredAt: number | null = null): Promise<void> {
-    try {
-      await this.repository.save({ sid, json: JSON.stringify(session), expiredAt: expiredAt || Date.now() })
-    } catch (error) {
-      console.error(error)
-    }
+  async set(sid: string, sessionData: T, expiry: number | null = null): Promise<void> {
+    const ttl = expiry ? expiry : Date.now() + this.ttl;
+    const session = await this.repository.findOne({ sid }) || this.repository.create()
+    session.sid = sid
+    session.expireAt = ttl
+    session.json = JSON.stringify(sessionData)
+    await this.repository.save(session)
   }
 
   async destroy(sid: string): Promise<void> {
@@ -51,19 +60,12 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
     return this.repository.clear()
   }
 
-  async touch(sid: string, expiry?: number): Promise<void> {
-    try {
-      const sessionData = await this.get(sid);
 
-      if (!sessionData || !sessionData?.length) {
-        return;
-      }
-
-      const [session] = sessionData;
-
-      await this.set(sid, session, expiry);
-    } catch (error) {
-      console.error(error)
-    }
+  // This method is used to touch a session from the store given a session ID (sid).
+  async touch(sid: string, expiry?: number | null): Promise<void> {
+    const ttl = expiry ? expiry : Date.now() + this.ttl;
+    const session = await this.repository.findOne({ sid }) || this.repository.create()
+    session.expireAt = ttl
+    await this.repository.save(session)
   }
 }
