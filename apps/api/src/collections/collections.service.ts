@@ -1,3 +1,4 @@
+import { Session } from "@mgcrea/fastify-session";
 import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -27,8 +28,9 @@ export class CollectionsService {
     return collection;
   }
 
-  getCollectionsByUser(userID: string | number) {
-    return this.collectionRepository.find({ userID: Number(userID), isPublic: true });
+  getCollectionsByUser(userID: string | number, session?: Session) {
+    userID = Number(userID);
+    return this.collectionRepository.find({ userID, isPublic: !((session?.get("user") as any)?.id == userID) });
   }
 
   async getCollectionImages(id: string, query: GetCollectionImages) {
