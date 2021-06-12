@@ -29,7 +29,6 @@
     "humanize-duration": "^3.26.0",
     "is-docker": "^2.2.1",
     "pg": "^8.6.0",
-    "prisma": "^2.23.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
     "telegraf": "^4.3.0",

@@ -6,15 +6,17 @@ import { StatsModule } from "./stats/stats.module";
 import { getConnectionOptions } from "typeorm";
 import { TelegramModule } from "./auth/telegram/telegram.module";
 import { AuthModule } from "./auth/auth.module";
+import * as typeOrmEntities from "@riddea/typeorm";
 
 @Module({
   imports: [
     CollectionsModule,
     TypeOrmModule.forRootAsync({
-      useFactory: async () =>
-        Object.assign(await getConnectionOptions(), {
-          autoLoadEntities: true,
-        }),
+      useFactory: async () => {
+        return Object.assign(await getConnectionOptions(), {
+          entities: Object.values(typeOrmEntities),
+        })
+      }
     }),
     UsersModule,
     StatsModule,
