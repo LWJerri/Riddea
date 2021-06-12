@@ -11,13 +11,29 @@ import { AppModule } from "./app.module";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import fastifyCookie from "fastify-cookie";
+import fastifySession from "@mgcrea/fastify-session";
 
-const logger = new Logger("API");
+export const apiLogger = new Logger("API");
 const PORT = process.env.API_PORT ?? 3000;
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger });
-  app.enableCors();
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: apiLogger });
+  app.register(fastifyCookie);
+  app.register(fastifySession, {
+    secret: process.env.WEB_SESSION_SECRET || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 864e3, // 1 day
+    },
+  });
+  app.enableCors({
+    /* origin: [
+      'http://localhost:4000',
+      'https://riddea.ml'
+    ],
+    credentials: true, */
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const config = new DocumentBuilder()
     .setTitle("Riddea API")

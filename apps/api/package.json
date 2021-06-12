@@ -14,6 +14,7 @@
     "start:debug": "nest start --debug --watch"
   },
   "dependencies": {
+    "@mgcrea/fastify-session": "^0.14.1",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/microservices": "^7.6.17",
@@ -25,6 +26,7 @@
     "class-validator": "^0.13.1",
     "cross-env": "^7.0.3",
     "fastify": "^3.17.0",
+    "fastify-cookie": "^5.3.1",
     "fastify-swagger": "^4.7.0",
     "find-config": "^1.0.0",
     "is-docker": "^2.2.1",

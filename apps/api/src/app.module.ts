@@ -4,6 +4,8 @@ import { CollectionsModule } from "./collections/collections.module";
 import { UsersModule } from "./users/users.module";
 import { StatsModule } from "./stats/stats.module";
 import { getConnectionOptions } from "typeorm";
+import { TelegramModule } from "./auth/telegram/telegram.module";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { getConnectionOptions } from "typeorm";
     }),
     UsersModule,
     StatsModule,
+    TelegramModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
