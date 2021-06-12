@@ -27,7 +27,7 @@ async function bootstrap() {
     cookie: {
       maxAge: 864e3, // 1 day
     },
-    store: new TypeormStore()
+    store: new TypeormStore(),
   });
   app.enableCors({
     /* origin: [

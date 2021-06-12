@@ -1,20 +1,20 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-  name: 'sessions',
+  name: "sessions",
 })
 export class Session {
   @PrimaryGeneratedColumn()
-  id: string
+  id: string;
 
   @Index()
-  @Column('bigint', { default: Date.now() })
-  expireAt: number
+  @Column("bigint", { default: Date.now() })
+  expireAt: number;
 
   @Index()
-  @Column('varchar')
-  sid: string
+  @Column("varchar")
+  sid: string;
 
-  @Column('text')
-  json: any
+  @Column("text")
+  json: any;
 }

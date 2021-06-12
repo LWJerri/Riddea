@@ -11,8 +11,8 @@ export class AuthController {
   }
 
   @ApiExcludeEndpoint()
-  @Get('/logout')
+  @Get("/logout")
   logout(@Request() req: FastifyRequest) {
-    return req.session.destroy()
+    return req.session.destroy();
   }
 }
