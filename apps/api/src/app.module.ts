@@ -15,8 +15,8 @@ import * as typeOrmEntities from "@riddea/typeorm";
       useFactory: async () => {
         return Object.assign(await getConnectionOptions(), {
           entities: Object.values(typeOrmEntities),
-        })
-      }
+        });
+      },
     }),
     UsersModule,
     StatsModule,

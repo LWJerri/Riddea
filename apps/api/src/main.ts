@@ -13,6 +13,7 @@ import { Logger, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import fastifyCookie from "fastify-cookie";
 import fastifySession from "@mgcrea/fastify-session";
+import { TypeormStore } from "./libs/SessionStore";
 
 export const apiLogger = new Logger("API");
 const PORT = process.env.API_PORT ?? 3000;
@@ -26,6 +27,7 @@ async function bootstrap() {
     cookie: {
       maxAge: 864e3, // 1 day
     },
+    store: new TypeormStore(),
   });
   app.enableCors({
     /* origin: [

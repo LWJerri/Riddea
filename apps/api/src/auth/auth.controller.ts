@@ -9,4 +9,10 @@ export class AuthController {
   getMe(@Request() req: FastifyRequest) {
     return req.session.get("user");
   }
+
+  @ApiExcludeEndpoint()
+  @Get("/logout")
+  logout(@Request() req: FastifyRequest) {
+    return req.session.destroy();
+  }
 }
