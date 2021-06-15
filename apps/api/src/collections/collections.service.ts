@@ -29,8 +29,10 @@ export class CollectionsService {
   }
 
   getCollectionsByUser(userID: string | number, session?: Session) {
-    userID = Number(userID);
-    return this.collectionRepository.find({ userID, isPublic: !((session?.get("user") as any)?.id == userID) });
+    return this.collectionRepository.find({
+      userID: Number(userID),
+      isPublic: session?.get("user")?.id == userID ? Not(IsNull()) : true,
+    });
   }
 
   async getCollectionImages(id: string, query: GetCollectionImages) {

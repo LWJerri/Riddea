@@ -1,4 +1,4 @@
-import '@mgcrea/fastify-session'
+import "@mgcrea/fastify-session";
 
 declare module "@mgcrea/fastify-session" {
   interface SessionData {

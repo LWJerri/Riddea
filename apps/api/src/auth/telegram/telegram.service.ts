@@ -1,10 +1,15 @@
+import { SessionData } from "@mgcrea/fastify-session";
 import { Injectable, ServiceUnavailableException, UnauthorizedException } from "@nestjs/common";
 import { createHash, createHmac } from "crypto";
 import { apiLogger } from "../../main";
 
+type ConfirmLogin = SessionData["user"] & {
+  hash: string;
+};
+
 @Injectable()
 export class TelegramService {
-  async confirmLogin({ hash, ...userData }) {
+  async confirmLogin({ hash, ...userData }: ConfirmLogin) {
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
 
     if (!botToken) {
