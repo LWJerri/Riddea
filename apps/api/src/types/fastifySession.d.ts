@@ -1,6 +1,8 @@
-declare module "fastify-session" {
+import '@mgcrea/fastify-session'
+
+declare module "@mgcrea/fastify-session" {
   interface SessionData {
-    user: {
+    user?: {
       id: string;
       first_name: string;
       username: string;

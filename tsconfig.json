@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "composite": true,
-    "typeRoots": ["node_modules/@types", "src/typings"],
+    "typeRoots": ["node_modules/@types", "types", "apps/**/src/types"],
     "paths": {
       "@riddea/typeorm/*": ["./packages/typeorm"]
     }
