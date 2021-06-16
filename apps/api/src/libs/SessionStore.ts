@@ -1,6 +1,7 @@
 import { SessionData, SessionStore } from "@mgcrea/fastify-session";
 import { Session } from "@riddea/typeorm";
 import { getRepository } from "typeorm";
+import { apiLogger } from "../main";
 
 export class TypeormStore<T extends SessionData = SessionData> implements SessionStore {
   private readonly repository = getRepository(Session);
@@ -13,17 +14,13 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
     try {
       const session = await this.repository.findOne({ sid });
 
-      if (!session) {
-        return null;
-      }
-
-      if (session?.expireAt <= Date.now()) {
+      if (!session || session?.expireAt <= Date.now()) {
         return null;
       }
 
       return [JSON.parse(session?.json ?? {}) as T, session?.expireAt];
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
       return [null, null];
     }
   }
@@ -36,27 +33,43 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
       session.expireAt = ttl;
       session.json = JSON.stringify(sessionData);
       await this.repository.save(session);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
     }
   }
 
   async destroy(sid: string): Promise<void> {
-    await this.repository.delete({ sid });
+    try {
+      await this.repository.delete({ sid });
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
+    }
   }
 
   async all(): Promise<T[]> {
-    const sessions = await this.repository.find();
+    try {
+      const sessions = await this.repository.find();
 
-    return sessions?.map((s) => JSON.parse(s.json) as T) ?? [];
+      return sessions?.map((s) => JSON.parse(s.json) as T) ?? [];
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
+    }
   }
 
   length() {
-    return this.repository.count();
+    try {
+      return this.repository.count();
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
+    }
   }
 
   clear() {
-    return this.repository.clear();
+    try {
+      return this.repository.clear();
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
+    }
   }
 
   async touch(sid: string, expiry?: number | null): Promise<void> {
@@ -65,8 +78,8 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
       const session = (await this.repository.findOne({ sid })) || this.repository.create();
       session.expireAt = ttl;
       await this.repository.save(session);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      apiLogger.error(`SessionStore error:`, err.stack);
     }
   }
 }
