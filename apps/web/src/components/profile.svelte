@@ -5,6 +5,7 @@
   const authUrl = `${window.location.origin}/api/v1/auth/telegram/callback`;
 </script>
 
+<!-- Update if checks -->
 {#if !authUrl.includes("localhost") && $statsStore.botInfo?.username && !$userStore.id}
   <script
     async

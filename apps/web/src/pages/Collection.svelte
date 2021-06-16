@@ -18,8 +18,8 @@
 
       next = imagesRes.data.nextPage;
       images = [...images, ...imagesRes.data.data];
-    } catch (e) {
-      if (e.response.status != 200) isPublic = false;
+    } catch (err) {
+      if (err.response.status != 200) isPublic = false;
     }
   }
 

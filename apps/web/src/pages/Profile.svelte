@@ -3,13 +3,17 @@
   import Navbar from "../components/navbar.svelte";
   import { api } from "../helpers/api";
   import type { CollectionDTO } from "../../../api/src/collections/dto/collection.dto";
-  
+
   export let userID: number;
   let userCollections: CollectionDTO[] = [];
 
   async function collectionRequest() {
-    const data = await api.get(`/v1/users/${userID}/collections`);
-    return (userCollections = [...userCollections, ...data.data]);
+    try {
+      const data = await api.get(`/v1/users/${userID}/collections`);
+      return (userCollections = [...userCollections, ...data.data]);
+    } catch (err) {
+      console.error(`Profile data request error:`, err);
+    }
   }
 
   onMount(() => {
