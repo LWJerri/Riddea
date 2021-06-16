@@ -1,2 +1,2 @@
-/api/* https://api.riddea.ml/:splat  200
+/api/* https://riddea.ml/api/:splat  200
 /* /index.html 200
