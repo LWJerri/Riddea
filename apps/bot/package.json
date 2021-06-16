@@ -1,7 +1,6 @@
 {
   "name": "@riddea/bot",
-  "version": "2.2.5",
-  "description": "Telegram bot for store your images, view NSFW content and etc.",
+  "version": "2.2.6",
   "main": "dist/app",
   "types": "dist/app",
   "private": true,
@@ -13,12 +12,6 @@
     "build": "tsc -b",
     "prettier": "prettier --write src"
   },
-  "engines": {
-    "node": ">= 12"
-  },
-  "repository": "https://github.com/LWJerri/Riddea",
-  "author": "LWJerri (lwjerri.js.org)",
-  "license": "MIT",
   "dependencies": {
     "@nestjs/common": "^7.6.17",
     "@nestjs/core": "^7.6.17",

@@ -1,7 +1,6 @@
 {
   "name": "@riddea/web",
-  "version": "1.0.4",
-  "description": "Website of Riddea bot for view uploaded images.",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -9,9 +8,6 @@
     "preview": "vite preview --port 8080",
     "prettier": "prettier --write src/**/*.{ts,svelte}"
   },
-  "repository": "https://github.com/Riddea/RiddeaWeb",
-  "author": "LWJerri (lwjerri.js.org)",
-  "license": "MIT",
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.7",
     "@types/dotenv": "^8.2.0",
