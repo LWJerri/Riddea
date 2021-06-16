@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { api } from "../helpers/api";
   import Navbar from "../components/navbar.svelte";
+  import type { UploadsDTO } from "../../../api/src/collections/dto/upload.dto";
 
   const pageURL = parseInt(new URLSearchParams(window.location.search).get("page"));
 
@@ -9,7 +10,7 @@
   let page = pageURL;
   let next = true;
   let isPublic = true;
-  let images: { id: number; userID: number; data: string; fileID: string; createdAt: string; updatedAt: string }[] = [];
+  let images: UploadsDTO[] = [];
 
   async function fetchData() {
     try {

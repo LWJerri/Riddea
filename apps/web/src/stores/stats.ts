@@ -1,5 +1,6 @@
 import { createStore } from "nanostores";
 import { api } from "../helpers/api";
+import type { StatsDTO } from "../../../api/src/stats/dto/stats.dto";
 
 export type StatsType = {
   commandsUsage?: Record<string, number>;
@@ -12,7 +13,7 @@ export type StatsType = {
   };
 };
 
-export const statsStore = createStore<StatsType>(() => {
+export const statsStore = createStore<Partial<StatsDTO>>(() => {
   statsStore.set({});
 });
 
