@@ -3,7 +3,6 @@ import { ClientsModule } from "@nestjs/microservices";
 import isDocker from "is-docker";
 
 const name = "BOT_SERVICE";
-
 const microserviceModule = ClientsModule.register([
   {
     name,
