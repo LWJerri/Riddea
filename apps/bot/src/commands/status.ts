@@ -40,10 +40,12 @@ export default class extends CommandInterface {
       return [...prev, [[current], stats[index]]];
     }, []);
 
-    const cmdStats = `\n\nCOMMANDS STATS:\n ${commandsStats.map((command) => `> /${command[0]} used ${command[1]} times.`).join("\n")}`;
-    const imgStats = `\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!`;
-    const botStats = `\n\nBOT INFO:\nBot username: ${ctx.botInfo.username}\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
+    const message = `\n\nCOMMANDS STATS:\n ${commandsStats
+      .map((command) => `> /${command[0]} used ${command[1]} times.`)
+      .join("\n")}\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!\n\nBOT INFO:\nBot username: ${
+      ctx.botInfo.username
+    }\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
 
-    await ctx.reply(`${cmdStats}${imgStats}${botStats}`);
+    await ctx.reply(message);
   }
 }
