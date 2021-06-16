@@ -40,10 +40,13 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(@Query() query: GetCollectionImages, @Param("id") id: string, @Res() res: FastifyReply) {
-    const [images, total, isNext] = await this.service.getCollectionImages(id, query);
+    const [images, total] = await this.service.getCollectionImages(id, query);
     res.headers({
       total,
     });
+
+    const lastPage = Math.ceil((total as any) / query.limit);
+    const isNext = parseInt(query.page++ as any) > lastPage - 1 ? false : true;
 
     res.send({ nextPage: isNext, data: images });
   }

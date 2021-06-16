@@ -36,7 +36,7 @@ export class CollectionsService {
   }
 
   async getCollectionImages(id: string, query: GetCollectionImages) {
-    const [collection, uploads, isNext, total] = await Promise.all([
+    const [collection, uploads, total] = await Promise.all([
       this.collectionRepository.findOne({
         where: {
           id,
@@ -54,20 +54,6 @@ export class CollectionsService {
         skip: Number(query.limit) * (Number(query.page) - 1),
         order: {
           createdAt: "DESC",
-        },
-      }),
-
-      this.uploadRepository.find({
-        where: {
-          collection: {
-            id,
-          },
-          data: Not(IsNull()),
-        },
-        take: Number(query.limit),
-        skip: Number(query.limit) * Number(query.page),
-        order: {
-          createdAt: "ASC",
         },
       }),
 
@@ -89,6 +75,6 @@ export class CollectionsService {
       throw new ForbiddenException(`Collection ${id} is private`);
     }
 
-    return [uploads, total, Boolean(isNext.length)];
+    return [uploads, total];
   }
 }
