@@ -32,6 +32,9 @@ const getImage = async (userID: number, skip: number) => {
       skip,
       take: 1,
       relations: ["collection"],
+      order: {
+        createdAt: "DESC",
+      },
     })
   )[0];
 };
@@ -70,7 +73,9 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       .editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}`,
+          caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}\nCollection: ${
+            ctx.scene.session.currentImage.collection?.name ?? "No."
+          }\nUploaded: ${ctx.scene.session.currentImage.createdAt.toLocaleString()}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -89,7 +94,9 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       .editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}`,
+          caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}\nCollection: ${
+            ctx.scene.session.currentImage.collection?.name ?? "No."
+          }\nUploaded: ${ctx.scene.session.currentImage.createdAt.toLocaleString()}`,
           type: "photo",
         },
         getKeyboard(ctx),

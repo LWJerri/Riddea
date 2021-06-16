@@ -52,7 +52,7 @@ export default class extends CommandInterface {
               callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
             },
           ],
-          [collection.isPublic ? { text: "Open in web", url: `https://riddea.ml/collection/${collection.id}` } : undefined].filter(Boolean),
+          [{ text: "Open in web", url: `https://riddea.ml/collection/${collection.id}` }],
           [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
           [{ text: `«`, callback_data: `COLLECTION_LIST` }],
         ],
