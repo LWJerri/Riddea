@@ -16,33 +16,37 @@ export class StatsService {
   ) {}
 
   async stats(): Promise<StatsDTO> {
-    const commands = await this.botMicroservice
-      .send({ cmd: "getCommandsUsageList" }, {})
-      .toPromise()
-      .catch(() => []);
-
-    const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command })));
-    const commandsUsage = commands.reduce((prev, current, index) => {
-      return {
-        ...prev,
-        [current]: counts[index],
-      };
-    }, {});
-
-    const uploads = await this.uploadRepository.count();
-
-    let botInfo: any;
     try {
-      botInfo = await this.botMicroservice.send({ cmd: "getBotInfo" }, {}).toPromise();
-    } catch (error) {
-      this.logger.error(`BOT Microservice Unreacheable, setted botInfo to null. Reason: ${error.message}`);
-      botInfo = null;
-    }
+      const commands = await this.botMicroservice
+        .send({ cmd: "getCommandsUsageList" }, {})
+        .toPromise()
+        .catch(() => []);
 
-    return {
-      commandsUsage,
-      uploads,
-      botInfo,
-    };
+      const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command })));
+      const commandsUsage = commands.reduce((prev: any, current: any, index: any) => {
+        return {
+          ...prev,
+          [current]: counts[index],
+        };
+      }, {});
+
+      const uploads = await this.uploadRepository.count();
+
+      let botInfo: any;
+      try {
+        botInfo = await this.botMicroservice.send({ cmd: "getBotInfo" }, {}).toPromise();
+      } catch (error) {
+        this.logger.error(`BOT Microservice Unreacheable, setted botInfo to null. Reason: ${error.message}`);
+        botInfo = null;
+      }
+
+      return {
+        commandsUsage,
+        uploads,
+        botInfo,
+      };
+    } catch (err) {
+      this.logger.error(`Stats service error:`, err.stack);
+    }
   }
 }

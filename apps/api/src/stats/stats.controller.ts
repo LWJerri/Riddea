@@ -1,5 +1,6 @@
 import { CacheInterceptor, Controller, Get, UseInterceptors } from "@nestjs/common";
 import { ApiResponse } from "@nestjs/swagger";
+import { apiLogger } from "../main";
 import { StatsDTO } from "./dto/stats.dto";
 import { StatsService } from "./stats.service";
 
@@ -15,6 +16,10 @@ export class StatsController {
     type: StatsDTO,
   })
   root() {
-    return this.statsService.stats();
+    try {
+      return this.statsService.stats();
+    } catch (err) {
+      apiLogger.error(`Stats controller error`, err.stack);
+    }
   }
 }
