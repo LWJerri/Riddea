@@ -2,8 +2,9 @@ import { CacheInterceptor, Controller, Get, Param, Query, Res, UseInterceptors, 
 import { CollectionsService } from "./collections.service";
 import { GetCollectionImages } from "./validations/getCollectionImages";
 import { FastifyReply } from "fastify";
-import { ApiForbiddenResponse, ApiHeader, ApiResponse } from "@nestjs/swagger";
+import { ApiForbiddenResponse, ApiResponse } from "@nestjs/swagger";
 import { CollectionDTO, CollectionUploadsDTO } from "./dto/collection.dto";
+import { apiLogger } from "../main";
 
 @Controller("/v1/collections")
 export class CollectionsController {
@@ -18,7 +19,11 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   getCollection(@Param("id") id: string) {
-    return this.service.getCollection(id);
+    try {
+      return this.service.getCollection(id);
+    } catch (err) {
+      apiLogger.error(`Collection controller error:`, err.stack);
+    }
   }
 
   @Get("/:id/images")
@@ -40,14 +45,18 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(@Query() query: GetCollectionImages, @Param("id") id: string, @Res() res: FastifyReply) {
-    const [images, total] = await this.service.getCollectionImages(id, query);
-    res.headers({
-      total,
-    });
+    try {
+      const [images, total] = await this.service.getCollectionImages(id, query);
+      res.headers({
+        total,
+      });
 
-    const lastPage = Math.ceil((total as any) / query.limit);
-    const isNext = parseInt(query.page++ as any) > lastPage - 1 ? false : true;
+      const lastPage = Math.ceil((total as any) / query.limit);
+      const isNext = parseInt(query.page++ as any) > lastPage - 1 ? false : true;
 
-    res.send({ nextPage: isNext, data: images });
+      res.send({ nextPage: isNext, data: images });
+    } catch (err) {
+      apiLogger.error(`Collection controller error:`, err.stack);
+    }
   }
 }

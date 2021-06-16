@@ -4,6 +4,7 @@ import { ClientProxy } from "@nestjs/microservices";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Collection, Upload } from "@riddea/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
+import { apiLogger } from "../main";
 import { GetCollectionImages } from "./validations/getCollectionImages";
 
 @Injectable()
@@ -15,66 +16,78 @@ export class CollectionsService {
   ) {}
 
   async getCollection(id: string) {
-    const collection = await this.collectionRepository.findOne(id);
+    try {
+      const collection = await this.collectionRepository.findOne(id);
 
-    if (!collection) {
-      throw new NotFoundException(`Collection ${id} not found.`);
+      if (!collection) {
+        throw new NotFoundException(`Collection with ID ${id} not found.`);
+      }
+
+      if (!collection.isPublic) {
+        throw new ForbiddenException(`Collection with ID ${id} is private`);
+      }
+
+      return collection;
+    } catch (err) {
+      apiLogger.error(`Collection service error:`, err.stack);
     }
-
-    if (!collection.isPublic) {
-      throw new ForbiddenException(`Collection ${id} is private`);
-    }
-
-    return collection;
   }
 
   getCollectionsByUser(userID: string | number, session?: Session) {
-    return this.collectionRepository.find({
-      userID: Number(userID),
-      isPublic: session?.get("user")?.id == userID ? Not(IsNull()) : true,
-    });
+    try {
+      return this.collectionRepository.find({
+        userID: Number(userID),
+        isPublic: session?.get("user")?.id == userID ? Not(IsNull()) : true,
+      });
+    } catch (err) {
+      apiLogger.error(`Collection service error:`, err.stack);
+    }
   }
 
   async getCollectionImages(id: string, query: GetCollectionImages) {
-    const [collection, uploads, total] = await Promise.all([
-      this.collectionRepository.findOne({
-        where: {
-          id,
-        },
-      }),
-
-      this.uploadRepository.find({
-        where: {
-          collection: {
+    try {
+      const [collection, uploads, total] = await Promise.all([
+        this.collectionRepository.findOne({
+          where: {
             id,
           },
-          data: Not(IsNull()),
-        },
-        take: Number(query.limit),
-        skip: Number(query.limit) * (Number(query.page) - 1),
-        order: {
-          createdAt: "DESC",
-        },
-      }),
+        }),
 
-      this.uploadRepository.count({
-        where: {
-          collection: {
-            id,
+        this.uploadRepository.find({
+          where: {
+            collection: {
+              id,
+            },
+            data: Not(IsNull()),
           },
-          data: Not(IsNull()),
-        },
-      }),
-    ]);
+          take: Number(query.limit),
+          skip: Number(query.limit) * (Number(query.page) - 1),
+          order: {
+            createdAt: "DESC",
+          },
+        }),
 
-    if (!collection) {
-      throw new NotFoundException(`Collection ${id} not found.`);
+        this.uploadRepository.count({
+          where: {
+            collection: {
+              id,
+            },
+            data: Not(IsNull()),
+          },
+        }),
+      ]);
+
+      if (!collection) {
+        throw new NotFoundException(`Collection with ID ${id} not found.`);
+      }
+
+      if (!collection.isPublic) {
+        throw new ForbiddenException(`Collection with ID ${id} is private`);
+      }
+
+      return [uploads, total];
+    } catch (err) {
+      apiLogger.error(`Collection service error:`, err.stack);
     }
-
-    if (!collection.isPublic) {
-      throw new ForbiddenException(`Collection ${id} is private`);
-    }
-
-    return [uploads, total];
   }
 }
