@@ -74,6 +74,7 @@
 
   .collection-error {
     font-size: 1.5625rem;
+    color: white;
   }
 
   .coolection:hover {
