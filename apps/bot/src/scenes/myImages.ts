@@ -2,6 +2,7 @@ import { Markup, Scenes } from "telegraf";
 import { getRepository, Not } from "typeorm";
 import { Collection } from "@riddea/typeorm";
 import { Upload } from "@riddea/typeorm";
+import { botLogger } from "../helpers/logger";
 
 interface ImageScene extends Scenes.SceneSessionData {
   skip: number;
@@ -24,53 +25,65 @@ const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
 };
 
 const getImage = async (userID: number, skip: number) => {
-  return (
-    await getRepository(Upload).find({
-      where: {
-        userID,
-      },
-      skip,
-      take: 1,
-      relations: ["collection"],
-      order: {
-        createdAt: "DESC",
-      },
-    })
-  )[0];
+  try {
+    return (
+      await getRepository(Upload).find({
+        where: {
+          userID,
+        },
+        skip,
+        take: 1,
+        relations: ["collection"],
+        order: {
+          createdAt: "DESC",
+        },
+      })
+    )[0];
+  } catch (err) {
+    botLogger.error(`Scene myImages error:`, err.stack);
+  }
 };
 
 export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("myImages")
   .action("BACK_TO_GALLERY", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
-    await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+    try {
+      await ctx.answerCbQuery();
+      await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard });
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .enter(async (ctx) => {
-    ctx.scene.session.skip = 0;
-    ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
-    ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
-    if (!ctx.scene.session.currentImage) {
-      await ctx.reply(`You never upload here your images! Use /upload for loading your favorite image :)`).catch(() => {});
-      ctx.scene.leave().catch(() => {});
+    try {
+      ctx.scene.session.skip = 0;
+      ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
+      ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
+      if (!ctx.scene.session.currentImage) {
+        await ctx.reply(`You never upload here your images! Use /upload for uploading your favorite image :)`);
+        await ctx.scene.leave();
 
-      return;
+        return;
+      }
+
+      await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, getKeyboard(ctx));
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
     }
-
-    await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, getKeyboard(ctx)).catch(() => {});
   })
   .action("BACK", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
-    if (ctx.scene.session.skip > 0) {
-      ctx.scene.session.skip--;
-    } else {
-      return;
-    }
+    try {
+      await ctx.answerCbQuery();
+      if (ctx.scene.session.skip > 0) {
+        ctx.scene.session.skip--;
+      } else {
+        return;
+      }
 
-    ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
+      ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-    if (!ctx.scene.session.currentImage) return;
+      if (!ctx.scene.session.currentImage) return;
 
-    await ctx
-      .editMessageMedia(
+      await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
           caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}\nCollection: ${
@@ -79,19 +92,21 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
           type: "photo",
         },
         getKeyboard(ctx),
-      )
-      .catch(() => {});
+      );
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("NEXT", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
+    try {
+      await ctx.answerCbQuery();
 
-    ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip + 1);
+      ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip + 1);
 
-    if (!ctx.scene.session.currentImage) return;
-    ctx.scene.session.skip++;
+      if (!ctx.scene.session.currentImage) return;
+      ctx.scene.session.skip++;
 
-    await ctx
-      .editMessageMedia(
+      await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
           caption: `Image ${ctx.scene.session.skip} of ${ctx.scene.session.totalImages - 1}\nCollection: ${
@@ -100,77 +115,97 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
           type: "photo",
         },
         getKeyboard(ctx),
-      )
-      .catch(() => {});
+      );
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("LEAVE", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
-    await ctx.scene.leave().catch(() => {});
-    await ctx.deleteMessage(ctx.message).catch(() => {});
+    try {
+      await ctx.answerCbQuery();
+      await ctx.scene.leave();
+      await ctx.deleteMessage(ctx.message);
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("DELETE_IMAGE", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
+    try {
+      await ctx.answerCbQuery();
 
-    await ctx
-      .editMessageReplyMarkup({
+      await ctx.editMessageReplyMarkup({
         inline_keyboard: [
           [
             { text: "Yes, delete it!", callback_data: "DELETE_IMAGE_APPROVE" },
             { text: "Cancel", callback_data: "DELETE_IMAGE_DECLINE" },
           ],
         ],
-      })
-      .catch(() => {});
+      });
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("DELETE_IMAGE_APPROVE", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
+    try {
+      await ctx.answerCbQuery();
 
-    await getRepository(Upload).remove(ctx.scene.session.currentImage);
-    ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
+      await getRepository(Upload).remove(ctx.scene.session.currentImage);
+      ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
-    if (!ctx.scene.session.currentImage) return ctx.scene.reenter();
+      if (!ctx.scene.session.currentImage) return ctx.scene.reenter();
 
-    await ctx
-      .editMessageMedia(
+      await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
           type: "photo",
         },
         getKeyboard(ctx),
-      )
-      .catch(() => {});
+      );
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("DELETE_IMAGE_DECLINE", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
-    await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+    try {
+      await ctx.answerCbQuery();
+      await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard });
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action("CHOOSE_COLLECTION", async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
+    try {
+      await ctx.answerCbQuery();
 
-    const currentImage = ctx.scene.session.currentImage;
-    const collectionId = currentImage.collection?.id ?? 0;
+      const currentImage = ctx.scene.session.currentImage;
+      const collectionId = currentImage.collection?.id ?? 0;
 
-    const collections = await getRepository(Collection).find({
-      where: {
-        userID: ctx.from.id,
-        id: Not(collectionId),
-      },
-    });
+      const collections = await getRepository(Collection).find({
+        where: {
+          userID: ctx.from.id,
+          id: Not(collectionId),
+        },
+      });
 
-    const collectionsList = collections.map((c) => [Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)]);
-    collectionsList.push([{ text: "«", callback_data: "BACK_TO_GALLERY", hide: false }]);
+      const collectionsList = collections.map((c) => [Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)]);
+      collectionsList.push([{ text: "«", callback_data: "BACK_TO_GALLERY", hide: false }]);
 
-    await ctx
-      .editMessageReplyMarkup({
+      await ctx.editMessageReplyMarkup({
         inline_keyboard: collectionsList,
-      })
-      .catch(() => {});
+      });
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   })
   .action(/SWITCH_COLLECTION-\d+/, async (ctx) => {
-    await ctx.answerCbQuery().catch(() => {});
+    try {
+      await ctx.answerCbQuery();
 
-    const collectionId = Number(ctx.match.input.replace("SWITCH_COLLECTION-", ""));
-    ctx.scene.session.currentImage.collection = await getRepository(Collection).findOne(collectionId);
-    await getRepository(Upload).save(ctx.scene.session.currentImage);
-    await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard }).catch(() => {});
+      const collectionId = Number(ctx.match.input.replace("SWITCH_COLLECTION-", ""));
+      ctx.scene.session.currentImage.collection = await getRepository(Collection).findOne(collectionId);
+      await getRepository(Upload).save(ctx.scene.session.currentImage);
+      await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard });
+    } catch (err) {
+      botLogger.error(`Scene myImages error:`, err.stack);
+    }
   });
