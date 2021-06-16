@@ -47,6 +47,15 @@
 </div>
 
 <style>
+  * {
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
   .collections-box {
     margin-left: auto;
     margin-right: auto;
@@ -58,6 +67,7 @@
   }
 
   .profile-section {
+    color: white;
     text-align: center;
     font-size: 1.875rem;
   }
