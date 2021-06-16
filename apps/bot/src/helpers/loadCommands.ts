@@ -21,21 +21,33 @@ export async function loadCommands() {
       return;
     }
 
-    bot.command(command.name, (ctx) => command.execute(ctx));
+    try {
+      bot.command(command.name, (ctx) => command.execute(ctx));
+    } catch (err) {
+      botLogger.error(`loadCommand error:`, err.stack);
+    }
 
     if (command.aliases) {
       for (const aliase of command.aliases) {
-        bot.command(aliase, command.execute);
+        try {
+          bot.command(aliase, command.execute);
+        } catch (err) {
+          botLogger.error(`loadCommand error:`, err.stack);
+        }
       }
     }
 
     if (command.action) {
-      bot.action(command.action, async (ctx) => {
-        await ctx.answerCbQuery().catch(() => {});
-        (ctx as any).isAction = true;
-        command.execute(ctx);
-      });
-      botLogger.log(`[ACTIONS]: Action ${command.action} loaded`);
+      try {
+        bot.action(command.action, async (ctx) => {
+          await ctx.answerCbQuery();
+          (ctx as any).isAction = true;
+          command.execute(ctx);
+        });
+        botLogger.log(`[ACTIONS]: Action ${command.action} loaded`);
+      } catch (err) {
+        botLogger.error(`Can't load action ${command.action}!`, err.stack);
+      }
     }
 
     commands.push(command);
