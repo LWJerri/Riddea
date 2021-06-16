@@ -5,7 +5,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "createcollection",
-      description: "Create collections of images",
+      description: "Create new collection",
     });
   }
 
