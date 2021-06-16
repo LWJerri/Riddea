@@ -2,71 +2,98 @@ import { Context, Markup, Scenes } from "telegraf";
 import { getRepository } from "typeorm";
 import { Collection, Upload } from "@riddea/typeorm";
 import base64Data from "../helpers/base64Decoder";
+import { botLogger } from "../helpers/logger";
 
 async function getKeyboard(ctx: Context) {
-  const collections = await getRepository(Collection).find({
-    where: { userID: ctx.from.id },
-    order: { createdAt: "ASC" },
-  });
+  try {
+    const collections = await getRepository(Collection).find({
+      where: { userID: ctx.from.id },
+      order: { createdAt: "DESC" },
+    });
 
-  const collectionsList = collections.map((c) =>
-    Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
-  );
-  collectionsList.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
+    const collectionsList = collections.map((c) =>
+      Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
+    );
+    collectionsList.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
 
-  const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
+    const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
 
-  return keyboard;
+    return keyboard;
+  } catch (err) {
+    botLogger.error(`Scene upload error:`, err.stack);
+  }
 }
 
 export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
   .enter((ctx) => {
-    ctx.reply(`Boop-beep, send me your image!`).catch(() => {});
+    try {
+      ctx.reply(`Nya, send me your image!`);
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   })
   .on("photo", async (ctx) => {
-    await ctx.replyWithPhoto(ctx.message.photo.pop().file_id, await getKeyboard(ctx));
+    try {
+      await ctx.replyWithPhoto(ctx.message.photo.pop().file_id, await getKeyboard(ctx));
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   })
   .action(/IMAGE_ADD_COLLECTION_\d+/, async (ctx) => {
-    await ctx.answerCbQuery();
+    try {
+      await ctx.answerCbQuery();
 
-    const photo = (ctx.update.callback_query.message as any).photo.pop();
-    const dataDB = await base64Data(photo);
-    const id = Number(ctx.match.input.replace("IMAGE_ADD_COLLECTION_", ""));
-    const collectionName = (await getRepository(Collection).findOne({ id: id })).name;
+      const photo = (ctx.update.callback_query.message as any).photo.pop();
+      const dataDB = await base64Data(photo);
+      const id = Number(ctx.match.input.replace("IMAGE_ADD_COLLECTION_", ""));
+      const collectionName = (await getRepository(Collection).findOne({ id: id })).name;
 
-    await getRepository(Upload).save({
-      userID: ctx.from.id,
-      fileID: photo.file_id,
-      data: dataDB,
-      collection: { id },
-    });
+      await getRepository(Upload).save({
+        userID: ctx.from.id,
+        fileID: photo.file_id,
+        data: dataDB,
+        collection: { id },
+      });
 
-    await ctx
-      .reply(`Your image loaded to database in ${collectionName} collection! Type /cancel if you don't want upload pictures anymore.`)
-      .catch(() => {});
-    await ctx.deleteMessage(ctx.message).catch(() => {});
+      await ctx.reply(
+        `Your image loaded to database in ${collectionName} collection! Type /cancel if you don't want upload pictures anymore.`,
+      );
+      await ctx.deleteMessage(ctx.message);
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   })
   .action("IMAGE_ADD_COLLECTION_SKIP", async (ctx) => {
-    await ctx.answerCbQuery();
+    try {
+      await ctx.answerCbQuery();
 
-    const photo = (ctx.update.callback_query.message as any).photo.pop();
-    const dataDB = await base64Data(photo);
+      const photo = (ctx.update.callback_query.message as any).photo.pop();
+      const dataDB = await base64Data(photo);
 
-    await getRepository(Upload).save({
-      userID: ctx.from.id,
-      fileID: photo.file_id,
-      data: dataDB,
-    });
+      await getRepository(Upload).save({
+        userID: ctx.from.id,
+        fileID: photo.file_id,
+        data: dataDB,
+      });
 
-    await ctx
-      .reply(`Your image loaded to database but not added to collection! Type /cancel if you don't want upload pictures anymore.`)
-      .catch(() => {});
-    await ctx.deleteMessage(ctx.message).catch(() => {});
+      await ctx.reply(`Your image loaded to database but not added to collection! Type /cancel if you don't want upload pictures anymore.`);
+      await ctx.deleteMessage(ctx.message);
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   })
   .command("cancel", async (ctx) => {
-    await ctx.scene.leave().catch(() => {});
-    await ctx.reply("You leave from upload image section!").catch(() => {});
+    try {
+      await ctx.scene.leave();
+      await ctx.reply("You leave from upload image section!");
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   })
   .on("message", async (ctx) => {
-    await ctx.reply(`If you don't want upload image, type /cancel!`).catch(() => {});
+    try {
+      await ctx.reply(`If you don't want upload image, type /cancel!`);
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
   });
