@@ -9,10 +9,7 @@ import { botLogger } from "../helpers/logger";
 
 @Injectable()
 export class AppService {
-  constructor(
-    @InjectRepository(Collection) private collectionRepository: Repository<Collection>,
-    @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
-  ) {}
+  constructor() {}
 
   async getBotInfo() {
     try {
