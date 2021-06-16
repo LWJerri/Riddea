@@ -31,13 +31,17 @@ export class CommandInterface {
   async execute(ctx: Context) {
     try {
       await this.run(ctx);
-    } catch (e) {
-      ctx.reply("We are sorry, some error happend on our side. :(");
-      botLogger.error(e, e.stack);
+    } catch (err) {
+      await ctx.reply("We are sorry, some error happend on our side. :(");
+      botLogger.error(`Command interface error:`, err.stack);
     }
 
     if (this.collectUsage) {
-      await this.statisticRepository.save({ command: this.name, userID: ctx.from.id });
+      try {
+        await this.statisticRepository.save({ command: this.name, userID: ctx.from.id });
+      } catch (err) {
+        botLogger.error(`Command interface error:`, err.stack);
+      }
     }
   }
 
