@@ -9,7 +9,7 @@ This Telegram bot was developed for viewing various anime content, including NSF
 - You need Node.js v12 or high.
 - You need to have a PSQL database.
 - Token from Telegram bot.
-- Yarn installed
+- Yarn installed.
 
 ### Installing
 
@@ -17,9 +17,10 @@ This Telegram bot was developed for viewing various anime content, including NSF
 - Install Node.js requirements `yarn`.
 - Rename `.env.example` to `.env` in every folder you can find, and configurate file.
 - Build production code `yarn build`.
+- Pre-run: `yarn migration:run`.
 - Run production code:
-  - Bot: `yarn start:bot`
-  - Api: `yarn start:api`
+  - Bot: `yarn start:bot`.
+  - Api: `yarn start:api`.
 
 ## Contributing
 
