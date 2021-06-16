@@ -13,7 +13,7 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    const images = await shiroApi({ endPoint: "bondage", amount: 10 });
+    const images = await shiroApi({ endPoint: "nsfw/bondage", amount: 10 });
 
     await ctx.replyWithMediaGroup(
       images.map((image) => {
