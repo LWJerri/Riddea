@@ -18,7 +18,7 @@ export default class extends CommandInterface {
   private async getKeyboard(ctx: Context) {
     const collections = await this.repository.find({
       where: { userID: ctx.from.id },
-      order: { createdAt: "ASC" },
+      order: { createdAt: "DESC" },
     });
 
     const keyboard = Markup.inlineKeyboard(
@@ -69,7 +69,7 @@ export default class extends CommandInterface {
 
   async run(ctx: Context) {
     if ((ctx as any).isAction) {
-      await ctx.editMessageText("List of your collections", await this.getKeyboard(ctx));
+      await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx));
     } else {
       await ctx.reply("List of your collections:", await this.getKeyboard(ctx));
     }
