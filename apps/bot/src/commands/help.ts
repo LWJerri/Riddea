@@ -17,7 +17,7 @@ export default class extends CommandInterface {
       [
         {
           text: "GitHub",
-          url: "https://github.com/LWJerri/Riddea",
+          url: "https://github.com/Riddea/Riddea",
         },
         {
           text: "Support me",
