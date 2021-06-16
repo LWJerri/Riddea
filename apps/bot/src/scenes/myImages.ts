@@ -150,12 +150,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       },
     });
 
+    const collectionsList = collections.map((c) => [Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)]);
+    collectionsList.push([{ text: "«", callback_data: "BACK_TO_GALLERY", hide: false }]);
+
     await ctx
       .editMessageReplyMarkup({
-        inline_keyboard: [
-          collections.map((c) => Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)),
-          [{ text: "«", callback_data: "BACK_TO_GALLERY" }],
-        ],
+        inline_keyboard: collectionsList,
       })
       .catch(() => {});
   })

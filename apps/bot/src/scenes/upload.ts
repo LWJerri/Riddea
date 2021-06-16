@@ -9,10 +9,12 @@ async function getKeyboard(ctx: Context) {
     order: { createdAt: "ASC" },
   });
 
-  const test = collections.map((c) => Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`));
-  test.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
+  const collectionsList = collections.map((c) =>
+    Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
+  );
+  collectionsList.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
 
-  const keyboard = Markup.inlineKeyboard(test, { columns: 1 });
+  const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
 
   return keyboard;
 }
