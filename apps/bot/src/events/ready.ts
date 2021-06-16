@@ -8,5 +8,9 @@ export default async function readyEvent() {
 
   const commands: BotCommand[] = commandsStore.filter((c) => c.description).map((c) => ({ command: c.name, description: c.description }));
 
-  await bot.telegram.setMyCommands(commands).catch(() => {});
+  try {
+    await bot.telegram.setMyCommands(commands);
+  } catch (err) {
+    botLogger.error("Can't set bot commands list!", err.stack);
+  }
 }
