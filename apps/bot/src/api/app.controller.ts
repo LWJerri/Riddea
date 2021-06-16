@@ -1,5 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { MessagePattern } from "@nestjs/microservices";
+import { botLogger } from "../helpers/logger";
 import { AppService } from "./app.service";
 
 @Controller("app")
@@ -8,11 +9,19 @@ export class AppController {
 
   @MessagePattern({ cmd: "getBotInfo" })
   botInfo() {
-    return this.service.getBotInfo();
+    try {
+      return this.service.getBotInfo();
+    } catch (err) {
+      botLogger.error(`App controller error:`, err.stack);
+    }
   }
 
   @MessagePattern({ cmd: "getCommandsUsageList" })
   getCommandUsageList() {
-    return this.service.getCommandUsageList();
+    try {
+      return this.service.getCommandUsageList();
+    } catch (err) {
+      botLogger.error(`App controller error:`, err.stack);
+    }
   }
 }
