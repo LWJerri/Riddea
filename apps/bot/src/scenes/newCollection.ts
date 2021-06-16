@@ -9,6 +9,10 @@ interface NewCollectionScene extends Scenes.SceneSessionData {
 export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollectionScene>>("createCollection")
   .enter((ctx) => ctx.reply("Enter the name of new collection"))
   .on("text", async (ctx) => {
+    if (ctx.message.text.length > 15) {
+      return ctx.reply(`Oops! Collection name can be more than 15 symbols!`).catch(() => {});
+    }
+
     const repository = getRepository(Collection);
     const isExists = await repository.findOne({
       userID: ctx.from.id,
