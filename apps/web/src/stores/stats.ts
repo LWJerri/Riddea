@@ -18,6 +18,10 @@ export const statsStore = createStore<Partial<StatsDTO>>(() => {
 });
 
 export async function fetchAndSetData() {
-  const request = await api.get("/v1/stats");
-  statsStore.set(request.data);
+  try {
+    const request = await api.get("/v1/stats");
+    statsStore.set(request.data);
+  } catch (err) {
+    console.error(`Store stats error:`, err);
+  }
 }

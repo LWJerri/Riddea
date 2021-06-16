@@ -7,6 +7,10 @@ export const userStore = createStore<Partial<User>>(() => {
 });
 
 export async function fetchAndSetData() {
-  const request = await api.get<User>("/v1/auth");
-  userStore.set(request.data);
+  try {
+    const request = await api.get<User>("/v1/auth");
+    userStore.set(request.data);
+  } catch (err) {
+    console.error(`Store user error:`, err);
+  }
 }
