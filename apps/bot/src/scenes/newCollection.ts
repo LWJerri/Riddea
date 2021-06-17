@@ -15,6 +15,14 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
       botLogger.error(`Scene newCollection error:`, err.stack);
     }
   })
+  .command("cancel", async (ctx) => {
+    try {
+      await ctx.scene.leave();
+      await ctx.reply("You leave from createCollection section!");
+    } catch (err) {
+      botLogger.error(`Scene upload error:`, err.stack);
+    }
+  })
   .on("text", async (ctx) => {
     try {
       if (ctx.message.text.length > 15) {
