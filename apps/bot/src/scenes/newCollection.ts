@@ -52,9 +52,11 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
       botLogger.error(`Scene newCollection error:`, err.stack);
     }
   })
-  .leave((ctx) => {
+  .leave(async (ctx) => {
     try {
-      ctx.reply(`Collection with name ${ctx.scene.session.collectionName} created`);
+      if (ctx.scene.session.collectionName) {
+        await ctx.reply(`Collection with name ${ctx.scene.session.collectionName} created`);
+      }
     } catch (err) {
       botLogger.error(`Scene newCollection error:`, err.stack);
     }
