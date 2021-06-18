@@ -24,7 +24,7 @@
 <div class="profile-page">
   <Navbar />
 
-  <h1 class="profile-section">Collections</h1>
+  <h1 class="profile-section">Available collections</h1>
   <div class="collections-box">
     {#if userCollections.length}
       {#each userCollections as collection}
