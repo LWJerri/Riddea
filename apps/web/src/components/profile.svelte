@@ -16,11 +16,11 @@
     data-auth-url={authUrl}
     data-request-access="write"></script>
 {:else}
-  <a class="user-btn" href="/user/{$userStore.id}"><img src={$userStore.photo_url} alt="USER_LOGO" /></a>
+  <a href="/user/{$userStore.id}"><img class="user-btn" src={$userStore.photo_url} alt="USER_LOGO" /></a>
 {/if}
 
 <style>
-  .user-btn img {
+  .user-btn {
     border-radius: 50%;
     height: 3.4375rem;
     width: 3.4375rem;

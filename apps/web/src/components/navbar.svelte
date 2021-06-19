@@ -39,12 +39,8 @@
     width: 3.4375rem;
   }
 
-  @media screen and (max-width: 24.0625rem) {
+  @media screen and (max-width: 26.5rem) {
     .logo-text {
-      display: none;
-    }
-
-    .logo-img {
       display: none;
     }
   }
