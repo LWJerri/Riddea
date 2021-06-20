@@ -50,12 +50,12 @@ process.on("SIGTERM", async () => {
 
 process.on("unhandledRejection", async (reason) => {
   botLogger.error(reason);
-  bot.stop("SIGTERM");
+  bot.stop("BOT_TAPI_STUCK_REJECTION");
   await bot.launch();
 });
 
 process.on("uncaughtException", async (reason) => {
   botLogger.error(reason);
-  bot.stop("SIGTERM");
+  bot.stop("BOT_TAPI_STUCK_EXCEPTION");
   await bot.launch();
 });
