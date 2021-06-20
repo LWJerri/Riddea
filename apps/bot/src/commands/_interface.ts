@@ -1,7 +1,6 @@
 import { Context } from "telegraf";
-import { getRepository } from "typeorm";
-import { Statistic } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
+import { prisma } from "../libs/prisma";
 
 export type CommandOptions = {
   name: string;
@@ -12,7 +11,6 @@ export type CommandOptions = {
 };
 
 export class CommandInterface {
-  private statisticRepository = getRepository(Statistic);
   description: string;
   collectUsage: boolean;
   name: string;
@@ -38,7 +36,7 @@ export class CommandInterface {
 
     if (this.collectUsage) {
       try {
-        await this.statisticRepository.save({ command: this.name, userID: ctx.from.id });
+        await prisma.statistic.create({ data: { command: this.name, userID: ctx.from.id } });
       } catch (err) {
         botLogger.error(`Command interface error:`, err.stack);
       }

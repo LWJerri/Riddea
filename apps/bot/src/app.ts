@@ -7,14 +7,13 @@ import "source-map-support/register";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";
-import { createConnection, getConnectionOptions } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
 import { microserviceInit } from "./api";
 import photoEvent from "./events/photo";
 
-import * as typeormEntitites from "@riddea/typeorm";
 import { botLogger } from "./helpers/logger";
+import { prisma } from "./libs/prisma";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -24,8 +23,7 @@ bot.on("photo", photoEvent);
 
 async function bootstrap() {
   try {
-    const connectionOptions = await getConnectionOptions();
-    await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
+    await prisma.$connect();
     await loadCommands();
     await bot.launch();
     await readyEvent();

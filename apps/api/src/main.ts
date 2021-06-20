@@ -5,20 +5,22 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: findConfig(".env") });
 
-import { NestFactory } from "@nestjs/core";
+import { ModuleRef, NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import fastifyCookie from "fastify-cookie";
 import fastifySession from "@mgcrea/fastify-session";
-import { TypeormStore } from "./libs/SessionStore";
+import { SessionsService } from "./libs/SessionStore";
+import { prisma } from "./libs/prisma";
 
 export const apiLogger = new Logger("API");
 const PORT = process.env.API_PORT ?? 3000;
 
 async function bootstrap() {
   try {
+    await prisma.$connect();
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: apiLogger });
     app.register(fastifyCookie);
     app.register(fastifySession, {
@@ -27,7 +29,7 @@ async function bootstrap() {
       cookie: {
         maxAge: 864e3, // 1 day
       },
-      store: new TypeormStore(),
+      store: new SessionsService({ ttl: 86400 }, prisma),
     });
     app.enableCors({
       /* origin: [

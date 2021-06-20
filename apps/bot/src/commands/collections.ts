@@ -1,11 +1,9 @@
 import { Context, Markup } from "telegraf";
-import { getRepository } from "typeorm";
 import { bot } from "../app";
-import { Collection } from "@riddea/typeorm";
+import { prisma } from "../libs/prisma";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
-  private repository = getRepository(Collection);
   constructor() {
     super({
       name: "collections",
@@ -16,9 +14,9 @@ export default class extends CommandInterface {
   }
 
   private async getKeyboard(ctx: Context) {
-    const collections = await this.repository.find({
+    const collections = await prisma.collection.findMany({
       where: { userID: ctx.from.id },
-      order: { createdAt: "DESC" },
+      orderBy: { createdAt: "desc" },
     });
 
     const keyboard = Markup.inlineKeyboard(
@@ -34,16 +32,24 @@ export default class extends CommandInterface {
       await ctx.answerCbQuery();
 
       const id = Number(ctx.match.input.replace("SWITCH_COLLECTION_STATE_", ""));
-      const collection = await this.repository.findOne({ id });
-      collection.isPublic = !collection.isPublic;
-      await this.repository.save(collection);
+      const collection = await prisma.collection.findFirst({ where: { id } });
+
+      await prisma.collection.update({
+        where: {
+          id: collection.id,
+        },
+        data: {
+          isPublic: !collection.isPublic,
+        },
+      });
+
       await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx));
     });
     bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
       await ctx.answerCbQuery();
 
       const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
-      const collection = await this.repository.findOne({ id });
+      const collection = await prisma.collection.findFirst({ where: { id } });
       await ctx.editMessageReplyMarkup({
         inline_keyboard: [
           [
@@ -62,7 +68,7 @@ export default class extends CommandInterface {
       await ctx.answerCbQuery();
 
       const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
-      await this.repository.delete({ id });
+      await prisma.collection.delete({ where: { id } });
       await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
     });
   }
