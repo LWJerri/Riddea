@@ -1,12 +1,11 @@
+import { Collection, Upload } from "@prisma/client";
 import { Markup, Scenes } from "telegraf";
-import { getRepository, Not } from "typeorm";
-import { Collection } from "@riddea/typeorm";
-import { Upload } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
+import { prisma } from "../libs/prisma";
 
 interface ImageScene extends Scenes.SceneSessionData {
   skip: number;
-  currentImage: Upload;
+  currentImage: Upload & { collection: Collection };
   totalImages: number;
 }
 
@@ -27,15 +26,17 @@ const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
 const getImage = async (userID: number, skip: number) => {
   try {
     return (
-      await getRepository(Upload).find({
+      await prisma.upload.findMany({
         where: {
           userID,
         },
         skip,
         take: 1,
-        relations: ["collection"],
-        order: {
-          createdAt: "DESC",
+        include: {
+          collection: true,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       })
     )[0];
@@ -56,7 +57,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
   .enter(async (ctx) => {
     try {
       ctx.scene.session.skip = 0;
-      ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
+      ctx.scene.session.totalImages = await prisma.upload.count({ where: { userID: ctx.from.id } });
       ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
       if (!ctx.scene.session.currentImage) {
         await ctx.reply(`You never upload here your images! Use /upload for uploading your favorite image :)`);
@@ -149,7 +150,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
     try {
       await ctx.answerCbQuery();
 
-      await getRepository(Upload).remove(ctx.scene.session.currentImage);
+      await prisma.upload.delete({ where: { id: ctx.scene.session.currentImage.id } });
       ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
       if (!ctx.scene.session.currentImage) return ctx.scene.reenter();
@@ -180,10 +181,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       const currentImage = ctx.scene.session.currentImage;
       const collectionId = currentImage.collection?.id ?? 0;
 
-      const collections = await getRepository(Collection).find({
+      const collections = await prisma.collection.findMany({
         where: {
           userID: ctx.from.id,
-          id: Not(collectionId),
+          id: {
+            not: collectionId,
+          },
         },
       });
 
@@ -202,8 +205,16 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.answerCbQuery();
 
       const collectionId = Number(ctx.match.input.replace("SWITCH_COLLECTION-", ""));
-      ctx.scene.session.currentImage.collection = await getRepository(Collection).findOne(collectionId);
-      await getRepository(Upload).save(ctx.scene.session.currentImage);
+
+      await prisma.upload.update({
+        where: {
+          id: ctx.scene.session.currentImage.id,
+        },
+        data: {
+          collectionId,
+        },
+      });
+
       await ctx.editMessageReplyMarkup({ inline_keyboard: getKeyboard(ctx).reply_markup.inline_keyboard });
     } catch (err) {
       botLogger.error(`Scene myImages error:`, err.stack);

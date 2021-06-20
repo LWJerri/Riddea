@@ -1,14 +1,17 @@
 import { Context, Markup, Scenes } from "telegraf";
-import { getRepository } from "typeorm";
-import { Collection, Upload } from "@riddea/typeorm";
 import base64Data from "../helpers/base64Decoder";
 import { botLogger } from "../helpers/logger";
+import { prisma } from "../libs/prisma";
 
 async function getKeyboard(ctx: Context) {
   try {
-    const collections = await getRepository(Collection).find({
-      where: { userID: ctx.from.id },
-      order: { createdAt: "DESC" },
+    const collections = await prisma.collection.findMany({
+      where: {
+        userID: ctx.from.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const collectionsList = collections.map((c) =>
@@ -46,13 +49,15 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const photo = (ctx.update.callback_query.message as any).photo.pop();
       const dataDB = await base64Data(photo);
       const id = Number(ctx.match.input.replace("IMAGE_ADD_COLLECTION_", ""));
-      const collectionName = (await getRepository(Collection).findOne({ id: id })).name;
+      const collectionName = (await prisma.collection.findFirst({ where: { id } })).name;
 
-      await getRepository(Upload).save({
-        userID: ctx.from.id,
-        fileID: photo.file_id,
-        data: dataDB,
-        collection: { id },
+      await prisma.upload.create({
+        data: {
+          userID: ctx.from.id,
+          fileID: photo.file_id,
+          data: dataDB,
+          collectionId: id,
+        },
       });
 
       await ctx.reply(
@@ -70,10 +75,12 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const photo = (ctx.update.callback_query.message as any).photo.pop();
       const dataDB = await base64Data(photo);
 
-      await getRepository(Upload).save({
-        userID: ctx.from.id,
-        fileID: photo.file_id,
-        data: dataDB,
+      await prisma.upload.create({
+        data: {
+          userID: ctx.from.id,
+          fileID: photo.file_id,
+          data: dataDB,
+        },
       });
 
       await ctx.reply(`Your image loaded to database but not added to collection! Type /cancel if you don't want upload pictures anymore.`);

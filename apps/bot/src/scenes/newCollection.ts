@@ -1,7 +1,6 @@
 import { Scenes } from "telegraf";
-import { getRepository } from "typeorm";
-import { Collection } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
+import { prisma } from "../libs/prisma";
 
 interface NewCollectionScene extends Scenes.SceneSessionData {
   collectionName: string;
@@ -28,21 +27,23 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
       if (ctx.message.text.length > 15) {
         return ctx.reply(`Oops! Collection name can be more than 15 symbols!`);
       }
-
-      const repository = getRepository(Collection);
-      const isExists = await repository.findOne({
-        userID: ctx.from.id,
-        name: ctx.message.text,
+      const isExists = await prisma.collection.findFirst({
+        where: {
+          userID: ctx.from.id,
+          name: ctx.message.text,
+        },
       });
 
       if (isExists) {
         return ctx.reply(`Collection with name ${isExists.name} already exists. Please, enter another name.`);
       }
 
-      await repository.save({
-        name: ctx.message.text,
-        userID: ctx.from.id,
-        isPublic: false,
+      await prisma.collection.create({
+        data: {
+          name: ctx.message.text,
+          userID: ctx.from.id,
+          isPublic: false,
+        },
       });
 
       ctx.scene.session.collectionName = ctx.message.text;

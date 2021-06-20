@@ -1,6 +1,4 @@
 import { CacheModule, Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { Statistic, Upload } from "@riddea/typeorm";
 import { StatsController } from "./stats.controller";
 import { StatsService } from "./stats.service";
 import { MicroserviceModule } from "../microservice.module";
@@ -8,7 +6,6 @@ import { MicroserviceModule } from "../microservice.module";
 @Module({
   imports: [
     MicroserviceModule,
-    TypeOrmModule.forFeature([Statistic, Upload]),
     CacheModule.register({
       ttl: process.env.NODE_ENV === "production" ? 120 : 5,
       max: 1000,

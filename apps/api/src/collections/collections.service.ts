@@ -1,22 +1,17 @@
 import { Session } from "@mgcrea/fastify-session";
-import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Collection, Upload } from "@riddea/typeorm";
-import { IsNull, Not, Repository } from "typeorm";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { prisma } from "../libs/prisma";
 import { apiLogger } from "../main";
 import { GetCollectionImages } from "./validations/getCollectionImages";
 
 @Injectable()
 export class CollectionsService {
-  constructor(
-    @InjectRepository(Collection) private collectionRepository: Repository<Collection>,
-    @InjectRepository(Upload) private uploadRepository: Repository<Upload>,
-  ) {}
+  constructor() {}
 
-  async getCollection(id: string) {
+  async getCollection(id: string | number) {
     try {
-      const collection = await this.collectionRepository.findOne(id);
+      id = Number(id);
+      const collection = await prisma.collection.findFirst({ where: { id } });
 
       if (!collection) {
         throw new NotFoundException(`Collection with ID ${id} not found.`);
@@ -34,9 +29,11 @@ export class CollectionsService {
 
   getCollectionsByUser(userID: string | number, session?: Session) {
     try {
-      return this.collectionRepository.find({
-        userID: Number(userID),
-        isPublic: session?.get("user")?.id == userID ? Not(IsNull()) : true,
+      return prisma.collection.findMany({
+        where: {
+          userID: Number(userID),
+          isPublic: session?.get("user")?.id == userID ? undefined : true,
+        },
       });
     } catch (err) {
       apiLogger.error(`Collection service error:`, err.stack);
@@ -46,32 +43,25 @@ export class CollectionsService {
   async getCollectionImages(id: string, query: GetCollectionImages) {
     try {
       const [collection, uploads, total] = await Promise.all([
-        this.collectionRepository.findOne({
+        prisma.collection.findFirst({
           where: {
-            id,
+            id: Number(id),
           },
         }),
-
-        this.uploadRepository.find({
+        prisma.upload.findMany({
           where: {
-            collection: {
-              id,
-            },
-            data: Not(IsNull()),
+            collectionId: Number(id),
           },
           take: Number(query.limit),
           skip: Number(query.limit) * (Number(query.page) - 1),
-          order: {
-            createdAt: "DESC",
+          orderBy: {
+            createdAt: "desc",
           },
         }),
 
-        this.uploadRepository.count({
+        prisma.upload.count({
           where: {
-            collection: {
-              id,
-            },
-            data: Not(IsNull()),
+            collectionId: Number(id),
           },
         }),
       ]);

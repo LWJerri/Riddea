@@ -2,9 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { bot } from "../app";
 import humanize from "humanize-duration";
 import { commands } from "../helpers/loadCommands";
-import { Collection, Upload } from "@riddea/typeorm";
-import { Repository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
 import { botLogger } from "../helpers/logger";
 
 @Injectable()

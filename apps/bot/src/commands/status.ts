@@ -1,11 +1,9 @@
 import { Context } from "telegraf";
-import { getRepository } from "typeorm";
-import { Statistic } from "@riddea/typeorm";
-import { Upload } from "@riddea/typeorm";
 import humanize from "humanize-duration";
 import { resolve } from "path";
 import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
+import { prisma } from "../libs/prisma";
 
 const pkg = require(resolve(process.cwd(), "package.json"));
 
@@ -24,11 +22,10 @@ export default class extends CommandInterface {
       language: "en",
     });
 
-    const statisticRepository = getRepository(Statistic);
     const commands = commandsStore.filter((c) => c.collectUsage).map((c) => c.name);
     const stats = await Promise.all(
       commands.map((command) =>
-        statisticRepository.count({
+        prisma.statistic.count({
           where: {
             command,
           },
@@ -42,7 +39,7 @@ export default class extends CommandInterface {
 
     const message = `\n\nCOMMANDS STATS:\n ${commandsStats
       .map((command) => `> /${command[0]} used ${command[1]} times.`)
-      .join("\n")}\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!\n\nBOT INFO:\nBot username: ${
+      .join("\n")}\n\nUPLOADS STATS:\nUploaded ${await prisma.upload.count()} images!\n\nBOT INFO:\nBot username: ${
       ctx.botInfo.username
     }\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
 

@@ -1,0 +1,54 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Collection {
+  id        Int      @id @default(autoincrement())
+  userID    Int
+  name      String   @db.VarChar
+  isPublic  Boolean
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(now()) @db.Timestamp(6)
+  upload    Upload[]
+
+  @@map(name: "collections")
+}
+
+model Session {
+  id       Int    @id @default(autoincrement())
+  expireAt BigInt
+  sid      String @unique @db.VarChar
+  json     String @db.Text
+
+
+  @@index([expireAt], name: "IDX_4c1989542e47d9e3b98fe32c67")
+  @@index([sid], name: "IDX_e2d6172ca19b8ebef797c362b0")
+  @@map(name: "sessions")
+}
+
+model Statistic {
+  id        Int      @id @default(autoincrement())
+  command   String   @db.VarChar
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  userID    Int?
+
+  @@map(name: "statistics")
+}
+
+model Upload {
+  id           Int         @id @default(autoincrement())
+  userID       Int
+  fileID       String
+  collectionId Int?
+  createdAt    DateTime    @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime    @default(now()) @db.Timestamp(6)
+  data         String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+
+  @@map(name: "uploads")
+}

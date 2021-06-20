@@ -1,4 +1,14 @@
-import { Upload } from "@riddea/typeorm";
 import { PartialType, OmitType } from "@nestjs/swagger";
+import { Upload } from "@prisma/client";
 
-export class UploadsDTO extends PartialType(OmitType(Upload, ["collection"] as const)) {}
+class U implements Upload {
+  id: number;
+  userID: number;
+  fileID: string;
+  collectionId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  data: string;
+}
+
+export class UploadsDTO extends PartialType(U) {}

@@ -7,10 +7,6 @@
     "packages": [
       "apps/*",
       "packages/*"
-    ],
-    "nohoist": [
-      "**/typeorm/**",
-      "**/typeorm"
     ]
   },
   "engines": {
@@ -32,18 +28,19 @@
     "dev:api": "lerna exec yarn dev --scope=@riddea/api",
     "dev:web": "lerna exec yarn dev --scope=@riddea/web",
     "prepare": "husky install",
-    "migration:run": "typeorm migration:run",
-    "migration:generate": "typeorm migration:generate -n"
+    "migration:generate": "prisma migrate dev --name",
+    "migration:run": "prisma migrate deploy",
+    "prisma": "prisma"
   },
   "devDependencies": {
     "husky": "^6.0.0",
     "lerna": "^3.22.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
-    "prettier-plugin-svelte": "^2.3.0"
+    "prettier-plugin-svelte": "^2.3.0",
+    "prisma": "^2.25.0"
   },
   "dependencies": {
-    "rimraf": "^3.0.2",
-    "typeorm": "^0.2.34"
+    "rimraf": "^3.0.2"
   }
 }
