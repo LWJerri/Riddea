@@ -38,7 +38,24 @@ async function bootstrap() {
 
 bootstrap();
 
-process.once("SIGINT", () => bot.stop("SIGINT"));
-process.once("SIGTERM", () => bot.stop("SIGTERM"));
-process.on("unhandledRejection", (reason) => botLogger.error(reason));
-process.on("uncaughtException", (reason) => botLogger.error(reason));
+process.on("SIGINT", async () => {
+  bot.stop("SIGINT");
+  await bot.launch();
+});
+
+process.on("SIGTERM", async () => {
+  bot.stop("SIGTERM");
+  await bot.launch();
+});
+
+process.on("unhandledRejection", async (reason) => {
+  botLogger.error(reason);
+  bot.stop("SIGTERM");
+  await bot.launch();
+});
+
+process.on("uncaughtException", async (reason) => {
+  botLogger.error(reason);
+  bot.stop("SIGTERM");
+  await bot.launch();
+});
