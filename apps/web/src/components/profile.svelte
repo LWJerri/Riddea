@@ -5,7 +5,6 @@
   const authUrl = `${window.location.origin}/api/v1/auth/telegram/callback`;
 </script>
 
-<!-- Update if checks -->
 {#if !authUrl.includes("localhost") && $statsStore.botInfo?.username && !$userStore.id}
   <script
     async
@@ -15,6 +14,8 @@
     data-userpic="false"
     data-auth-url={authUrl}
     data-request-access="write"></script>
+{:else if !$statsStore.botInfo?.username}
+<!-- Connection to bot is not exists, so we just skiping login button-->
 {:else}
   <a href="/user/{$userStore.id}"><img class="user-btn" src={$userStore.photo_url} alt="USER_LOGO" /></a>
 {/if}
