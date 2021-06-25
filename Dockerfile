@@ -72,3 +72,8 @@ COPY --from=transpile_bot /transpile/apps/bot/dist/src ./apps/bot/dist
 RUN lerna bootstrap
 EXPOSE 3001
 CMD [ "node", "apps/bot/dist/app.js"]
+
+FROM nginx:stable-alpine as web
+COPY --from=transpile_web /transpile/apps/web/dist ./usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
