@@ -39,3 +39,10 @@ jobs:
             ghcr.io/riddea/bot:${{ github.sha }}
             quay.io/riddea/bot:latest
             quay.io/riddea/bot:${{ github.sha }}
+      - name: Deploy To CapRover
+        uses: floms/action-caprover@v1
+        with:
+          host: ${{ secrets.CAPPROVER_DOMAIN }}
+          password: ${{ secrets.CAPROVER_PASSWORD }}
+          app: riddea-bot
+          image: quay.io/riddea/bot
