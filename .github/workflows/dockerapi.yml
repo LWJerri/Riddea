@@ -1,6 +1,6 @@
 name: Publish Api To Docker
 
-on: push
+on: [push, pull_request]
 
 jobs:
   docker:

@@ -1,6 +1,6 @@
 name: Publish bot To Docker
 
-on: push
+on: [push, pull_request]
 
 jobs:
   docker:
