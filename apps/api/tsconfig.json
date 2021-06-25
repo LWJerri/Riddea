@@ -6,9 +6,6 @@
   "references": [
     {
       "path": "../../packages/typeorm"
-    },
-    {
-      "path": "../../packages/helpers"
     }
   ],
   "include": ["src"],

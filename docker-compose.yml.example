@@ -2,29 +2,29 @@ version: '3.2'
 
 services:
   migrator:
-    image: quay.io/riddea/riddea
+    image: quay.io/riddea/migrator
     command: yarn migration:run
     env_file:
       - .env
 
   bot:
-    #image: docker.pkg.github.com/riddea/riddea/nightly:latest
-    image: quay.io/riddea/riddea
+    #image: docker.pkg.github.com/riddea/bot/nightly:latest
+    image: quay.io/riddea/bot
     restart: always
     env_file:
       - .env
-    command: yarn start:bot
+    command: node apps/bot/dist/app.js
     depends_on: 
      - migrator
 
   api:
-    #image: docker.pkg.github.com/riddea/riddea/nightly:latest
-    image: quay.io/riddea/riddea
+    #image: docker.pkg.github.com/riddea/api/nightly:latest
+    image: quay.io/riddea/api
     restart: always
     env_file:
       - .env
     depends_on:
       - bot
-    command: yarn start:api
+    command: node apps/api/dist/main.js
     ports:
       - 3000:3000
