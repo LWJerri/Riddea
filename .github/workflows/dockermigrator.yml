@@ -1,4 +1,4 @@
-name: Publish Bot To Docker
+name: Publish Migrator To Docker
 
 on:
   push:
