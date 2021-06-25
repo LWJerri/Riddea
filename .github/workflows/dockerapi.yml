@@ -1,7 +1,5 @@
 name: Publish Api To Docker
 
-
-
 jobs:
   docker:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-docker]')"
