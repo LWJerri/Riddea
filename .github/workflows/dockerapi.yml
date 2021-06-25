@@ -23,7 +23,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.ACTIONS_TOKEN }}
-       -
+      -
         name: Login to Quay Container Registry
         uses: docker/login-action@v1 
         with:
