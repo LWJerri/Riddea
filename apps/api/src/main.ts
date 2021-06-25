@@ -16,10 +16,11 @@ import { TypeormStore } from "./libs/SessionStore";
 
 export const apiLogger = new Logger("API");
 const PORT = process.env.API_PORT ?? 3000;
+let app: NestFastifyApplication;
 
 async function bootstrap() {
   try {
-    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: apiLogger });
+    app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: apiLogger });
     app.register(fastifyCookie);
     app.register(fastifySession, {
       secret: process.env.WEB_SESSION_SECRET || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
@@ -55,3 +56,6 @@ async function bootstrap() {
   }
 }
 bootstrap();
+
+process.on("SIGTERM", () => app.close());
+process.on("SIGINT", () => app.close());
