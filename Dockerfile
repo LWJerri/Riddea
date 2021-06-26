@@ -74,6 +74,7 @@ EXPOSE 3001
 CMD [ "node", "apps/bot/dist/app.js"]
 
 FROM nginx:stable-alpine as web
+COPY --from=transpile_web /transpile/apps/web/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=transpile_web /transpile/apps/web/dist ./usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
