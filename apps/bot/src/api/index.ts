@@ -11,7 +11,7 @@ export async function microserviceInit() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       logger,
       options: {
-        //host: process.env.BOT_SERVICE_HOST ?? "localhost",
+        host: process.env.BOT_SERVICE_HOST ?? "0.0.0.0",
         transport: Transport.TCP,
         port: PORT,
       },
