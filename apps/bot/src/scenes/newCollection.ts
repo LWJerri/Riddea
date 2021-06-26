@@ -8,8 +8,18 @@ interface NewCollectionScene extends Scenes.SceneSessionData {
 }
 
 export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollectionScene>>("createCollection")
-  .enter((ctx) => {
+  .enter(async (ctx) => {
     try {
+      const repository = getRepository(Collection);
+      const collNumber = await repository.count({ userID: ctx.from.id });
+
+      if (collNumber >= 50) {
+        await ctx.reply("Oops! You can't have more then 50 collections :/");
+        await ctx.scene.leave();
+
+        return;
+      }
+
       ctx.reply("Enter the name of new collection");
     } catch (err) {
       botLogger.error(`Scene newCollection error:`, err.stack);
