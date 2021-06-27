@@ -1,3 +1,5 @@
+import { RateLimiter } from "@riddea/telegraf-rate-limiter";
+
 export const fileTypes = ["png", "jpg", "jpeg"];
 export const sponsors = [
   {
@@ -9,3 +11,4 @@ export const sponsors = [
     url: "https://t.me/aestheticsJPG",
   },
 ];
+export const cmdLimiter = new RateLimiter(1, 5000);

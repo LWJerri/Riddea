@@ -1101,6 +1101,13 @@
   dependencies:
     "@octokit/openapi-types" "^7.3.2"
 
+"@riddea/telegraf-rate-limiter@https://github.com/Riddea/telegraf-rate-limiter":
+  version "1.0.2"
+  resolved "https://github.com/Riddea/telegraf-rate-limiter#d3ce181ad738a53e2f865d3822740310058a2a5a"
+  dependencies:
+    limiter "1.1.5"
+    telegraf "^4.3.0"
+
 "@rollup/pluginutils@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.0.tgz#0dcc61c780e39257554feb7f77207dceca13c838"
@@ -4691,6 +4698,11 @@ light-my-request@4.4.1, light-my-request@^4.2.0:
     fastify-warning "^0.2.0"
     readable-stream "^3.6.0"
     set-cookie-parser "^2.4.1"
+
+limiter@1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/limiter/-/limiter-1.1.5.tgz#8f92a25b3b16c6131293a0cc834b4a838a2aa7c2"
+  integrity sha512-FWWMIEOxz3GwUI4Ts/IvgVy6LPvoMPgjMdQ185nN6psJyBJ4yOpzqm695/h5umdLJg2vW3GR5iG11MAkR2AzJA==
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
