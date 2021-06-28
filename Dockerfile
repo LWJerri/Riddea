@@ -17,6 +17,7 @@ RUN lerna exec yarn build --scope=@riddea/typeorm
 
 # SERVICE
 FROM node:16.2.0-alpine3.11 as base_service
+RUN apk add --no-cache git
 ENV NODE_ENV production
 WORKDIR /service
 COPY package.json .
