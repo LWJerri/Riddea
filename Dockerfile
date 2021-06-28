@@ -1,5 +1,6 @@
 # TRANSPILER
 FROM node:16.2.0-alpine3.11 as base_transpile
+RUN apk add --no-cache git
 WORKDIR /transpile
 COPY packages/typeorm/package.json packages/typeorm/package.json
 COPY package.json .
