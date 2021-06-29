@@ -1101,10 +1101,10 @@
   dependencies:
     "@octokit/openapi-types" "^7.3.2"
 
-"@riddea/telegraf-rate-limiter@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@riddea/telegraf-rate-limiter/-/telegraf-rate-limiter-1.0.4.tgz#5871a44db159b1af0383035183a77a3d7f53c155"
-  integrity sha512-DdIq0qUnPvuBjUaMyM6POUSgVozLUtAU3qoHh2PgInkIp3QXP/0ohKRAX09WwNVTKQghmyr8IKjdVpgRrQQYww==
+"@riddea/telegraf-rate-limiter@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@riddea/telegraf-rate-limiter/-/telegraf-rate-limiter-1.0.7.tgz#6c32cbc00eb65a9734225e466d9cc01b3dab9de6"
+  integrity sha512-7DyhK9a9wP6RN9rL5yDFLZHCJbZ6GwOFBq8POv8LTF/BQuiXKDOYLr/D4poQdzd6tK5KYAHg1HqsZqOhr+c7Gg==
   dependencies:
     limiter "1.1.5"
     telegraf "^4.3.0"
