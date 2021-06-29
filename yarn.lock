@@ -1101,9 +1101,10 @@
   dependencies:
     "@octokit/openapi-types" "^7.3.2"
 
-"@riddea/telegraf-rate-limiter@https://github.com/Riddea/telegraf-rate-limiter":
+"@riddea/telegraf-rate-limiter@^1.0.2":
   version "1.0.2"
-  resolved "https://github.com/Riddea/telegraf-rate-limiter#d3ce181ad738a53e2f865d3822740310058a2a5a"
+  resolved "https://registry.yarnpkg.com/@riddea/telegraf-rate-limiter/-/telegraf-rate-limiter-1.0.2.tgz#fc7b30fd3203db5b2018d7eb491b5733fa4a3409"
+  integrity sha512-rZvpzdHGEei1969yJ4joU38AX/ehOUH/Z0qqcwa80A/HcyLQP+GqjPjGcKl+FG36rp7Xp+OBuh9C/do0qEmfnA==
   dependencies:
     limiter "1.1.5"
     telegraf "^4.3.0"
