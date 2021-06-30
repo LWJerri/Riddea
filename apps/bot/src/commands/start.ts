@@ -1,12 +1,13 @@
-import { Context, Markup } from "telegraf";
+import { Context } from "telegraf";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
   constructor() {
     super({
       name: "start",
-      collectUsage: false,
+      collectUsage: true,
       description: "Display start menu",
+      actions: ["LANG_RUSSIAN", "LANG_ENGLISH"],
     });
   }
 

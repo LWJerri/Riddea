@@ -34,9 +34,9 @@ export async function loadCommands() {
           (ctx as any).isAction = true;
           command.execute(ctx);
         });
-        botLogger.log(`[ACTIONS]: Action ${command.actions} loaded`);
+        botLogger.log(`[ACTIONS]: Action ${command.actions.join(", ")} loaded`);
       } catch (err) {
-        botLogger.error(`Can't load action ${command.actions}!`, err.stack);
+        botLogger.error(`Can't load action ${command.actions.join(", ")}!`, err.stack);
       }
     }
 

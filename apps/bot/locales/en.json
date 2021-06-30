@@ -1,0 +1,10 @@
+{
+  "rateLimit": "Weep! Wait 5 second before use next command :/",
+  "errorMessage": "We are sorry, some error happend on our side. :(",
+  "newPack": "Do you like to see more {{ info }}?",
+  "leaveFromAllScenes": "Okay, happy nice day!",
+  "listCollections": "List of your collections:",
+  "changePublicType": "Make {{ type }}",
+  "openInWeb": "Open in web",
+  "delete": "Delete"
+}

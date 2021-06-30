@@ -15,15 +15,21 @@ import photoEvent from "./events/photo";
 
 import * as typeormEntitites from "@riddea/typeorm";
 import { botLogger } from "./helpers/logger";
+import i18n from "./helpers/localization";
+import userMiddleware from "./middlewares/user";
+import i18nMiddleware from "./middlewares/i18n";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
+bot.use(userMiddleware);
+bot.use(i18nMiddleware);
 bot.use(session());
 bot.use(stage.middleware());
 bot.on("photo", photoEvent);
 
 async function bootstrap() {
   try {
+    await i18n.init();
     const connectionOptions = await getConnectionOptions();
     await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
     await loadCommands();
