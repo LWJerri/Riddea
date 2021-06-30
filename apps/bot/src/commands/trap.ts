@@ -10,7 +10,7 @@ export default class extends CommandInterface {
       name: "trap",
       description: "Send trap images",
       collectUsage: true,
-      actionsName: ["Shiro Service", "WaifyPics Service (NSFW)"],
+      actionsName: ["Shiro Service", "WaifyPics Service [NSFW]"],
       actions: ["NEW_TRAP_SHIRO", "NEW_TRAP_WAIFYPICS"],
     });
   }

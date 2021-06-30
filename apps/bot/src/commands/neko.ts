@@ -10,7 +10,7 @@ export default class extends CommandInterface {
       name: "neko",
       description: "Send neko image",
       collectUsage: true,
-      actionsName: ["Shiro Service", "WaifyPics Service", "WaifyPics Service (NSFW)"],
+      actionsName: ["Shiro Service", "WaifyPics Service", "WaifyPics Service [NSFW]"],
       actions: ["NEW_NEKO_SHIRO", "NEW_NEKO_WAIFYPICS", "NEW_NEKO_NSFW_WAIFYPICS"],
     });
   }
