@@ -1,35 +1,34 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+import { fileTypes, ignoreEndpoints } from "../constants";
 import { extname } from "path";
-import { fileTypes } from "../constants";
 
-export type ShiroResponse = {
-  code: string;
+export type WaifyPicsResponse = {
   url: string;
-  mimeType: string;
-  fileType: string;
 };
 
-export type ShiroOpts = {
+export type WaifyPicsOpts = {
   endPoint: string;
   method?: Method;
   amount?: number;
 };
 
-export const shiroApi = async (opts = { method: "GET", amount: 1 } as ShiroOpts) => {
+export const waifyPicsApi = async (opts = { method: "GET", amount: 1 } as WaifyPicsOpts) => {
   const axiosOptions: AxiosRequestConfig = {
-    url: `https://shiro.gg/api/images/${opts.endPoint}`,
+    url: `https://api.waifu.pics/${opts.endPoint}`,
     method: opts.method,
   };
 
-  const responses = await Promise.all<{ data: ShiroResponse }>(
+  const responses = await Promise.all<{ data: WaifyPicsResponse }>(
     [...Array(opts.amount)].reduce((curr, val) => [...curr, axios.request(axiosOptions)], []),
   );
 
-  const result = await axios.all<AxiosResponse<ShiroResponse>>(responses.map((r) => axios.get(r.data.url)));
+  const result = await axios.all<AxiosResponse<WaifyPicsResponse>>(responses.map((r) => axios.get(r.data.url)));
 
   return result
     .filter((image) => {
-      const correctFileType = fileTypes.includes(extname(image.config.url).replaceAll(".", ""));
+      const correctFileType = ignoreEndpoints.includes(opts.endPoint)
+        ? true
+        : fileTypes.includes(extname(image.config.url).replaceAll(".", ""));
       const fileSize = Number(image.headers["content-length"]) / Math.pow(1024, 2);
 
       if (correctFileType && fileSize < 10) {

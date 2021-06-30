@@ -8,7 +8,7 @@ export default class extends CommandInterface {
       description: "Display list of all bot sponsors",
       collectUsage: false,
       name: "sponsors",
-      action: "SEND_SPONSORS",
+      actions: ["SEND_SPONSORS"],
     });
   }
 

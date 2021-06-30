@@ -1,17 +1,16 @@
 import { Context, Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
-import { shiroApi } from "../helpers/shiroApi";
 import { Callback } from "../constants";
 import { waifyPicsApi } from "../helpers/waifyPicsApi";
 
 export default class extends CommandInterface {
   constructor() {
     super({
-      name: "trap",
-      description: "Send trap images",
+      description: "Send shinobu pictures",
       collectUsage: true,
-      actionsName: ["Shiro Service", "WaifyPics Service (NSFW)"],
-      actions: ["NEW_TRAP_SHIRO", "NEW_TRAP_WAIFYPICS"],
+      name: "shinobu",
+      actionsName: ["WaifyPics Service"],
+      actions: ["NEW_SHINOBU_WAIFYPICS"],
     });
   }
 
@@ -22,8 +21,8 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    if (!CBData || CBData == "NEW_TRAP_SHIRO") {
-      const images = await shiroApi({ endPoint: "trap", amount: 10 });
+    if (!CBData || CBData == "NEW_SHINOBU_WAIFYPICS") {
+      const images = await waifyPicsApi({ endPoint: "sfw/shinobu", amount: 10 });
 
       await ctx.replyWithMediaGroup(
         images.map((image) => {
@@ -35,19 +34,6 @@ export default class extends CommandInterface {
       );
     }
 
-    if (CBData == "NEW_TRAP_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "nsfw/trap", amount: 10 });
-
-      await ctx.replyWithMediaGroup(
-        images.map((image) => {
-          return {
-            type: "photo",
-            media: image,
-          };
-        }),
-      );
-    }
-
-    await ctx.reply("Do you like to see more trap images?", keyboard);
+    await ctx.reply("Do you like to see more shinobu images?", keyboard);
   }
 }

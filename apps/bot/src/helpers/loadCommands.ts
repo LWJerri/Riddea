@@ -27,26 +27,16 @@ export async function loadCommands() {
       botLogger.error(`loadCommand error:`, err.stack);
     }
 
-    if (command.aliases) {
-      for (const aliase of command.aliases) {
-        try {
-          bot.command(aliase, command.execute);
-        } catch (err) {
-          botLogger.error(`loadCommand error:`, err.stack);
-        }
-      }
-    }
-
-    if (command.action) {
+    if (command.actions) {
       try {
-        bot.action(command.action, async (ctx) => {
+        bot.action(command.actions, async (ctx) => {
           await ctx.answerCbQuery();
           (ctx as any).isAction = true;
           command.execute(ctx);
         });
-        botLogger.log(`[ACTIONS]: Action ${command.action} loaded`);
+        botLogger.log(`[ACTIONS]: Action ${command.actions} loaded`);
       } catch (err) {
-        botLogger.error(`Can't load action ${command.action}!`, err.stack);
+        botLogger.error(`Can't load action ${command.actions}!`, err.stack);
       }
     }
 

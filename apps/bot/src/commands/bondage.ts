@@ -1,29 +1,39 @@
 import { Context, Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
+import { Callback } from "../constants";
 
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "[NSFW]: Send bondage image",
+      description: "[NSFW]: Send bondage images",
       collectUsage: true,
       name: "bondage",
-      action: "NEW_BONDAGE",
+      actionsName: ["Shiro Service"],
+      actions: ["NEW_BONDAGE_SHIRO"],
     });
   }
 
   async run(ctx: Context) {
-    const images = await shiroApi({ endPoint: "nsfw/bondage", amount: 10 });
-
-    await ctx.replyWithMediaGroup(
-      images.map((image) => {
-        return {
-          type: "photo",
-          media: image.url,
-        };
-      }),
+    const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
+    const keyboard = Markup.inlineKeyboard(
+      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      { columns: 1 },
     );
 
-    await ctx.reply("Do you like to see more bondage?", Markup.inlineKeyboard([Markup.button.callback("Give me more!", this.action)]));
+    if (!CBData || CBData == "NEW_BONDAGE_SHIRO") {
+      const images = await shiroApi({ endPoint: "nsfw/bondage", amount: 10 });
+
+      await ctx.replyWithMediaGroup(
+        images.map((image) => {
+          return {
+            type: "photo",
+            media: image,
+          };
+        }),
+      );
+    }
+
+    await ctx.reply("Do you like to see more bondage images?", keyboard);
   }
 }

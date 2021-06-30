@@ -5,25 +5,33 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "start",
+      collectUsage: false,
       description: "Display start menu",
     });
   }
 
   async run(ctx: Context) {
-    const keyboard = Markup.inlineKeyboard([
-      {
-        text: "Help menu",
-        callback_data: "SEND_HELPMENU",
+    const keyboard = {
+      disable_web_page_preview: true,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "Help menu",
+              callback_data: "SEND_HELPMENU",
+            },
+            {
+              text: "Statistics",
+              callback_data: "SEND_STATISTIC",
+            },
+            {
+              text: "GitHub",
+              url: "https://github.com/Riddea",
+            },
+          ],
+        ],
       },
-      {
-        text: "Statistics",
-        callback_data: "SEND_STATISTIC",
-      },
-      {
-        text: "GitHub",
-        url: "https://github.com/Riddea/Riddea",
-      },
-    ]);
+    };
 
     await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`);
 

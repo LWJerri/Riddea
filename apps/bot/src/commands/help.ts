@@ -7,7 +7,7 @@ export default class extends CommandInterface {
       description: "Display bot help menu",
       collectUsage: false,
       name: "help",
-      action: "SEND_HELPMENU",
+      actions: ["SEND_HELPMENU"],
     });
   }
 
@@ -17,7 +17,7 @@ export default class extends CommandInterface {
       [
         {
           text: "GitHub",
-          url: "https://github.com/Riddea/Riddea",
+          url: "https://github.com/Riddea",
         },
         {
           text: "Support me",

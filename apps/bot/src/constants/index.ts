@@ -1,6 +1,7 @@
 import { RateLimiter } from "@riddea/telegraf-rate-limiter";
 
 export const fileTypes = ["png", "jpg", "jpeg"];
+export const ignoreEndpoints = ["nsfw/blowjob"];
 export const sponsors = [
   {
     name: "Не смотри, бака! (anime arts)",
@@ -12,3 +13,6 @@ export const sponsors = [
   },
 ];
 export const cmdLimiter = new RateLimiter(1, 5000);
+export interface Callback {
+  data: string;
+}
