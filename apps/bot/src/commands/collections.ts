@@ -10,7 +10,7 @@ export default class extends CommandInterface {
     super({
       name: "collections",
       description: "List of your collections",
-      collectUsage: false,
+      collectUsage: true,
       actions: ["COLLECTION_LIST"],
     });
     this.init();

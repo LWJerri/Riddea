@@ -5,7 +5,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       description: "Display bot help menu",
-      collectUsage: false,
+      collectUsage: true,
       name: "help",
       actions: ["SEND_HELPMENU"],
     });

@@ -6,7 +6,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       description: "Display list of all bot sponsors",
-      collectUsage: false,
+      collectUsage: true,
       name: "sponsors",
       actions: ["SEND_SPONSORS"],
     });
