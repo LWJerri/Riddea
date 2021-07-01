@@ -6,8 +6,7 @@ import { AppModule } from "./app.module";
 const logger = new Logger("BOT API");
 const PORT = process.env.BOT_PORT ?? 3001;
 
-
-let app: INestMicroservice
+let app: INestMicroservice;
 export async function microserviceInit() {
   try {
     app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
@@ -27,5 +26,5 @@ export async function microserviceInit() {
 }
 
 export function getMicroserverApp() {
-  return app
+  return app;
 }
