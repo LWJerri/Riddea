@@ -21,7 +21,7 @@
   "license": "MIT",
   "scripts": {
     "build": "lerna run build --stream",
-    "prettier": "prettier --write apps/**/*.ts packages/**/*.ts",
+    "prettier": "prettier --write \"./apps/**/*.ts\" \"./packages/**/*.ts\"",
     "clean": "lerna run clean --parallel",
     "clean:modules": "rimraf ./**/node_modules",
     "lerna": "lerna",

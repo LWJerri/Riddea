@@ -13,6 +13,3 @@ export const sponsors = [
   },
 ];
 export const cmdLimiter = new RateLimiter(1, 5000);
-export interface Callback {
-  data: string;
-}

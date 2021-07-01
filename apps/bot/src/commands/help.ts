@@ -7,7 +7,7 @@ export default class extends CommandInterface {
       description: "Display bot help menu",
       collectUsage: false,
       name: "help",
-      actions: [{callback: "SEND_HELPMENU"}],
+      actions: [{ callback: "SEND_HELPMENU" }],
     });
   }
 

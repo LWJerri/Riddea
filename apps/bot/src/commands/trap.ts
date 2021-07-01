@@ -1,8 +1,9 @@
 import { Context, Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-import { Callback } from "../constants";
+
 import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { ContextCallbackWithData } from "../typings/telegraf";
 
 export default class extends CommandInterface {
   constructor() {
@@ -13,18 +14,18 @@ export default class extends CommandInterface {
       actions: [
         {
           name: "Shiro Service",
-          callback: "NEW_TRAP_SHIRO"
+          callback: "NEW_TRAP_SHIRO",
         },
         {
           name: "WaifyPics Service (NSFW)",
-          callback: "NEW_TRAP_WAIFYPICS"
-        }
-      ]
+          callback: "NEW_TRAP_WAIFYPICS",
+        },
+      ],
     });
   }
 
-  async run(ctx: Context) {
-    const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
+  async run(ctx: ContextCallbackWithData) {
+    const CBData = ctx.callbackQuery?.data;
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
