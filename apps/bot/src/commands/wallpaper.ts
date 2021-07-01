@@ -1,7 +1,7 @@
 import { Context, Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-import { Callback } from "../constants";
+import { ContextCallbackWithData } from "../typings/telegraf";
 
 export default class extends CommandInterface {
   constructor() {
@@ -9,15 +9,19 @@ export default class extends CommandInterface {
       name: "wallpaper",
       description: "Send wallpaper image",
       collectUsage: true,
-      actionsName: ["Shiro Service"],
-      actions: ["NEW_WALLPAPER_SHIRO"],
+      actions: [
+        {
+          name: "Shiro Service",
+          callback: "NEW_WALLPAPER_SHIRO",
+        },
+      ],
     });
   }
 
-  async run(ctx: Context) {
-    const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
+  async run(ctx: ContextCallbackWithData) {
+    const CBData = ctx.callbackQuery?.data;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 
