@@ -10,7 +10,7 @@ import readyEvent from "./events/ready";
 import { createConnection, getConnectionOptions } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
-import { microserviceInit } from "./api";
+import { getMicroserverApp, microserviceInit } from "./api";
 import photoEvent from "./events/photo";
 
 import * as typeormEntitites from "@riddea/typeorm";
@@ -38,7 +38,12 @@ async function bootstrap() {
 
 bootstrap();
 
-process.on("SIGINT", () => bot.stop("SIGINT"));
-process.on("SIGTERM", () => bot.stop("SIGTERM"));
+async function shutDownServices() {
+  bot.stop()
+  await getMicroserverApp().close()
+}
+
+process.on("SIGINT", () => shutDownServices());
+process.on("SIGTERM", () => shutDownServices());
 process.on("unhandledRejection", (reason) => botLogger.error(reason));
 process.on("uncaughtException", (reason) => botLogger.error(reason));

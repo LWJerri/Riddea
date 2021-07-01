@@ -1,5 +1,6 @@
 {
   "watch": ["./src/"],
   "exec": "ts-node ./src/app.ts",
-  "ext": "ts"
+  "ext": "ts",
+  "signal": "SIGINT"
 }

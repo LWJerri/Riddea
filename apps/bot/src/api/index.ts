@@ -1,14 +1,16 @@
 import { NestFactory } from "@nestjs/core";
 import { Transport, MicroserviceOptions } from "@nestjs/microservices";
-import { Logger } from "@nestjs/common";
+import { INestMicroservice, Logger } from "@nestjs/common";
 import { AppModule } from "./app.module";
 
 const logger = new Logger("BOT API");
 const PORT = process.env.BOT_PORT ?? 3001;
 
+
+let app: INestMicroservice
 export async function microserviceInit() {
   try {
-    const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
       logger,
       options: {
         host: process.env.BOT_SERVICE_HOST ?? "0.0.0.0",
@@ -22,4 +24,8 @@ export async function microserviceInit() {
   } catch (err) {
     logger.error(`Cannot boot bot api microservice with error:`, err.message);
   }
+}
+
+export function getMicroserverApp() {
+  return app
 }
