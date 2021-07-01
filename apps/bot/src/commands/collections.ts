@@ -11,7 +11,9 @@ export default class extends CommandInterface {
       name: "collections",
       description: "List of your collections",
       collectUsage: false,
-      actions: ["COLLECTION_LIST"],
+      actions: [{
+        callback: "COLLECTION_LIST"
+      }],
     });
     this.init();
   }

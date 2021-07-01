@@ -9,15 +9,19 @@ export default class extends CommandInterface {
       description: "[NSFW]: Send blowjob pictures",
       collectUsage: true,
       name: "blowjob",
-      actionsName: ["WaifyPics Service"],
-      actions: ["NEW_BLOWJOB_WAIFYPICS"],
+      actions: [
+        { 
+          name: "WaifyPics Service",
+          callback: "NEW_BLOWJOB_WAIFYPICS" 
+        }
+      ],
     });
   }
 
   async run(ctx: Context) {
     const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 

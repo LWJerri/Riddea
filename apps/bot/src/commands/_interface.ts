@@ -8,8 +8,7 @@ export type CommandOptions = {
   name: string;
   description: string;
   collectUsage?: boolean;
-  actionsName?: string[];
-  actions?: string[];
+  actions?: Array<{ name?: string, callback: string }>;
 };
 
 export class CommandInterface {
@@ -17,8 +16,7 @@ export class CommandInterface {
   description: string;
   collectUsage: boolean;
   name: string;
-  actionsName?: string[];
-  actions?: string[];
+  actions?: Array<{ name?: string, callback: string }>;
 
   constructor(options?: CommandOptions) {
     options = {

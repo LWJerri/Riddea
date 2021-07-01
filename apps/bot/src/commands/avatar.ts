@@ -9,15 +9,19 @@ export default class extends CommandInterface {
       description: "Send anime pictures for avatar",
       collectUsage: true,
       name: "avatar",
-      actionsName: ["Shiro Service"],
-      actions: ["NEW_AVATAR_SHIRO"],
+      actions: [
+        {
+          name: 'Shiro Service',
+          callback: 'NEW_AVATAR_SHIRO'
+        }
+      ],
     });
   }
 
   async run(ctx: Context) {
     const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 

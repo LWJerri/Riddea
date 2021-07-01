@@ -9,15 +9,17 @@ export default class extends CommandInterface {
       name: "wallpaper",
       description: "Send wallpaper image",
       collectUsage: true,
-      actionsName: ["Shiro Service"],
-      actions: ["NEW_WALLPAPER_SHIRO"],
+      actions: [{
+        name: "Shiro Service",
+        callback: "NEW_WALLPAPER_SHIRO"
+      }]
     });
   }
 
   async run(ctx: Context) {
     const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 

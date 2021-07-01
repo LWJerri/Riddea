@@ -9,15 +9,17 @@ export default class extends CommandInterface {
       description: "Send shinobu pictures",
       collectUsage: true,
       name: "shinobu",
-      actionsName: ["WaifyPics Service"],
-      actions: ["NEW_SHINOBU_WAIFYPICS"],
+      actions: [{
+        name: "WaifyPics Service",
+        callback: "NEW_SHINOBU_WAIFYPICS"
+      }]
     });
   }
 
   async run(ctx: Context) {
     const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 
