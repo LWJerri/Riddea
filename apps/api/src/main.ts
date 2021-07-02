@@ -59,3 +59,4 @@ bootstrap();
 
 process.on("SIGTERM", () => app.close());
 process.on("SIGINT", () => app.close());
+process.exit(0);

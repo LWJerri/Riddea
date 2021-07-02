@@ -41,6 +41,7 @@ bootstrap();
 async function shutDownServices() {
   bot.stop();
   await getMicroserverApp().close();
+  process.exit(0);
 }
 
 process.on("SIGINT", () => shutDownServices());
