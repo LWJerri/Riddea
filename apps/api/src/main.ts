@@ -57,6 +57,11 @@ async function bootstrap() {
 }
 bootstrap();
 
-process.on("SIGTERM", () => app.close());
-process.on("SIGINT", () => app.close());
-process.exit(0);
+process.on("SIGTERM", () => {
+  app.close();
+  process.exit(0);
+});
+process.on("SIGINT", () => {
+  app.close();
+  process.exit(0);
+});
