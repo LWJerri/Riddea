@@ -4,6 +4,10 @@ export const fileTypes = ["png", "jpg", "jpeg"];
 export const ignoreEndpoints = ["nsfw/blowjob"];
 export const sponsors = [
   {
+    name: "Хентай библиотека",
+    url: "https://vk.com/libraryhentai",
+  },
+  {
     name: "Не смотри, бака! (anime arts)",
     url: "https://vk.com/moushiwake",
   },
