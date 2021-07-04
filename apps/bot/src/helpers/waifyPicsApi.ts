@@ -31,7 +31,7 @@ export const waifyPicsApi = async (opts = { method: "GET", amount: 1 } as WaifyP
         : fileTypes.includes(extname(image.config.url).replaceAll(".", ""));
       const fileSize = Number(image.headers["content-length"]) / Math.pow(1024, 2);
 
-      if (correctFileType && fileSize < 10) {
+      if (correctFileType && fileSize < 5) {
         return true;
       } else return false;
     })
