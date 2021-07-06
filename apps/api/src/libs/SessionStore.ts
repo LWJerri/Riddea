@@ -14,11 +14,11 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
     try {
       const session = await this.repository.findOne({ sid });
 
-      if (!session || session?.expireAt <= Date.now()) {
+      if (!session || session?.expireAt.getTime() <= Date.now()) {
         return null;
       }
 
-      return [JSON.parse(session?.json ?? {}) as T, session?.expireAt];
+      return [JSON.parse(session?.json ?? {}) as T, session?.expireAt.getTime()];
     } catch (err) {
       apiLogger.error(`SessionStore error:`, err.stack);
       return [null, null];
@@ -30,7 +30,7 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
       const ttl = expiry ? expiry : Date.now() + this.ttl;
       const session = (await this.repository.findOne({ sid })) || this.repository.create();
       session.sid = sid;
-      session.expireAt = ttl;
+      session.expireAt = new Date(ttl);
       session.json = JSON.stringify(sessionData);
       await this.repository.save(session);
     } catch (err) {
@@ -76,7 +76,7 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
     try {
       const ttl = expiry ? expiry : Date.now() + this.ttl;
       const session = (await this.repository.findOne({ sid })) || this.repository.create();
-      session.expireAt = ttl;
+      session.expireAt = new Date(ttl);
       await this.repository.save(session);
     } catch (err) {
       apiLogger.error(`SessionStore error:`, err.stack);

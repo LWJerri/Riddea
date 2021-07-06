@@ -9,7 +9,7 @@ export class Session {
 
   @Index()
   @Column("timestamp with time zone", { default : () => 'CURRENT_TIMESTAMP' })
-  expireAt: number;
+  expireAt: Date;
 
   @Index()
   @Column("varchar")
