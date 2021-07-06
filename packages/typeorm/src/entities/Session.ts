@@ -8,7 +8,7 @@ export class Session {
   id: string;
 
   @Index()
-  @Column("timestamp with time zone", { default : () => 'CURRENT_TIMESTAMP' })
+  @Column("timestamp with time zone", { default: () => "CURRENT_TIMESTAMP" })
   expireAt: Date;
 
   @Index()

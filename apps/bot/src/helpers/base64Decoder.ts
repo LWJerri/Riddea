@@ -1,7 +1,7 @@
 import axios from "axios";
 import { bot } from "../app";
 import { botLogger } from "./logger";
-import { File } from 'typegram'
+import { File } from "typegram";
 
 export default async function base64Data(photo: File | { file_id: string }) {
   try {
@@ -9,7 +9,7 @@ export default async function base64Data(photo: File | { file_id: string }) {
       responseType: "arraybuffer",
     });
 
-    return Buffer.from(buffer.data, "binary").toString("base64")
+    return Buffer.from(buffer.data, "binary").toString("base64");
   } catch (err) {
     botLogger.error(`base64Decoder error:`, err.stack);
   }

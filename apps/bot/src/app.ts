@@ -26,7 +26,7 @@ bot.on("photo", photoEvent);
 async function bootstrap() {
   try {
     const connectionOptions = await getConnectionOptions();
-    await setupMinio()
+    await setupMinio();
     await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
     await loadCommands();
     await bot.launch();

@@ -81,9 +81,12 @@ export class CollectionsService {
 
       return {
         collection,
-        uploads: uploads.map(u => ({ ...u, fileUrl: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET || 'uploads'}/${u.filePath}` })),
+        uploads: uploads.map((u) => ({
+          ...u,
+          fileUrl: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET || "uploads"}/${u.filePath}`,
+        })),
         total,
-      }
+      };
     } catch (err) {
       apiLogger.error(`Collection service error:`, err.stack);
     }

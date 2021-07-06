@@ -1,4 +1,16 @@
-import { CacheInterceptor, Controller, ForbiddenException, Get, Param, Query, Req, Res, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+  CacheInterceptor,
+  Controller,
+  ForbiddenException,
+  Get,
+  Param,
+  Query,
+  Req,
+  Res,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
 import { GetCollectionImages } from "./validations/getCollectionImages";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -21,10 +33,10 @@ export class CollectionsController {
   async getCollection(@Param("id") id: string, @Req() { session }: FastifyRequest) {
     try {
       const collection = await this.service.getCollection(id);
-      if (!collection.isPublic && session?.get('user')?.id !== collection.userID.toString()) {
-        throw new ForbiddenException(`Collection with ID ${id} is private`)
+      if (!collection.isPublic && session?.get("user")?.id !== collection.userID.toString()) {
+        throw new ForbiddenException(`Collection with ID ${id} is private`);
       } else {
-        return collection
+        return collection;
       }
     } catch (err) {
       apiLogger.error(`Collection controller error:`, err.stack);
@@ -51,23 +63,23 @@ export class CollectionsController {
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(
     @Query() query: GetCollectionImages,
-    @Param("id") id: string, 
+    @Param("id") id: string,
     @Res() res: FastifyReply,
-    @Req() { session }: FastifyRequest
-   ) {
+    @Req() { session }: FastifyRequest,
+  ) {
     try {
       const { uploads, total, collection } = await this.service.getCollectionImages(id, query);
 
-      if (!collection.isPublic && session?.get('user')?.id !== collection.userID.toString()) {
-        throw new ForbiddenException(`Collection with ID ${id} is private`)
+      if (!collection.isPublic && session?.get("user")?.id !== collection.userID.toString()) {
+        throw new ForbiddenException(`Collection with ID ${id} is private`);
       } else {
         res.headers({
           total,
         });
-  
+
         const lastPage = Math.ceil((total as any) / query.limit);
         const isNext = parseInt(query.page++ as any) > lastPage - 1 ? false : true;
-  
+
         res.send({ nextPage: isNext, data: uploads });
       }
     } catch (err) {
