@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, AfterInsert, AfterLoad, AfterUpdate } from "typeorm";
 import { Collection } from "./Collection";
 
 @Entity()
@@ -16,9 +16,18 @@ export class Upload {
   @Column("text")
   fileID: string;
 
-  @ApiProperty({ example: "data:image/jpeg;base64,/qwertyuiop" })
-  @Column("text", { nullable: true })
-  data: string;
+  @ApiProperty({ example: 'coolImage.jpg' })
+  @Column('varchar', { nullable: true })
+  fileName: string
+
+  filePath?: string
+
+  @AfterLoad()
+  @AfterInsert()
+  @AfterUpdate()
+  generateMainPath(): void {
+    this.filePath = `${this.userID}/${this.fileName}`
+  }
 
   @ApiProperty({ example: Collection, type: () => Collection })
   @ManyToOne(() => Collection, (collection) => collection.uploads, {

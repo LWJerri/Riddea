@@ -7,7 +7,7 @@ import "source-map-support/register";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";
-import { createConnection, getConnectionOptions } from "typeorm";
+import { createConnection, getConnectionOptions, getRepository } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
 import { getMicroserverApp, microserviceInit } from "./api";
@@ -15,6 +15,7 @@ import photoEvent from "./events/photo";
 
 import * as typeormEntitites from "@riddea/typeorm";
 import { botLogger } from "./helpers/logger";
+import { setupMinio } from "./libs/s3";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -25,6 +26,7 @@ bot.on("photo", photoEvent);
 async function bootstrap() {
   try {
     const connectionOptions = await getConnectionOptions();
+    await setupMinio()
     await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
     await loadCommands();
     await bot.launch();
@@ -40,7 +42,7 @@ bootstrap();
 
 async function shutDownServices() {
   bot.stop();
-  await getMicroserverApp().close();
+  await getMicroserverApp()?.close();
   process.exit(0);
 }
 

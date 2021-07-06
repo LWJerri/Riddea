@@ -13,6 +13,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
+    hmr: process.env.VITE_HMR === 'true'
   },
   optimizeDeps: { exclude: ["svelte-routing"] },
 });

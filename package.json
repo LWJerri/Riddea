@@ -31,8 +31,11 @@
     "dev:bot": "lerna exec yarn dev --scope=@riddea/bot",
     "dev:api": "lerna exec yarn dev --scope=@riddea/api",
     "dev:web": "lerna exec yarn dev --scope=@riddea/web",
+    "build:typeorm": "lerna exec yarn build --scope=@riddea/typeorm",
     "prepare": "husky install",
+    "premigration:run": "yarn build:typeorm",
     "migration:run": "typeorm migration:run",
+    "premigration:generate": "yarn build:typeorm",
     "migration:generate": "typeorm migration:generate -n"
   },
   "devDependencies": {
