@@ -3,6 +3,7 @@ import {
   Controller,
   ForbiddenException,
   Get,
+  NotFoundException,
   Param,
   Query,
   Req,
@@ -33,6 +34,10 @@ export class CollectionsController {
   async getCollection(@Param("id") id: string, @Req() { session }: FastifyRequest) {
     try {
       const collection = await this.service.getCollection(id);
+      if (!collection) {
+        throw new NotFoundException(`Collection with ID ${id} not found`);
+      }
+
       if (!collection.isPublic && session?.get("user")?.id !== collection.userID.toString()) {
         throw new ForbiddenException(`Collection with ID ${id} is private`);
       } else {
@@ -40,6 +45,7 @@ export class CollectionsController {
       }
     } catch (err) {
       apiLogger.error(`Collection controller error:`, err.stack);
+      return err;
     }
   }
 
@@ -84,6 +90,7 @@ export class CollectionsController {
       }
     } catch (err) {
       apiLogger.error(`Collection controller error:`, err.stack);
+      return err;
     }
   }
 }
