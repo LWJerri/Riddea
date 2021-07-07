@@ -26,11 +26,15 @@ export const waifyPicsApi = async (opts = { method: "GET", amount: 1 } as WaifyP
 
   return result
     .filter((image) => {
-      const correctEndpoint = ignoreEndpoints.includes(opts.endPoint);
-      const correctFileType = fileTypes.includes(extname(image.config.url).replaceAll(".", ""));
+      let correctFileType = false;
+
+      ignoreEndpoints.includes(opts.endPoint)
+        ? (correctFileType = true)
+        : (correctFileType = fileTypes.includes(extname(image.config.url).replaceAll(".", "")));
+
       const fileSize = Number(image.headers["content-length"]) / Math.pow(1024, 2);
 
-      return correctFileType && fileSize < 5 && correctEndpoint;
+      return correctFileType && fileSize <= 5;
     })
     .map((image) => image.config.url);
 };

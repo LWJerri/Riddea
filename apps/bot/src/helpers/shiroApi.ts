@@ -32,7 +32,7 @@ export const shiroApi = async (opts = { method: "GET", amount: 1 } as ShiroOpts)
       const correctFileType = fileTypes.includes(extname(image.config.url).replaceAll(".", ""));
       const fileSize = Number(image.headers["content-length"]) / Math.pow(1024, 2);
 
-      return correctFileType && fileSize < 5;
+      return correctFileType && fileSize <= 5;
     })
     .map((image) => image.config.url);
 };
