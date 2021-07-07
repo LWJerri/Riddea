@@ -5,8 +5,8 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "images",
-      collectUsage: false,
-      description: "View all your uploaded images",
+      collectUsage: true,
+      description: "Display all your uploaded images",
     });
   }
 

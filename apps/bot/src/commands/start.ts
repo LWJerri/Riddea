@@ -5,7 +5,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "start",
-      collectUsage: false,
+      collectUsage: true,
       description: "Display start menu",
     });
   }

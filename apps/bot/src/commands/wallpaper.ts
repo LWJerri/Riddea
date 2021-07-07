@@ -7,7 +7,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "wallpaper",
-      description: "Send wallpaper image",
+      description: "Send wallpaper images",
       collectUsage: true,
       actions: [
         {

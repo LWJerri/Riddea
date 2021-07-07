@@ -9,8 +9,8 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "collections",
-      description: "List of your collections",
-      collectUsage: false,
+      description: "Display list of all your collections",
+      collectUsage: true,
       actions: [
         {
           callback: "COLLECTION_LIST",

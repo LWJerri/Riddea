@@ -6,7 +6,7 @@ import { ContextCallbackWithData } from "../typings/telegraf";
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Send anime pictures for avatar",
+      description: "Find best anime picture for your avatar",
       collectUsage: true,
       name: "avatar",
       actions: [

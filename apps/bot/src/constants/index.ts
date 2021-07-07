@@ -2,7 +2,7 @@ import { RateLimiter } from "@riddea/telegraf-rate-limiter";
 
 export const fileTypes = ["png", "jpg", "jpeg"];
 export const ignoreEndpoints = ["nsfw/blowjob"];
-export const sponsors = [
+export const partners = [
   {
     name: "Хентай библиотека",
     url: "https://vk.com/libraryhentai",

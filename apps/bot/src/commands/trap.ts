@@ -9,7 +9,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "trap",
-      description: "Send trap images",
+      description: "[NSFW]: Send trap images",
       collectUsage: true,
       actions: [
         {

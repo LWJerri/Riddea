@@ -8,7 +8,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "neko",
-      description: "Send neko image",
+      description: "[NSFW]: Send neko images",
       collectUsage: true,
       actions: [
         {

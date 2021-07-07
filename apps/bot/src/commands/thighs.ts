@@ -8,7 +8,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "thighs",
-      description: "[NSFW]: Send thighs image",
+      description: "[NSFW]: Send thighs images",
       collectUsage: true,
       actions: [{ name: "Shiro Service", callback: "NEW_THIGHS_SHIRO" }],
     });

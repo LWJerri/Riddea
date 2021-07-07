@@ -4,8 +4,8 @@ import { CommandInterface } from "./_interface";
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Display bot help menu",
-      collectUsage: false,
+      description: "Display help menu",
+      collectUsage: true,
       name: "help",
       actions: [{ callback: "SEND_HELPMENU" }],
     });
@@ -13,7 +13,7 @@ export default class extends CommandInterface {
 
   async run(ctx: Context) {
     const keyboard = Markup.inlineKeyboard([
-      [{ text: "Sponsors", callback_data: "SEND_SPONSORS" }],
+      [{ text: "Partners", callback_data: "SEND_PARTNERS" }],
       [
         {
           text: "GitHub",
