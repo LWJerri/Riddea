@@ -5,7 +5,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       description: "Display help menu",
-      collectUsage: true,
+      collectUsage: false,
       name: "help",
       actions: [{ callback: "SEND_HELPMENU" }],
     });

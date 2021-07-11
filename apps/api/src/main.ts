@@ -57,11 +57,10 @@ async function bootstrap() {
 }
 bootstrap();
 
-process.on("SIGTERM", () => {
+async function shutDownAPI() {
   app.close();
   process.exit(0);
-});
-process.on("SIGINT", () => {
-  app.close();
-  process.exit(0);
-});
+}
+
+process.on("SIGTERM", () => shutDownAPI());
+process.on("SIGINT", () => shutDownAPI());

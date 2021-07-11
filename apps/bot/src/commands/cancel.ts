@@ -5,7 +5,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       description: "Cancel any stage you entered",
-      collectUsage: true,
+      collectUsage: false,
       name: "cancel",
     });
   }

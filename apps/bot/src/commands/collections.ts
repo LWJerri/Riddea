@@ -10,7 +10,7 @@ export default class extends CommandInterface {
     super({
       name: "collections",
       description: "Display list of all your collections",
-      collectUsage: true,
+      collectUsage: false,
       actions: [
         {
           callback: "COLLECTION_LIST",

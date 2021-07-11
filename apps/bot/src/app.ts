@@ -7,7 +7,7 @@ import "source-map-support/register";
 import "reflect-metadata";
 import { Scenes, session, Telegraf } from "telegraf";
 import readyEvent from "./events/ready";
-import { createConnection, getConnectionOptions, getRepository } from "typeorm";
+import { createConnection, getConnectionOptions } from "typeorm";
 import { loadCommands } from "./helpers/loadCommands";
 import { stage } from "./constants/stages";
 import { getMicroserverApp, microserviceInit } from "./api";
@@ -45,6 +45,10 @@ async function shutDownServices() {
   await getMicroserverApp()?.close();
   process.exit(0);
 }
+
+bot.catch((err: Error) => {
+  botLogger.error(`Main app error:`, err.stack);
+});
 
 process.on("SIGINT", () => shutDownServices());
 process.on("SIGTERM", () => shutDownServices());

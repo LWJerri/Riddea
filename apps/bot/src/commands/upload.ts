@@ -6,7 +6,7 @@ export default class extends CommandInterface {
     super({
       name: "upload",
       description: "Upload your favorite picture",
-      collectUsage: true,
+      collectUsage: false,
     });
   }
 
