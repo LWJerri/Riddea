@@ -11,6 +11,9 @@
     "build": "tsc --build",
     "clean": "rimraf dist"
   },
+  "engines": {
+    "node": ">= 12"
+  },
   "devDependencies": {
     "typescript": "^4.1.3"
   }

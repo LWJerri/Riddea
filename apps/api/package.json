@@ -13,6 +13,9 @@
     "migration:run": "typeorm migration:run",
     "start:debug": "nest start --debug --watch"
   },
+  "engines": {
+    "node": ">= 12"
+  },
   "dependencies": {
     "@mgcrea/fastify-session": "^0.14.1",
     "@nestjs/common": "^7.6.15",
