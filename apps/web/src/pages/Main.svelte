@@ -9,7 +9,7 @@
   <div class="product">
     <img src={Logo} alt="BOT_LOGO" />
     <h1>RIDDEA</h1>
-    <p>Telegram bot for view random anime images and uploads your custom images.</p>
+    <p>Telegram bot for view random anime images and uploads your custom images</p>
     <a href="https://t.me/riddea_bot" target="_blank">START!</a>
   </div>
 </div>
