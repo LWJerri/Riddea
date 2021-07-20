@@ -1,8 +1,8 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-import { Callback } from "../constants";
 import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { ContextCallbackWithData } from "../typings/telegraf";
 
 export default class extends CommandInterface {
   constructor() {
@@ -10,15 +10,17 @@ export default class extends CommandInterface {
       name: "hentai",
       description: "[NSFW]: Send hentai images",
       collectUsage: true,
-      actionsName: ["Shiro Service", "WaifyPics Service"],
-      actions: ["NEW_HENTAI_SHIRO", "NEW_HENTAI_WAIFYPICS"],
+      actions: [
+        { name: "Shiro Service", callback: "NEW_HENTAI_SHIRO" },
+        { name: "WaifyPics Service", callback: "NEW_HENTAI_WAIFYPICS" },
+      ],
     });
   }
 
-  async run(ctx: Context) {
-    const CBData = ctx.callbackQuery ? (ctx.callbackQuery as Callback).data : undefined;
+  async run(ctx: ContextCallbackWithData) {
+    const CBData = ctx.callbackQuery?.data;
     const keyboard = Markup.inlineKeyboard(
-      this.actions.map((x, i) => Markup.button.callback(this.actionsName[i], x)),
+      this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 

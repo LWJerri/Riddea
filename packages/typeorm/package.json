@@ -12,6 +12,9 @@
     "clean": "rimraf dist",
     "dev": "tsc -b --watch"
   },
+  "engines": {
+    "node": ">= 12"
+  },
   "devDependencies": {
     "typescript": "^4.1.3"
   },

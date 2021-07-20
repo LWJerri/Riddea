@@ -1,12 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumberString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNumberString, Max, Min } from "class-validator";
 
 export class GetCollectionImages {
   @ApiProperty()
-  @IsNumberString()
+  @Min(1)
+  @Type(() => Number)
   page: number = 1;
 
   @ApiProperty()
-  @IsNumberString()
-  limit: number = 20;
+  @Min(1)
+  @Max(100)
+  @Type(() => Number)
+  limit: number = 100;
 }

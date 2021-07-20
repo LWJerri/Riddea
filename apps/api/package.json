@@ -1,6 +1,6 @@
 {
   "name": "@riddea/api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "main": "dist/main",
   "types": "dist/main",
@@ -12,6 +12,9 @@
     "dev": "nest start --watch",
     "migration:run": "typeorm migration:run",
     "start:debug": "nest start --debug --watch"
+  },
+  "engines": {
+    "node": ">= 12"
   },
   "dependencies": {
     "@mgcrea/fastify-session": "^0.14.1",

@@ -14,8 +14,8 @@ export default class extends CommandInterface {
     super({
       name: "status",
       description: "Send bot statistic",
-      collectUsage: true,
-      actions: ["SEND_STATISTIC"],
+      collectUsage: false,
+      actions: [{ callback: "SEND_STATISTIC" }],
     });
   }
 

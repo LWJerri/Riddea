@@ -27,14 +27,6 @@
     document.location.href = `/collection/${id}?page=1`;
   }
 
-  function openIMG(image: string) {
-    var images = new Image();
-
-    images.src = image;
-    var _window = window.open("");
-    _window.document.write(images.outerHTML);
-  }
-
   onMount(() => {
     fetchData();
   });
@@ -53,7 +45,7 @@
 
     <div class="collection-photo-box">
       {#each images as image}
-        <button on:click={() => openIMG(image.data)}><img class="collection-photo" src={image.data} alt="COLLECTION_PHOTO" /></button>
+        <a href={"https://" + image.fileUrl} target="_blank"><img class="collection-photo" src={"https://" + image.fileUrl} alt="COLLECTION_PHOTO" /></a>
       {/each}
     </div>
 
@@ -131,7 +123,7 @@
     justify-content: center;
   }
 
-  .collection-photo-box button {
+  .collection-photo-box a {
     background-color: Transparent;
     background-repeat: no-repeat;
     border: none;

@@ -8,8 +8,8 @@ export class Session {
   id: string;
 
   @Index()
-  @Column("bigint", { default: Date.now() })
-  expireAt: number;
+  @Column("timestamp with time zone", { default: () => "CURRENT_TIMESTAMP" })
+  expireAt: Date;
 
   @Index()
   @Column("varchar")

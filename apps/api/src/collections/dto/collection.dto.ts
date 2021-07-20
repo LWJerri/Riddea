@@ -9,5 +9,5 @@ export class CollectionUploadsDTO {
   nextPage: boolean;
 
   @ApiProperty({ type: UploadsDTO, isArray: true })
-  data: Upload[];
+  data: Upload & { fileUrl: string }[];
 }

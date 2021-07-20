@@ -1,6 +1,5 @@
 import { Session } from "@mgcrea/fastify-session";
-import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Collection, Upload } from "@riddea/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
@@ -20,10 +19,6 @@ export class CollectionsService {
 
       if (!collection) {
         throw new NotFoundException(`Collection with ID ${id} not found.`);
-      }
-
-      if (!collection.isPublic) {
-        throw new ForbiddenException(`Collection with ID ${id} is private`);
       }
 
       return collection;
@@ -57,7 +52,7 @@ export class CollectionsService {
             collection: {
               id,
             },
-            data: Not(IsNull()),
+            fileName: Not(IsNull()),
           },
           take: Number(query.limit),
           skip: Number(query.limit) * (Number(query.page) - 1),
@@ -71,7 +66,7 @@ export class CollectionsService {
             collection: {
               id,
             },
-            data: Not(IsNull()),
+            fileName: Not(IsNull()),
           },
         }),
       ]);
@@ -84,7 +79,14 @@ export class CollectionsService {
         throw new ForbiddenException(`Collection with ID ${id} is private`);
       }
 
-      return [uploads, total];
+      return {
+        collection,
+        uploads: uploads.map((u) => ({
+          ...u,
+          fileUrl: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET || "uploads"}/${u.filePath}`,
+        })),
+        total,
+      };
     } catch (err) {
       apiLogger.error(`Collection service error:`, err.stack);
     }

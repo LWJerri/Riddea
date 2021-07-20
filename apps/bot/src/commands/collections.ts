@@ -9,9 +9,13 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "collections",
-      description: "List of your collections",
-      collectUsage: true,
-      actions: ["COLLECTION_LIST"],
+      description: "Display list of all your collections",
+      collectUsage: false,
+      actions: [
+        {
+          callback: "COLLECTION_LIST",
+        },
+      ],
     });
     this.init();
   }
