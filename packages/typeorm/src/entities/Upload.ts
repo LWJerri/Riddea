@@ -14,15 +14,15 @@ import { Collection } from "./Collection";
 
 @Entity()
 export class Upload {
-  @ApiProperty({ example: 1234567890 })
+  @ApiProperty({ example: 1000 })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 1234567890 })
+  @ApiProperty({ example: 1000 })
   @Column()
   userID: number;
 
-  @ApiProperty({ example: "qwertyuiopasdfghjklzxcvbnm" })
+  @ApiProperty({ example: "qwerty123" })
   @Column("text")
   fileID: string;
 

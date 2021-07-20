@@ -8,7 +8,7 @@ export class Collection {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 1234567890 })
+  @ApiProperty({ example: 1000 })
   @Column()
   userID: number;
 
