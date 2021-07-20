@@ -16,7 +16,7 @@
   "engines": {
     "node": ">= 12"
   },
-  "repository": "https://github.com/LWJerri/Riddea",
+  "repository": "https://github.com/Riddea/Riddea",
   "author": "LWJerri (lwjerri.js.org)",
   "license": "MIT",
   "scripts": {
