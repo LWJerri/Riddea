@@ -15,7 +15,7 @@
     data-auth-url={authUrl}
     data-request-access="write"></script>
 {:else if !$statsStore.botInfo?.username}
-<!-- Connection to bot is not exists, so we just skiping login button-->
+  <!-- Connection to bot is not exists, so we just skiping login button -->
 {:else}
   <a href="/user/{$userStore.id}"><img class="user-btn" src={$userStore.photo_url} alt="USER_LOGO" /></a>
 {/if}
