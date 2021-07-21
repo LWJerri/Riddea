@@ -12,7 +12,7 @@ export default class extends CommandInterface {
       name: "avatar",
       actions: [
         {
-          name: i18n.translate("shiroService"),
+          name: "Shiro Service",
           callback: "NEW_AVATAR_SHIRO",
         },
       ],

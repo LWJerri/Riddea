@@ -13,11 +13,11 @@ export default class extends CommandInterface {
       collectUsage: true,
       actions: [
         {
-          name: i18n.translate("shiroService"),
+          name: "Shiro Service",
           callback: "NEW_TRAP_SHIRO",
         },
         {
-          name: `${i18n.translate("waifuPicsService")} [NSFW]`,
+          name: `${"WaifuPics Service"} [NSFW]`,
           callback: "NEW_TRAP_WAIFUPICS",
         },
       ],

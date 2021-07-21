@@ -12,7 +12,7 @@ export default class extends CommandInterface {
       name: "megumin",
       actions: [
         {
-          name: i18n.translate("waifuPicsService"),
+          name: "WaifuPics Service",
           callback: "NEW_MEGUMIN_WAIFUPICS",
         },
       ],

@@ -12,7 +12,7 @@ export default class extends CommandInterface {
       collectUsage: true,
       actions: [
         {
-          name: i18n.translate("shiroService"),
+          name: "Shiro Service",
           callback: "NEW_WALLPAPER_SHIRO",
         },
       ],

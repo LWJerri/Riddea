@@ -10,7 +10,7 @@ export default class extends CommandInterface {
       name: "thighs",
       description: "[NSFW]: Send thighs images",
       collectUsage: true,
-      actions: [{ name: i18n.translate("shiroService"), callback: "NEW_THIGHS_SHIRO" }],
+      actions: [{ name: "Shiro Service", callback: "NEW_THIGHS_SHIRO" }],
     });
   }
 
