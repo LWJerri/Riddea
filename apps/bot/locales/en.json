@@ -33,8 +33,6 @@
   "helpMenu": "Help menu",
   "statistics": "Statistics",
   "settings": "Settings",
-  "shiroService": "Shiro Service",
-  "waifuPicsService": "WaifuPics Service",
   "commandStats": "COMMANDS STATS",
   "commandInfo": "> /{{ command }} used {{ uses }} times.",
   "uploadStats": "UPLOADS STATS",
