@@ -1,9 +1,9 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-
-import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
@@ -13,12 +13,12 @@ export default class extends CommandInterface {
       collectUsage: true,
       actions: [
         {
-          name: "Shiro Service",
+          name: i18n.translate("shiroService"),
           callback: "NEW_TRAP_SHIRO",
         },
         {
-          name: "WaifyPics Service (NSFW)",
-          callback: "NEW_TRAP_WAIFYPICS",
+          name: `${i18n.translate("waifuPicsService")} [NSFW]`,
+          callback: "NEW_TRAP_WAIFUPICS",
         },
       ],
     });
@@ -44,8 +44,8 @@ export default class extends CommandInterface {
       );
     }
 
-    if (CBData == "NEW_TRAP_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "nsfw/trap", amount: 10 });
+    if (CBData == "NEW_TRAP_WAIFUPICS") {
+      const images = await waifuPicsApi({ endPoint: "nsfw/trap", amount: 10 });
 
       await ctx.replyWithMediaGroup(
         images.map((image) => {
@@ -57,6 +57,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply("Do you like to see more trap images?", keyboard);
+    await ctx.reply(i18n.translate("newPackTrap"), keyboard);
   }
 }
