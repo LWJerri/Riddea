@@ -6,6 +6,7 @@ import { botLogger } from "../helpers/logger";
 import { File, Message } from "typegram";
 import { uploadFile } from "../libs/s3";
 import { bot } from "../app";
+import i18n from "../helpers/localization";
 
 async function getKeyboard(ctx: Context) {
   try {
@@ -17,7 +18,7 @@ async function getKeyboard(ctx: Context) {
     const collectionsList = collections.map((c) =>
       Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
     );
-    collectionsList.push({ text: "SKIP", callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
+    collectionsList.push({ text: i18n.translate("skip"), callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
 
     const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
 
@@ -30,7 +31,7 @@ async function getKeyboard(ctx: Context) {
 export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
   .enter((ctx) => {
     try {
-      ctx.reply(`Nya, send me your image!`);
+      ctx.reply(i18n.translate("sendImage"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }
@@ -52,9 +53,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
 
       await saveAndUploadPhoto({ collectionId: id, photo, userID: ctx.from.id });
 
-      await ctx.reply(
-        `Your image loaded to database in ${collectionName} collection! Type /cancel if you don't want upload pictures anymore.`,
-      );
+      await ctx.reply(i18n.translate("newImageCollection", { name: collectionName }));
       await ctx.deleteMessage(ctx.message);
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
@@ -69,7 +68,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
 
       await saveAndUploadPhoto({ photo, userID: ctx.from.id });
 
-      await ctx.reply(`Your image loaded to database but not added to collection! Type /cancel if you don't want upload pictures anymore.`);
+      await ctx.reply(i18n.translate("newImageNoCollection"));
       await ctx.deleteMessage(ctx.message);
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
@@ -78,14 +77,14 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
   .command("cancel", async (ctx) => {
     try {
       await ctx.scene.leave();
-      await ctx.reply("You leave from upload image section!");
+      await ctx.reply(i18n.translate("leaveScene"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }
   })
   .on("message", async (ctx) => {
     try {
-      await ctx.reply(`If you don't want upload image, type /cancel!`);
+      await ctx.reply(i18n.translate("newImageLeave"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }

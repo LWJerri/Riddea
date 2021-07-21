@@ -2,6 +2,7 @@ import { Scenes } from "telegraf";
 import { getRepository } from "typeorm";
 import { Collection } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
+import i18n from "../helpers/localization";
 
 interface NewCollectionScene extends Scenes.SceneSessionData {
   collectionName: string;
@@ -14,13 +15,13 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
       const collNumber = await repository.count({ userID: ctx.from.id });
 
       if (collNumber >= 50) {
-        await ctx.reply("Oops! You can't have more then 50 collections :/");
+        await ctx.reply(i18n.translate("collectionLimit"));
         await ctx.scene.leave();
 
         return;
       }
 
-      ctx.reply("Enter the name of new collection");
+      ctx.reply(i18n.translate("collectionName"));
     } catch (err) {
       botLogger.error(`Scene newCollection error:`, err.stack);
     }
@@ -28,7 +29,7 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
   .command("cancel", async (ctx) => {
     try {
       await ctx.scene.leave();
-      await ctx.reply("You leave from createCollection section!");
+      await ctx.reply(i18n.translate("collectionLeave"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }
@@ -36,7 +37,7 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
   .on("text", async (ctx) => {
     try {
       if (ctx.message.text.length > 15) {
-        return ctx.reply(`Oops! Collection name can be more than 15 symbols!`);
+        return ctx.reply(i18n.translate("collectionNameLimit"));
       }
 
       const repository = getRepository(Collection);
@@ -45,9 +46,7 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
         name: ctx.message.text,
       });
 
-      if (isExists) {
-        return ctx.reply(`Collection with name ${isExists.name} already exists. Please, enter another name.`);
-      }
+      if (isExists) return ctx.reply(i18n.translate("collectionFound", { name: isExists.name }));
 
       await repository.save({
         name: ctx.message.text,
@@ -64,9 +63,8 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
   })
   .leave(async (ctx) => {
     try {
-      if (ctx.scene.session.collectionName) {
-        await ctx.reply(`Collection with name ${ctx.scene.session.collectionName} created`);
-      }
+      if (ctx.scene.session.collectionName)
+        return await ctx.reply(i18n.translate("collectionCreated", { name: ctx.scene.session.collectionName }));
     } catch (err) {
       botLogger.error(`Scene newCollection error:`, err.stack);
     }

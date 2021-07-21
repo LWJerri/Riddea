@@ -11,9 +11,6 @@ export const partners = [
     name: "Не смотри, бака! (anime arts)",
     url: "https://vk.com/moushiwake",
   },
-  {
-    name: "aestheticsJPG",
-    url: "https://t.me/aestheticsJPG",
-  },
 ];
+
 export const cmdLimiter = new RateLimiter(1, 5000);

@@ -1,11 +1,12 @@
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
-import { Statistic } from "@riddea/typeorm";
+import { Statistic, User } from "@riddea/typeorm";
 import { Upload } from "@riddea/typeorm";
 import humanize from "humanize-duration";
 import { resolve } from "path";
 import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
+import i18n from "../helpers/localization";
 
 const pkg = require(resolve(process.cwd(), "package.json"));
 
@@ -20,9 +21,11 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
+    const userLang = (await getRepository(User).findOne({ userID: ctx.from.id })).lang;
+
     const uptime = humanize(Math.floor(process.uptime()) * 1000, {
       round: true,
-      language: "en",
+      language: userLang,
     });
 
     const statisticRepository = getRepository(Statistic);
@@ -41,11 +44,15 @@ export default class extends CommandInterface {
       return [...prev, [[current], stats[index]]];
     }, []);
 
-    const message = `\n\nCOMMANDS STATS:\n ${commandsStats
-      .map((command) => `> /${command[0]} used ${command[1]} times.`)
-      .join("\n")}\n\nUPLOADS STATS:\nUploaded ${await getRepository(Upload).count()} images!\n\nBOT INFO:\nBot username: ${
-      ctx.botInfo.username
-    }\nBot ID: ${ctx.botInfo.id}\nVersion: ${pkg.version}\nUptime: ${uptime}`;
+    const cmdStats = commandsStats.map((command) => i18n.translate("commandInfo", { command: command[0], uses: command[1] })).join("\n");
+    const uploadStats = await getRepository(Upload).count();
+
+    const message = `\n\n${i18n.translate("commandStats")}:\n${cmdStats}\n\n${i18n.translate("uploadStats")}:\n${i18n.translate(
+      "uploadInfo",
+      { count: uploadStats },
+    )}\n\n${i18n.translate("botInfo")}:\n${i18n.translate("botUsername", { username: ctx.botInfo.username })}\n${i18n.translate("botID", {
+      id: ctx.botInfo.id,
+    })}\n${i18n.translate("botVersion", { version: pkg.version })}\n${i18n.translate("botUptime", { uptime: uptime })}`;
 
     await ctx.reply(message);
   }

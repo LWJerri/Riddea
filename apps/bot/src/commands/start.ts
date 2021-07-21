@@ -1,4 +1,5 @@
-import { Context, Markup } from "telegraf";
+import { Context } from "telegraf";
+import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -17,11 +18,11 @@ export default class extends CommandInterface {
         inline_keyboard: [
           [
             {
-              text: "Help menu",
+              text: i18n.translate("helpMenu"),
               callback_data: "SEND_HELPMENU",
             },
             {
-              text: "Statistics",
+              text: i18n.translate("statistics"),
               callback_data: "SEND_STATISTIC",
             },
             {
@@ -29,15 +30,12 @@ export default class extends CommandInterface {
               url: "https://github.com/Riddea",
             },
           ],
+          [{ text: i18n.translate("settings"), callback_data: "USER_SETTINGS" }],
         ],
       },
     };
 
-    await ctx.reply(`Wuup! Hello, ${ctx.message.from.first_name} ＼(°o°)／`);
-
-    await ctx.replyWithMarkdown(
-      `This bot provides a function for view random anime images and uploads your custom images. You can use command /help to view list of all commands or use the buttons to navigate on the bot.\nDeveloped by [LWJerri](https://github.com/LWJerri)\nBig thanks to [Satont](https://github.com/Satont)\n\nNOTE: This bot have NSFW commands, check your room to stay in a safety ;)`,
-      keyboard,
-    );
+    await ctx.reply(i18n.translate("firstStartMessage", { user: ctx.from.first_name }));
+    await ctx.replyWithMarkdown(i18n.translate("secondStartMessage"), keyboard);
   }
 }

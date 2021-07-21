@@ -9,6 +9,7 @@ This Telegram bot was developed for viewing various anime content, including NSF
 - You need Node.js v12 or high.
 - You need to have a PSQL database.
 - Token from Telegram bot.
+- S3 server.
 - Yarn installed.
 
 ### Installing

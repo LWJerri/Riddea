@@ -10,16 +10,12 @@ export async function loadCommands() {
   const commandsDirPath = resolve(__dirname, "..", "commands");
   const cmds = (await fs.readdir(commandsDirPath, { withFileTypes: true }))
     .map((f) => f.name)
-    .filter((name) => !name.includes("index") && !name.includes(".d.ts") && !name.includes("_interface"));
+    .filter((name) => !name.includes(".d.ts") && !name.includes("_interface"));
 
   for (const commandPath of cmds) {
     const command: CommandInterface = new ((await import(resolve(commandsDirPath, commandPath)))?.default)();
 
-    if (!command) {
-      botLogger.log(`[!]: Command ${commandPath} havent exported class, will not work!`);
-
-      return;
-    }
+    if (!command) return botLogger.log(`[!]: Command ${commandPath} havent exported class, will not work!`);
 
     try {
       bot.command(command.name, (ctx) => command.execute(ctx));
@@ -34,7 +30,8 @@ export async function loadCommands() {
           (ctx as any).isAction = true;
           command.execute(ctx);
         });
-        botLogger.log(`[ACTIONS]: Action ${command.name}[${action.name ? action.name + "|" : ""}${action.callback}] loaded`);
+
+        botLogger.log(`[ACTIONS]: Action ${command.name} [${action.name ? action.name + " | " : ""}${action.callback}] loaded`);
       }
     }
 

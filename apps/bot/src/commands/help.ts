@@ -1,4 +1,5 @@
 import { Context, Markup } from "telegraf";
+import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -13,22 +14,22 @@ export default class extends CommandInterface {
 
   async run(ctx: Context) {
     const keyboard = Markup.inlineKeyboard([
-      [{ text: "Partners", callback_data: "SEND_PARTNERS" }],
       [
         {
           text: "GitHub",
           url: "https://github.com/Riddea",
         },
         {
-          text: "Support me",
+          text: i18n.translate("support"),
           url: "https://www.donationalerts.com/r/lwjerri",
+        },
+        {
+          text: i18n.translate("partners"),
+          callback_data: "SEND_PARTNERS",
         },
       ],
     ]);
 
-    await ctx.reply(
-      `Yo! Type / for view list of all bot commands.\n\nNOTE: If you wanna upload picture, you need send this picture to bot without commands, compression, and etc. Also you can forward picture from other chat :3`,
-      keyboard,
-    );
+    await ctx.reply(i18n.translate("helpMenuMessage"), keyboard);
   }
 }

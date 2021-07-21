@@ -1,18 +1,19 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
-import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "[NSFW]: Send blowjob pictures",
+      description: "[NSFW]: Send hentai blowjob video",
       collectUsage: true,
       name: "blowjob",
       actions: [
         {
-          name: "WaifyPics Service",
-          callback: "NEW_BLOWJOB_WAIFYPICS",
+          name: "WaifuPics Service",
+          callback: "NEW_BLOWJOB_WAIFUPICS",
         },
       ],
     });
@@ -25,12 +26,12 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    if (!CBData || CBData == "NEW_BLOWJOB_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
+    if (!CBData || CBData == "NEW_BLOWJOB_WAIFUPICS") {
+      const images = await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
 
       await ctx.replyWithVideo({ url: images[0] });
     }
 
-    await ctx.reply("Do you like to see more blowjob video?", keyboard);
+    await ctx.reply(i18n.translate("newPackBlowjob"), keyboard);
   }
 }

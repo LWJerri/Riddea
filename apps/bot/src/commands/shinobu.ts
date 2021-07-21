@@ -1,8 +1,8 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
-
-import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
@@ -12,8 +12,8 @@ export default class extends CommandInterface {
       name: "shinobu",
       actions: [
         {
-          name: "WaifyPics Service",
-          callback: "NEW_SHINOBU_WAIFYPICS",
+          name: "WaifuPics Service",
+          callback: "NEW_SHINOBU_WAIFUPICS",
         },
       ],
     });
@@ -26,8 +26,8 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    if (!CBData || CBData == "NEW_SHINOBU_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "sfw/shinobu", amount: 10 });
+    if (!CBData || CBData == "NEW_SHINOBU_WAIFUPICS") {
+      const images = await waifuPicsApi({ endPoint: "sfw/shinobu", amount: 10 });
 
       await ctx.replyWithMediaGroup(
         images.map((image) => {
@@ -39,6 +39,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply("Do you like to see more shinobu images?", keyboard);
+    await ctx.reply(i18n.translate("newPackShinobu"), keyboard);
   }
 }

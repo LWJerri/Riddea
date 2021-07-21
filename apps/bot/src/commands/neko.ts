@@ -1,8 +1,9 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-import { waifyPicsApi } from "../helpers/waifyPicsApi";
+import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
@@ -16,12 +17,12 @@ export default class extends CommandInterface {
           callback: "NEW_NEKO_SHIRO",
         },
         {
-          name: "WaifyPics Service",
-          callback: "NEW_NEKO_WAIFYPICS",
+          name: "WaifuPics Service",
+          callback: "NEW_NEKO_WAIFUPICS",
         },
         {
-          name: "WaifyPics Service (NSFW)",
-          callback: "NEW_NEKO_NSFW_WAIFYPICS",
+          name: `${"WaifuPics Service"} [NSFW]`,
+          callback: "NEW_NEKO_NSFW_WAIFUPICS",
         },
       ],
     });
@@ -47,8 +48,8 @@ export default class extends CommandInterface {
       );
     }
 
-    if (CBData == "NEW_NEKO_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "sfw/neko", amount: 10 });
+    if (CBData == "NEW_NEKO_WAIFUPICS") {
+      const images = await waifuPicsApi({ endPoint: "sfw/neko", amount: 10 });
 
       await ctx.replyWithMediaGroup(
         images.map((image) => {
@@ -60,8 +61,8 @@ export default class extends CommandInterface {
       );
     }
 
-    if (CBData == "NEW_NEKO_NSFW_WAIFYPICS") {
-      const images = await waifyPicsApi({ endPoint: "nsfw/neko", amount: 10 });
+    if (CBData == "NEW_NEKO_NSFW_WAIFUPICS") {
+      const images = await waifuPicsApi({ endPoint: "nsfw/neko", amount: 10 });
 
       await ctx.replyWithMediaGroup(
         images.map((image) => {
@@ -73,6 +74,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply("Do you like to see more neko images?", keyboard);
+    await ctx.reply(i18n.translate("newPackNeko"), keyboard);
   }
 }

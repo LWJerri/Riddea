@@ -22,7 +22,7 @@
 
 <style>
   :root {
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "Roboto", sans-serif;
     background-color: #23272a;
   }
 </style>

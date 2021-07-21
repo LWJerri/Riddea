@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { bot } from "../app";
 import { Collection } from "@riddea/typeorm";
 import { CommandInterface } from "./_interface";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   private repository = getRepository(Collection);
@@ -42,8 +43,9 @@ export default class extends CommandInterface {
       const collection = await this.repository.findOne({ id });
       collection.isPublic = !collection.isPublic;
       await this.repository.save(collection);
-      await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx));
+      await ctx.editMessageText(i18n.translate("listCollections"), await this.getKeyboard(ctx));
     });
+
     bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
       await ctx.answerCbQuery();
 
@@ -53,16 +55,17 @@ export default class extends CommandInterface {
         inline_keyboard: [
           [
             {
-              text: `Make ${collection.isPublic ? "private" : "public"}`,
+              text: i18n.translate("changePublicType", { type: collection.isPublic ? "private" : "public" }),
               callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
             },
           ],
-          [{ text: "Open in web", url: `https://riddea.ml/collection/${collection.id}` }],
-          [{ text: `Delete`, callback_data: `DELETE_COLLECTION_${collection.id}` }],
-          [{ text: `«`, callback_data: `COLLECTION_LIST` }],
+          [{ text: i18n.translate("openInWeb"), url: `https://riddea.ml/collection/${collection.id}` }],
+          [{ text: i18n.translate("delete"), callback_data: `DELETE_COLLECTION_${collection.id}` }],
+          [{ text: "«", callback_data: `COLLECTION_LIST` }],
         ],
       });
     });
+
     bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
       await ctx.answerCbQuery();
 
@@ -74,9 +77,9 @@ export default class extends CommandInterface {
 
   async run(ctx: Context) {
     if ((ctx as any).isAction) {
-      await ctx.editMessageText("List of your collections:", await this.getKeyboard(ctx));
+      await ctx.editMessageText(i18n.translate("listCollections"), await this.getKeyboard(ctx));
     } else {
-      await ctx.reply("List of your collections:", await this.getKeyboard(ctx));
+      await ctx.reply(i18n.translate("listCollections"), await this.getKeyboard(ctx));
     }
   }
 }
