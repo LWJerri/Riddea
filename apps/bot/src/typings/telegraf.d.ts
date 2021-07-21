@@ -19,4 +19,5 @@ declare module "telegraf" {
 
 export interface ContextCallbackWithData extends Context {
   callbackQuery?: CallbackQuery & { data?: string };
+  i18n: I18n;
 }
