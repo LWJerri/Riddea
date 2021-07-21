@@ -1,8 +1,8 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
-
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
@@ -10,7 +10,7 @@ export default class extends CommandInterface {
       name: "thighs",
       description: "[NSFW]: Send thighs images",
       collectUsage: true,
-      actions: [{ name: "Shiro Service", callback: "NEW_THIGHS_SHIRO" }],
+      actions: [{ name: i18n.translate("shiroService"), callback: "NEW_THIGHS_SHIRO" }],
     });
   }
 
@@ -34,6 +34,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply("Do you like to see more thighs images?", keyboard);
+    await ctx.reply(i18n.translate("newPackThighs"), keyboard);
   }
 }
