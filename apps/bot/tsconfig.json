@@ -2,13 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "typeRoots": ["./typings"],
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "resolveJsonModule": true
   },
   "references": [
     {
       "path": "../../packages/typeorm"
     }
   ],
-  "include": ["src"],
+  "include": ["src", "src/locales/*.json"],
   "exclude": ["node_modules", "dist"]
 }
