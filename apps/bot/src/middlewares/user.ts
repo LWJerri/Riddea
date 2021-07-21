@@ -8,9 +8,9 @@ export default async function userMiddleware(ctx: Context, next: Function) {
   if (user) {
     ctx.userEntity = user;
   } else {
-    if (!ctx.chat?.id) return null;
+    if (!ctx.from.id) return null;
 
-    ctx.userEntity = await repository.save({ userID: ctx.from.id });
+    ctx.userEntity = await repository.save({ userID: ctx.from.id, lang: "en" });
   }
 
   next();
