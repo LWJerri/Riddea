@@ -10,6 +10,6 @@
       "path": "../../packages/typeorm"
     }
   ],
-  "include": ["src", "src/locales/*.json"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

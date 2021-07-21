@@ -23,6 +23,7 @@ WORKDIR /service
 COPY package.json .
 COPY yarn.lock .
 COPY lerna.json .
+COPY locales/ locales/
 RUN yarn global add lerna@3.22.1
 
 # API
