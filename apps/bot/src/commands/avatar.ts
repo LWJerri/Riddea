@@ -2,16 +2,17 @@ import { shiroApi } from "../helpers/shiroApi";
 import { Markup } from "telegraf";
 import { CommandInterface } from "./_interface";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Find best anime picture for your avatar",
+      description: "Search best anime picture for your avatar",
       collectUsage: true,
       name: "avatar",
       actions: [
         {
-          name: "Shiro Service",
+          name: i18n.translate("shiroService"),
           callback: "NEW_AVATAR_SHIRO",
         },
       ],
@@ -38,6 +39,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply("Do you like to see more avatars images?", keyboard);
+    await ctx.reply(i18n.translate("newPackAvatars"), keyboard);
   }
 }
