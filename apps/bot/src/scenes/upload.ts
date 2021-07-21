@@ -77,14 +77,14 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
   .command("cancel", async (ctx) => {
     try {
       await ctx.scene.leave();
-      await ctx.reply(i18n.translate("newImageLeave"));
+      await ctx.reply(i18n.translate("leaveScene"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }
   })
   .on("message", async (ctx) => {
     try {
-      await ctx.reply(i18n.translate("noImageUpload"));
+      await ctx.reply(i18n.translate("newImageLeave"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
     }
