@@ -2,27 +2,27 @@ import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { fileTypes, ignoreEndpoints } from "../constants";
 import { extname } from "path";
 
-export type WaifyPicsResponse = {
+export type WaifuPicsResponse = {
   url: string;
 };
 
-export type WaifyPicsOpts = {
+export type WaifuPicsOpts = {
   endPoint: string;
   method?: Method;
   amount?: number;
 };
 
-export const waifyPicsApi = async (opts = { method: "GET", amount: 1 } as WaifyPicsOpts) => {
+export const waifuPicsApi = async (opts = { method: "GET", amount: 1 } as WaifuPicsOpts) => {
   const axiosOptions: AxiosRequestConfig = {
     url: `https://api.waifu.pics/${opts.endPoint}`,
     method: opts.method,
   };
 
-  const responses = await Promise.all<{ data: WaifyPicsResponse }>(
+  const responses = await Promise.all<{ data: WaifuPicsResponse }>(
     [...Array(opts.amount)].reduce((curr, val) => [...curr, axios.request(axiosOptions)], []),
   );
 
-  const result = await axios.all<AxiosResponse<WaifyPicsResponse>>(responses.map((r) => axios.get(r.data.url)));
+  const result = await axios.all<AxiosResponse<WaifuPicsResponse>>(responses.map((r) => axios.get(r.data.url)));
 
   return result
     .filter((image) => {
