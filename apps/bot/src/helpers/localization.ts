@@ -3,6 +3,8 @@ import { promisify } from "util";
 import { get, set, template } from "lodash";
 import fs from "fs";
 import { botLogger } from "./logger";
+import { resolve } from "path";
+import path from "path";
 const glob = promisify(gl);
 
 export class I18n {
@@ -15,15 +17,16 @@ export class I18n {
   }
 
   public async init() {
-    const files = await glob("./apps/bot/dist/src/locales/**");
-
-    console.log(files);
+    const files = await glob(process.env.INIT_CWD + "/locales/**");
 
     for (const f of files) {
       if (!f.endsWith(".json")) {
         continue;
       }
-      const withoutLocales = f.replace("./apps/bot/dist/src/locales/", "").replace(".json", "");
+
+      const withoutLocales = f.replace(process.env.INIT_CWD + "/locales/", "").replace(".json", "");
+
+      console.log(withoutLocales);
       try {
         set(this.translations, withoutLocales.split("/").join("."), JSON.parse(fs.readFileSync(f, "utf8")));
       } catch (e) {
@@ -31,6 +34,7 @@ export class I18n {
         botLogger.error(e.stack);
       }
     }
+
     return true;
   }
 
