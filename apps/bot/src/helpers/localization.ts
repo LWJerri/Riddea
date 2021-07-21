@@ -16,7 +16,7 @@ export class I18n {
 
   public async init() {
     const files = await glob("./locales/**");
-    console.log(files);
+
     for (const f of files) {
       if (!f.endsWith(".json")) {
         continue;
