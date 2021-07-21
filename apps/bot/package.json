@@ -1,6 +1,6 @@
 {
   "name": "@riddea/bot",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "main": "dist/app",
   "types": "dist/app",
   "private": true,
