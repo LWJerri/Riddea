@@ -13,6 +13,6 @@ export default class extends CommandInterface {
 
   async run(ctx: Scenes.SceneContext) {
     ctx.scene.current?.leave();
-    await ctx.reply(i18n.translate("leaveFromAllScenes"));
+    await ctx.reply(i18n.translate("leaveScene"));
   }
 }
