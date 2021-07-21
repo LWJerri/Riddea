@@ -15,13 +15,15 @@ export class I18n {
   }
 
   public async init() {
-    const files = await glob("./src/locales/**");
+    const files = await glob("./apps/bot/dist/src/locales/**");
+
+    console.log(files);
 
     for (const f of files) {
       if (!f.endsWith(".json")) {
         continue;
       }
-      const withoutLocales = f.replace("./src/locales/", "").replace(".json", "");
+      const withoutLocales = f.replace("./apps/bot/dist/src/locales/", "").replace(".json", "");
       try {
         set(this.translations, withoutLocales.split("/").join("."), JSON.parse(fs.readFileSync(f, "utf8")));
       } catch (e) {
