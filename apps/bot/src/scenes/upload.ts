@@ -7,6 +7,7 @@ import { File, Message } from "typegram";
 import { uploadFile } from "../libs/s3";
 import { bot } from "../app";
 import i18n from "../helpers/localization";
+import uuid from "uuid4";
 
 async function getKeyboard(ctx: Context) {
   try {
@@ -92,7 +93,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
 
 const saveAndUploadPhoto = async ({ collectionId, userID, photo }: { collectionId?: number; userID: number; photo: File }) => {
   const base64 = await base64Data(photo);
-  const fileName = (await bot.telegram.getFile(photo.file_id)).file_path.replace("photos/", "");
+  const fileName = uuid();
 
   await uploadFile({ buffer: base64, filePath: `${userID}/${fileName}` });
 
