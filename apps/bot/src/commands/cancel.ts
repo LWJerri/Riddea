@@ -7,6 +7,7 @@ export default class extends CommandInterface {
     super({
       description: "Cancel any stage you entered",
       collectUsage: false,
+      cooldown: false,
       name: "cancel",
     });
   }

@@ -6,6 +6,7 @@ export default class extends CommandInterface {
     super({
       name: "images",
       collectUsage: false,
+      cooldown: false,
       description: "Display all your uploaded images",
     });
   }

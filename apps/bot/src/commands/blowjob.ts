@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "[NSFW]: Send hentai blowjob video",
       collectUsage: true,
+      cooldown: true,
       name: "blowjob",
       actions: [
         {

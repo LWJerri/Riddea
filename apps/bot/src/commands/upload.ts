@@ -7,6 +7,7 @@ export default class extends CommandInterface {
       name: "upload",
       description: "Upload your favorite picture",
       collectUsage: false,
+      cooldown: false,
     });
   }
 

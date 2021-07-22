@@ -12,6 +12,7 @@ export default class extends CommandInterface {
       name: "collections",
       description: "Display list of all your collections",
       collectUsage: false,
+      cooldown: false,
       actions: [
         {
           callback: "COLLECTION_LIST",

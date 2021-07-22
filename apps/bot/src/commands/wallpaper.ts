@@ -10,6 +10,7 @@ export default class extends CommandInterface {
       name: "wallpaper",
       description: "Send wallpaper images",
       collectUsage: true,
+      cooldown: true,
       actions: [
         {
           name: "Shiro Service",

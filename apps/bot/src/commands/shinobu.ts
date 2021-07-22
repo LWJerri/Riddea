@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "Send shinobu pictures",
       collectUsage: true,
+      cooldown: true,
       name: "shinobu",
       actions: [
         {

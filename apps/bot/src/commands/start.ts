@@ -7,6 +7,7 @@ export default class extends CommandInterface {
     super({
       name: "start",
       collectUsage: true,
+      cooldown: false,
       description: "Display start menu",
     });
   }

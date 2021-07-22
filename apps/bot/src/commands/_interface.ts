@@ -9,6 +9,7 @@ export type CommandOptions = {
   name: string;
   description: string;
   collectUsage?: boolean;
+  cooldown: boolean;
   actions?: Array<{ name?: string; callback: string }>;
 };
 
@@ -17,6 +18,7 @@ export class CommandInterface {
   name: string;
   description: string;
   collectUsage?: boolean;
+  cooldown: boolean;
   actions?: Array<{ name?: string; callback: string }>;
 
   constructor(options?: CommandOptions) {
@@ -30,7 +32,11 @@ export class CommandInterface {
 
   async execute(ctx: Context) {
     try {
-      cmdLimiter.take(ctx.from.id) ? await ctx.reply(i18n.translate("rateLimit")) : await this.run(ctx);
+      if (this.cooldown) {
+        return cmdLimiter.take(ctx.from.id) ? await ctx.reply(i18n.translate("rateLimit")) : await this.run(ctx);
+      }
+
+      await this.run(ctx);
     } catch (err) {
       await ctx.reply(i18n.translate("errorMessage"));
       botLogger.error(`Command interface error:`, err.stack);

@@ -11,6 +11,7 @@ export default class extends CommandInterface {
       name: "trap",
       description: "[NSFW]: Send trap images",
       collectUsage: true,
+      cooldown: true,
       actions: [
         {
           name: "Shiro Service",

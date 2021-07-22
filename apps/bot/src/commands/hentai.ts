@@ -11,6 +11,7 @@ export default class extends CommandInterface {
       name: "hentai",
       description: "[NSFW]: Send hentai images",
       collectUsage: true,
+      cooldown: true,
       actions: [
         { name: "Shiro Service", callback: "NEW_HENTAI_SHIRO" },
         { name: "WaifuPics Service", callback: "NEW_HENTAI_WAIFUPICS" },

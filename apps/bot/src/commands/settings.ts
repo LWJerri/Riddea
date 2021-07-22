@@ -6,6 +6,7 @@ export default class extends CommandInterface {
     super({
       name: "settings",
       collectUsage: false,
+      cooldown: false,
       description: "Your personal settings",
       actions: [{ callback: "USER_SETTINGS" }],
     });

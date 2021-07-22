@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "Send waifu pictures",
       collectUsage: true,
+      cooldown: true,
       name: "waifu",
       actions: [
         {

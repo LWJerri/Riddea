@@ -16,6 +16,7 @@ export default class extends CommandInterface {
       name: "status",
       description: "Send bot statistic",
       collectUsage: false,
+      cooldown: false,
       actions: [{ callback: "SEND_STATISTIC" }],
     });
   }

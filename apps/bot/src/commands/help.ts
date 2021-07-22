@@ -7,6 +7,7 @@ export default class extends CommandInterface {
     super({
       description: "Display help menu",
       collectUsage: false,
+      cooldown: false,
       name: "help",
       actions: [{ callback: "SEND_HELPMENU" }],
     });

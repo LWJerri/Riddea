@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "Search best anime picture for your avatar",
       collectUsage: true,
+      cooldown: true,
       name: "avatar",
       actions: [
         {

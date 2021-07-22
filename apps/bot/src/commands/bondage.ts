@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "[NSFW]: Send bondage images",
       collectUsage: true,
+      cooldown: true,
       name: "bondage",
       actions: [
         {

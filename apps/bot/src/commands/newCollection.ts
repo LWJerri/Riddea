@@ -6,6 +6,7 @@ export default class extends CommandInterface {
     super({
       name: "createcollection",
       collectUsage: false,
+      cooldown: false,
       description: "Create new collection",
     });
   }

@@ -11,6 +11,7 @@ export default class extends CommandInterface {
       name: "neko",
       description: "[NSFW]: Send neko images",
       collectUsage: true,
+      cooldown: true,
       actions: [
         {
           name: "Shiro Service",

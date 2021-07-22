@@ -9,6 +9,7 @@ export default class extends CommandInterface {
     super({
       description: "Send megumin pictures",
       collectUsage: true,
+      cooldown: true,
       name: "megumin",
       actions: [
         {

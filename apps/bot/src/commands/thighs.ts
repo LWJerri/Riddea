@@ -10,6 +10,7 @@ export default class extends CommandInterface {
       name: "thighs",
       description: "[NSFW]: Send thighs images",
       collectUsage: true,
+      cooldown: true,
       actions: [{ name: "Shiro Service", callback: "NEW_THIGHS_SHIRO" }],
     });
   }

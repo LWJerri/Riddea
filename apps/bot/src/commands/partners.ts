@@ -8,6 +8,7 @@ export default class extends CommandInterface {
     super({
       description: "Display list of all bot partners",
       collectUsage: false,
+      cooldown: false,
       name: "partners",
       actions: [{ callback: "SEND_PARTNERS" }],
     });
