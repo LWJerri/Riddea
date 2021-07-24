@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "typeRoots": ["./typings"],
+    "outDir": "dist",
+    "tsBuildInfoFile": "./.buildcache/tsconfig.tsbuildinfo"
   },
   "references": [
     {

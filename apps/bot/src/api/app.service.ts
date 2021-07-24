@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { bot } from "../app";
+import { bot } from "../main";
 import humanize from "humanize-duration";
 import { commands } from "../helpers/loadCommands";
 import { botLogger } from "../helpers/logger";
+
+const pkg = require('../../../package.json')
 
 @Injectable()
 export class AppService {
@@ -19,7 +21,7 @@ export class AppService {
         username: bot.botInfo.username,
         id: bot.botInfo.id,
         uptime,
-        version: process.env.npm_package_version,
+        version: pkg.version,
       };
     } catch (err) {
       botLogger.error(`App service error:`, err.stack);

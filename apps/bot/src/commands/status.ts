@@ -3,12 +3,11 @@ import { getRepository } from "typeorm";
 import { Statistic, User } from "@riddea/typeorm";
 import { Upload } from "@riddea/typeorm";
 import humanize from "humanize-duration";
-import { resolve } from "path";
 import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
 import i18n from "../helpers/localization";
 
-const pkg = require(resolve(process.cwd(), "package.json"));
+const pkg = require('../../../package.json')
 
 export default class extends CommandInterface {
   constructor() {
