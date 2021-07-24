@@ -1,0 +1,75 @@
+version: '3'
+
+volumes:
+  riddea-dev-postgres:
+  riddea-dev-minio:
+
+services:
+  postgres:
+    image: postgres:13.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: riddea
+      POSTGRES_PASSWORD: riddea
+    volumes:
+      - riddea-dev-postgres:/var/lib/postgresql/data
+        
+  adminer:
+    image: adminer
+    links: 
+      - "postgres:riddea"
+    ports:
+      - 9104:8080
+
+  minio:
+    image: minio/minio
+    volumes: 
+      - riddea-dev-minio:/data
+    environment:
+      MINIO_ROOT_USER: riddea-dev
+      MINIO_ROOT_PASSWORD: riddea-dev
+    command: server --address :9000 /data
+
+  migrator:
+    build:
+      context: .
+      target: migrator
+    env_file: 
+      - .env.dev
+    depends_on: 
+      - postgres
+
+  bot:
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    build:
+      context: .
+      target: bot
+    depends_on: 
+      - postgres
+      - migrator
+      - minio
+
+  api:
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    build:
+      context: .
+      target: api
+    depends_on: 
+      - postgres
+      - migrator
+      - minio
+
+  web:
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    build:
+      context: .
+      target: web
+    ports: 
+      - 9103:80
+    
