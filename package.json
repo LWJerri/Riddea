@@ -36,7 +36,8 @@
     "premigration:run": "yarn build:typeorm",
     "migration:run": "typeorm migration:run",
     "premigration:generate": "yarn build:typeorm",
-    "migration:generate": "typeorm migration:generate -n"
+    "migration:generate": "typeorm migration:generate -n",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up"
   },
   "devDependencies": {
     "husky": "^6.0.0",
