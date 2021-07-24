@@ -1,6 +1,5 @@
 import { Context, Markup } from "telegraf";
 import { partners } from "../constants";
-import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -20,6 +19,6 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    await ctx.reply(i18n.translate("partnersMessage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("partnersMessage"), keyboard);
   }
 }

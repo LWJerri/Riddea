@@ -1,5 +1,4 @@
 import { Scenes } from "telegraf";
-import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -14,6 +13,6 @@ export default class extends CommandInterface {
 
   async run(ctx: Scenes.SceneContext) {
     ctx.scene.current?.leave();
-    await ctx.reply(i18n.translate("leaveScene"));
+    await ctx.reply(ctx.i18n.translate("leaveScene"));
   }
 }

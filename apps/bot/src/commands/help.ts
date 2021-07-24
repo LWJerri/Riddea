@@ -1,5 +1,4 @@
 import { Context, Markup } from "telegraf";
-import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -21,16 +20,16 @@ export default class extends CommandInterface {
           url: "https://github.com/Riddea",
         },
         {
-          text: i18n.translate("support"),
+          text: ctx.i18n.translate("support"),
           url: "https://www.donationalerts.com/r/lwjerri",
         },
         {
-          text: i18n.translate("partners"),
+          text: ctx.i18n.translate("partners"),
           callback_data: "SEND_PARTNERS",
         },
       ],
     ]);
 
-    await ctx.reply(i18n.translate("helpMenuMessage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("helpMenuMessage"), keyboard);
   }
 }

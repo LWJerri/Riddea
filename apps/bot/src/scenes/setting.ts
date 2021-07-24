@@ -1,7 +1,6 @@
 import { User } from "@riddea/typeorm";
 import { Scenes } from "telegraf";
 import { getRepository } from "typeorm";
-import i18n from "../helpers/localization";
 import { botLogger } from "../helpers/logger";
 
 export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting")
@@ -21,7 +20,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         date: userData.startedAt.toLocaleDateString(),
       });
       const keyboard = {
-        reply_markup: { inline_keyboard: [[{ text: i18n.translate("setLang"), callback_data: "LANGUAGE" }]] },
+        reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("setLang"), callback_data: "LANGUAGE" }]] },
       };
 
       await ctx.reply(message, keyboard);
@@ -39,7 +38,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         },
       };
 
-      ctx.editMessageText(i18n.translate("newLang"), keyboard);
+      ctx.editMessageText(ctx.i18n.translate("newLang"), keyboard);
     } catch (err) {
       botLogger.error(`Scene settings error:`, err.stack);
     }
@@ -50,7 +49,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const keyboard = {
         reply_markup: {
-          inline_keyboard: [[{ text: i18n.translate("back"), callback_data: "BACK" }]],
+          inline_keyboard: [[{ text: ctx.i18n.translate("back"), callback_data: "BACK" }]],
         },
       };
 
@@ -70,7 +69,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const keyboard = {
         reply_markup: {
-          inline_keyboard: [[{ text: i18n.translate("back"), callback_data: "BACK" }]],
+          inline_keyboard: [[{ text: ctx.i18n.translate("back"), callback_data: "BACK" }]],
         },
       };
 

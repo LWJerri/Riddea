@@ -1,5 +1,4 @@
 import { Context } from "telegraf";
-import i18n from "../helpers/localization";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
@@ -19,11 +18,11 @@ export default class extends CommandInterface {
         inline_keyboard: [
           [
             {
-              text: i18n.translate("helpMenu"),
+              text: ctx.i18n.translate("helpMenu"),
               callback_data: "SEND_HELPMENU",
             },
             {
-              text: i18n.translate("statistics"),
+              text: ctx.i18n.translate("statistics"),
               callback_data: "SEND_STATISTIC",
             },
             {
@@ -31,12 +30,12 @@ export default class extends CommandInterface {
               url: "https://github.com/Riddea",
             },
           ],
-          [{ text: i18n.translate("settings"), callback_data: "USER_SETTINGS" }],
+          [{ text: ctx.i18n.translate("settings"), callback_data: "USER_SETTINGS" }],
         ],
       },
     };
 
-    await ctx.reply(i18n.translate("firstStartMessage", { user: ctx.from.first_name }));
-    await ctx.replyWithMarkdown(i18n.translate("secondStartMessage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("firstStartMessage", { user: ctx.from.first_name }));
+    await ctx.replyWithMarkdown(ctx.i18n.translate("secondStartMessage"), keyboard);
   }
 }

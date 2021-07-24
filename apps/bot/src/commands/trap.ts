@@ -3,7 +3,6 @@ import { CommandInterface } from "./_interface";
 import { shiroApi } from "../helpers/shiroApi";
 import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
-import i18n from "../helpers/localization";
 
 export default class extends CommandInterface {
   constructor() {
@@ -58,6 +57,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply(i18n.translate("newPackTrap"), keyboard);
+    await ctx.reply(ctx.i18n.translate("newPackTrap"), keyboard);
   }
 }

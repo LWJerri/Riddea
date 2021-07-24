@@ -3,7 +3,6 @@ import { getRepository, Not } from "typeorm";
 import { Collection } from "@riddea/typeorm";
 import { Upload } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
-import i18n from "../helpers/localization";
 
 interface ImageScene extends Scenes.SceneSessionData {
   skip: number;
@@ -14,16 +13,16 @@ interface ImageScene extends Scenes.SceneSessionData {
 const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
   return Markup.inlineKeyboard([
     [
-      ctx.scene.session.skip > 0 ? { text: i18n.translate("previousImage"), callback_data: "BACK" } : undefined,
+      ctx.scene.session.skip > 0 ? { text: ctx.i18n.translate("previousImage"), callback_data: "BACK" } : undefined,
       ctx.scene.session.skip + 1 !== ctx.scene.session.totalImages
-        ? { text: i18n.translate("nextImage"), callback_data: "NEXT" }
+        ? { text: ctx.i18n.translate("nextImage"), callback_data: "NEXT" }
         : undefined,
     ].filter(Boolean),
     [
-      { text: i18n.translate("selectCollection"), callback_data: `CHOOSE_COLLECTION` },
-      { text: i18n.translate("delete"), callback_data: "DELETE_IMAGE" },
+      { text: ctx.i18n.translate("selectCollection"), callback_data: `CHOOSE_COLLECTION` },
+      { text: ctx.i18n.translate("delete"), callback_data: "DELETE_IMAGE" },
     ],
-    [{ text: i18n.translate("stop"), callback_data: "LEAVE" }],
+    [{ text: ctx.i18n.translate("stop"), callback_data: "LEAVE" }],
   ]);
 };
 
@@ -62,7 +61,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
       ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
       if (!ctx.scene.session.currentImage) {
-        await ctx.reply(i18n.translate("noImages"));
+        await ctx.reply(ctx.i18n.translate("noImages"));
         await ctx.scene.leave();
 
         return;
@@ -89,13 +88,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `${i18n.translate("imageCaptionFirst", {
+          caption: `${ctx.i18n.translate("imageCaptionFirst", {
             curr: ctx.scene.session.skip,
             all: ctx.scene.session.totalImages - 1,
-          })}\n${i18n.translate("imageCaptionSecond", { name: ctx.scene.session.currentImage.collection?.name ?? "-" })}\n${i18n.translate(
-            "imageCaptionThree",
-            { time: ctx.scene.session.currentImage.createdAt.toLocaleString() },
-          )}`,
+          })}\n${ctx.i18n.translate("imageCaptionSecond", {
+            name: ctx.scene.session.currentImage.collection?.name ?? "-",
+          })}\n${ctx.i18n.translate("imageCaptionThree", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -116,13 +114,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `${i18n.translate("imageCaptionFirst", {
+          caption: `${ctx.i18n.translate("imageCaptionFirst", {
             curr: ctx.scene.session.skip,
             all: ctx.scene.session.totalImages - 1,
-          })}\n${i18n.translate("imageCaptionSecond", { name: ctx.scene.session.currentImage.collection?.name ?? "-" })}\n${i18n.translate(
-            "imageCaptionThree",
-            { time: ctx.scene.session.currentImage.createdAt.toLocaleString() },
-          )}`,
+          })}\n${ctx.i18n.translate("imageCaptionSecond", {
+            name: ctx.scene.session.currentImage.collection?.name ?? "-",
+          })}\n${ctx.i18n.translate("imageCaptionThree", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -147,8 +144,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageReplyMarkup({
         inline_keyboard: [
           [
-            { text: i18n.translate("confirm"), callback_data: "DELETE_IMAGE_APPROVE" },
-            { text: i18n.translate("cancel"), callback_data: "DELETE_IMAGE_DECLINE" },
+            { text: ctx.i18n.translate("confirm"), callback_data: "DELETE_IMAGE_APPROVE" },
+            { text: ctx.i18n.translate("cancel"), callback_data: "DELETE_IMAGE_DECLINE" },
           ],
         ],
       });

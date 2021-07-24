@@ -5,9 +5,8 @@ import { Upload } from "@riddea/typeorm";
 import humanize from "humanize-duration";
 import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
-import i18n from "../helpers/localization";
 
-const pkg = require('../../../package.json')
+const pkg = require("../../../package.json");
 
 export default class extends CommandInterface {
   constructor() {
@@ -44,15 +43,20 @@ export default class extends CommandInterface {
       return [...prev, [[current], stats[index]]];
     }, []);
 
-    const cmdStats = commandsStats.map((command) => i18n.translate("commandInfo", { command: command[0], uses: command[1] })).join("\n");
+    const cmdStats = commandsStats
+      .map((command) => ctx.i18n.translate("commandInfo", { command: command[0], uses: command[1] }))
+      .join("\n");
     const uploadStats = await getRepository(Upload).count();
 
-    const message = `\n\n${i18n.translate("commandStats")}:\n${cmdStats}\n\n${i18n.translate("uploadStats")}:\n${i18n.translate(
+    const message = `\n\n${ctx.i18n.translate("commandStats")}:\n${cmdStats}\n\n${ctx.i18n.translate("uploadStats")}:\n${ctx.i18n.translate(
       "uploadInfo",
       { count: uploadStats },
-    )}\n\n${i18n.translate("botInfo")}:\n${i18n.translate("botUsername", { username: ctx.botInfo.username })}\n${i18n.translate("botID", {
-      id: ctx.botInfo.id,
-    })}\n${i18n.translate("botVersion", { version: pkg.version })}\n${i18n.translate("botUptime", { uptime: uptime })}`;
+    )}\n\n${ctx.i18n.translate("botInfo")}:\n${ctx.i18n.translate("botUsername", { username: ctx.botInfo.username })}\n${ctx.i18n.translate(
+      "botID",
+      {
+        id: ctx.botInfo.id,
+      },
+    )}\n${ctx.i18n.translate("botVersion", { version: pkg.version })}\n${ctx.i18n.translate("botUptime", { uptime: uptime })}`;
 
     await ctx.reply(message);
   }

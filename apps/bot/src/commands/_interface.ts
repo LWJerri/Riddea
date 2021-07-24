@@ -3,7 +3,6 @@ import { getRepository } from "typeorm";
 import { Statistic } from "@riddea/typeorm";
 import { botLogger } from "../helpers/logger";
 import { cmdLimiter } from "../constants";
-import i18n from "../helpers/localization";
 
 export type CommandOptions = {
   name: string;
@@ -33,12 +32,12 @@ export class CommandInterface {
   async execute(ctx: Context) {
     try {
       if (this.cooldown) {
-        return cmdLimiter.take(ctx.from.id) ? await ctx.reply(i18n.translate("rateLimit")) : await this.run(ctx);
+        return cmdLimiter.take(ctx.from.id) ? await ctx.reply(ctx.i18n.translate("rateLimit")) : await this.run(ctx);
       }
 
       await this.run(ctx);
     } catch (err) {
-      await ctx.reply(i18n.translate("errorMessage"));
+      await ctx.reply(ctx.i18n.translate("errorMessage"));
       botLogger.error(`Command interface error:`, err.stack);
     }
 
