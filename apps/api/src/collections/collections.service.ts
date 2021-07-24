@@ -83,7 +83,7 @@ export class CollectionsService {
         collection,
         uploads: uploads.map((u) => ({
           ...u,
-          fileUrl: `${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET || "uploads"}/${u.filePath}`,
+          fileUrl: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET || "uploads"}/${u.filePath}`,
         })),
         total,
       };

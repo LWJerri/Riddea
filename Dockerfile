@@ -51,7 +51,8 @@ RUN lerna exec yarn build --scope=@riddea/web
 ### SERVICES ###
 ################
 FROM base_service as migrator
-COPY apps/api/package.json apps/api/package.json
+COPY packages/typeorm/package.json packages/typeorm/package.json
+ENV NODE_ENV="production"
 RUN yarn
 COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
 RUN lerna bootstrap
@@ -60,6 +61,7 @@ CMD [ "yarn", "migration:run"]
 
 FROM base_service as api
 COPY apps/api/package.json apps/api/package.json
+ENV NODE_ENV="production"
 RUN yarn
 COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
 COPY --from=transpile_api /transpile/apps/api/dist/src ./apps/api/dist
@@ -69,6 +71,7 @@ CMD [ "node", "apps/api/dist/main.js"]
 
 FROM base_service as bot
 COPY apps/bot/package.json apps/bot/package.json
+ENV NODE_ENV="production"
 RUN yarn
 COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
 COPY --from=transpile_bot /transpile/apps/bot/dist/src ./apps/bot/dist

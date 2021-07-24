@@ -18,7 +18,7 @@ import { botLogger } from "./helpers/logger";
 import i18n from "./helpers/localization";
 import userMiddleware from "./middlewares/user";
 import i18nMiddleware from "./middlewares/i18n";
-import { setupMinio } from "./libs/s3";
+import { setupS3 } from "./libs/s3";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
@@ -32,7 +32,7 @@ async function bootstrap() {
   try {
     await i18n.init();
     const connectionOptions = await getConnectionOptions();
-    await setupMinio();
+    await setupS3();
     await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
     await loadCommands();
     await bot.launch();
