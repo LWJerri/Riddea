@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc -b",
     "clean": "rimraf dist",
-    "dev": "tsc -b --watch"
+    "dev": "tsc -b --watch",
+    "typeorm": "typeorm"
   },
   "engines": {
     "node": ">= 12"

@@ -6,7 +6,8 @@ import humanize from "humanize-duration";
 import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
 import i18n from "../helpers/localization";
-import pkg from '../../package.json'
+
+const pkg = require('../../../package.json')
 
 export default class extends CommandInterface {
   constructor() {

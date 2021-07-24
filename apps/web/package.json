@@ -9,7 +9,7 @@
     "prettier": "prettier --write src/**/*.{ts,svelte}"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.7",

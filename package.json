@@ -13,7 +13,7 @@
     ]
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   },
   "repository": "https://github.com/Riddea/Riddea",
   "author": "LWJerri (lwjerri.js.org)",
@@ -32,10 +32,6 @@
     "dev:web": "lerna exec yarn dev --scope=@riddea/web",
     "build:typeorm": "lerna exec yarn build --scope=@riddea/typeorm",
     "prepare": "husky install",
-    "premigration:run": "yarn build:typeorm",
-    "migration:run": "typeorm migration:run",
-    "premigration:generate": "yarn build:typeorm",
-    "migration:generate": "typeorm migration:generate -n",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up"
   },
   "devDependencies": {
@@ -47,7 +43,6 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "rimraf": "^3.0.2",
-    "typeorm": "^0.2.34"
+    "rimraf": "^3.0.2"
   }
 }

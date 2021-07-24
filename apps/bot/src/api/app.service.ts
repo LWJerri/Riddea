@@ -3,7 +3,8 @@ import { bot } from "../main";
 import humanize from "humanize-duration";
 import { commands } from "../helpers/loadCommands";
 import { botLogger } from "../helpers/logger";
-import pkg from '../../package.json'
+
+const pkg = require('../../../package.json')
 
 @Injectable()
 export class AppService {

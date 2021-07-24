@@ -14,3 +14,4 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 core
+.buildcache

@@ -6,25 +6,24 @@ import { botLogger } from "./logger";
 const glob = promisify(gl);
 
 export class I18n {
-  translations = {};
+  translations: Record<string, any> = {};
   private lang = "en";
 
-  constructor(lang?: string, translations?: any) {
+  constructor(lang?: string, translations?: Record<string, any>) {
     if (lang) this.lang = lang;
     if (translations) this.translations = translations;
   }
 
   public async init() {
-    const files = await glob("../../locales/**");
+    const files = await glob("locales/**");
 
     for (const f of files) {
       if (!f.endsWith(".json")) {
         continue;
       }
 
-      const withoutLocales = f.replace("../../locales/", "").replace(".json", "");
+      const withoutLocales = f.replace("locales/", "").replace(".json", "");
 
-      console.log(withoutLocales);
       try {
         set(this.translations, withoutLocales.split("/").join("."), JSON.parse(fs.readFileSync(f, "utf8")));
       } catch (e) {
