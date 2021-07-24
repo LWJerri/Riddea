@@ -1,86 +1,48 @@
 # TRANSPILER
-FROM node:16.2.0-alpine3.11 as base_transpile
+FROM node:16.2.0-alpine3.11 as transpile
 RUN apk add --no-cache git
 WORKDIR /transpile
-COPY packages/typeorm/package.json packages/typeorm/package.json
-COPY package.json .
-COPY yarn.lock .
-COPY lerna.json .
-COPY tsconfig.json .
-RUN yarn install
-COPY packages/typeorm packages/typeorm
-COPY apps/api apps/api
-COPY apps/bot apps/bot
-COPY apps/web apps/web
-RUN yarn global add lerna@3.22.1
-RUN lerna exec yarn build --scope=@riddea/typeorm
+COPY package.json yarn.lock lerna.json tsconfig.json ./
+COPY packages/ packages/
+COPY apps/ apps/
+RUN yarn
+RUN yarn build
+RUN yarn
 
 # SERVICE
 FROM node:16.2.0-alpine3.11 as base_service
 RUN apk add --no-cache git
 ENV NODE_ENV production
 WORKDIR /service
-COPY package.json .
-COPY yarn.lock .
-COPY lerna.json .
 COPY locales/ locales/
-RUN yarn global add lerna@3.22.1
-
-# API
-FROM base_transpile as transpile_api
-COPY yarn.lock .
-COPY apps/api apps/api
-RUN yarn
-RUN lerna exec yarn build --scope=@riddea/api
-
-# BOT
-FROM base_transpile as transpile_bot
-COPY yarn.lock .
-COPY apps/bot apps/bot
-RUN yarn
-RUN lerna exec yarn build --scope=@riddea/bot
-
-# WEB
-FROM base_transpile as transpile_web
-COPY yarn.lock .
-COPY apps/web apps/web
-RUN yarn
-RUN lerna exec yarn build --scope=@riddea/web
 
 ################
 ### SERVICES ###
 ################
 FROM base_service as migrator
-COPY packages/typeorm/package.json packages/typeorm/package.json
 ENV NODE_ENV="production"
-RUN yarn
-COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
-RUN lerna bootstrap
-EXPOSE 3000
+COPY --from=transpile /transpile/packages/typeorm ./packages/typeorm
+COPY --from=transpile /transpile/package.json ./
+COPY --from=transpile /transpile/node_modules ./node_modules
 CMD [ "yarn", "migration:run"]
 
 FROM base_service as api
-COPY apps/api/package.json apps/api/package.json
+COPY --from=transpile /transpile/packages/typeorm packages/typeorm
+COPY --from=transpile /transpile/apps/api apps/api
 ENV NODE_ENV="production"
-RUN yarn
-COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
-COPY --from=transpile_api /transpile/apps/api/dist/src ./apps/api/dist
-RUN lerna bootstrap
 EXPOSE 3000
-CMD [ "node", "apps/api/dist/main.js"]
+CMD [ "node", "./apps/api/dist/src/main.js"]
 
 FROM base_service as bot
-COPY apps/bot/package.json apps/bot/package.json
+COPY --from=transpile /transpile/apps/bot apps/bot
+COPY --from=transpile /transpile/packages/typeorm packages/typeorm
+RUN ls -la .
 ENV NODE_ENV="production"
-RUN yarn
-COPY --from=base_transpile /transpile/packages/typeorm ./packages/typeorm
-COPY --from=transpile_bot /transpile/apps/bot/dist/src ./apps/bot/dist
-RUN lerna bootstrap
 EXPOSE 3001
-CMD [ "node", "apps/bot/dist/app.js"]
+CMD [ "node", "./apps/bot/dist/src/main.js"]
 
 FROM nginx:stable-alpine as web
-COPY --from=transpile_web /transpile/apps/web/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=transpile_web /transpile/apps/web/dist ./usr/share/nginx/html
+COPY --from=transpile /transpile/apps/web/dist ./usr/share/nginx/html
+COPY --from=transpile /transpile/apps/web/nginx/default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

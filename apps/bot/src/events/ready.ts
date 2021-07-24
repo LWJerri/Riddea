@@ -1,6 +1,6 @@
 import { botLogger } from "../helpers/logger";
 import { BotCommand } from "typegram";
-import { bot } from "../app";
+import { bot } from "../main";
 import { commands as commandsStore } from "../helpers/loadCommands";
 
 export default async function readyEvent() {

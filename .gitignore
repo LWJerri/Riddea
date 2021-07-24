@@ -3,9 +3,11 @@ dist
 tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 .env
+.env.dev
 docker-compose.yml
 yarn-error.log
 docker-compose.*
+!!docker-compose.dev.yml
 !!docker-compose.yml.example
 .vscode
 npm-debug.log*

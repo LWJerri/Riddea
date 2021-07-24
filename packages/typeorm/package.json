@@ -5,8 +5,8 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index",
-  "types": "dist/index",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
     "clean": "rimraf dist",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@nestjs/swagger": "^4.8.0",
+    "rxjs": "^7.2.0",
     "typeorm": "^0.2.34"
   }
 }

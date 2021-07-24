@@ -1,4 +1,4 @@
-import { bot } from "../app";
+import { bot } from "../main";
 import { promises as fs } from "fs";
 import { resolve } from "path";
 import { CommandInterface } from "../commands/_interface";

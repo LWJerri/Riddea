@@ -1,5 +1,5 @@
 import axios from "axios";
-import { bot } from "../app";
+import { bot } from "../main";
 import { botLogger } from "./logger";
 import { File } from "typegram";
 

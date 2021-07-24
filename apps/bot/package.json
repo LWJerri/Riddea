@@ -35,7 +35,8 @@
     "telegraf": "^4.3.0",
     "typegram": "^3.3.1",
     "typeorm": "^0.2.32",
-    "uuid4": "^2.0.2"
+    "uuid4": "^2.0.2",
+    "@riddea/typeorm": "1.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^7.3.1",

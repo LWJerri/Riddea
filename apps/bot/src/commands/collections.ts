@@ -1,6 +1,6 @@
 import { Context, Markup } from "telegraf";
 import { getRepository } from "typeorm";
-import { bot } from "../app";
+import { bot } from "../main";
 import { Collection } from "@riddea/typeorm";
 import { CommandInterface } from "./_interface";
 import i18n from "../helpers/localization";

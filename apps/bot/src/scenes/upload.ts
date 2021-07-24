@@ -5,7 +5,7 @@ import base64Data from "../helpers/base64Decoder";
 import { botLogger } from "../helpers/logger";
 import { File, Message } from "typegram";
 import { uploadFile } from "../libs/s3";
-import { bot } from "../app";
+import { bot } from "../main";
 import i18n from "../helpers/localization";
 import uuid from "uuid4";
 
