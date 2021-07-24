@@ -7,7 +7,7 @@ export class Statistic {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'stats' })
+  @ApiProperty({ example: "stats" })
   @Column()
   command: string;
 
