@@ -59,6 +59,7 @@ export function uploadFile(opts: {
         Key: opts.filePath,
         Metadata: metaData,
         Body: opts.buffer,
+        ContentEncoding: 'base64',
       },
       (err, data) => {
         if (err) rej(err);
