@@ -26,7 +26,7 @@ export async function setupS3() {
     }
 
     await S3Client.putBucketPolicy({
-      Bucket: bucket.Name,
+      Bucket: bucketName,
       Policy: JSON.stringify({
         Version: "2012-10-17",
         Statement: [
@@ -36,7 +36,7 @@ export async function setupS3() {
               AWS: ["*"],
             },
             Action: ["s3:GetObject"],
-            Resource: [`arn:aws:s3:::${bucket}/*`],
+            Resource: [`arn:aws:s3:::${bucketName}/*`],
           },
         ],
       }),
