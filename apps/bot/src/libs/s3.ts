@@ -10,51 +10,41 @@ const S3Client = new AWS.S3({
   signatureVersion: "v4",
 });
 
-const bucketName = process.env.MINIO_BUCKET || "uploads";
+const bucketName = process.env.S3_BUCKET || "uploads";
 
 function createBucket(Bucket: string) {
-  return new Promise((res, rej) => {
-    S3Client.createBucket(
-      {
-        Bucket,
-        ACL: "public-read",
-      },
-      (err, data) => {
-        if (err) rej(err);
-        else res(data);
-      },
-    );
-  });
+  return S3Client.createBucket({ Bucket }).promise();
 }
 
-export function setupS3() {
-  return new Promise((res, rej) => {
-    S3Client.listBuckets(async (err, data) => {
-      const bucket = data?.Buckets.find((b) => b.Name === bucketName);
-      if (!bucket) {
-        await createBucket(bucketName);
-      }
+export async function setupS3() {
+  try {
+    const buckets = await S3Client.listBuckets().promise();
+    const bucket = buckets?.Buckets?.find((b) => b.Name === bucketName);
 
-      await S3Client.putBucketPolicy({
-        Bucket: bucket.Name,
-        Policy: JSON.stringify({
-          Version: "2012-10-17",
-          Statement: [
-            {
-              Effect: "Allow",
-              Principal: {
-                AWS: ["*"],
-              },
-              Action: ["s3:GetObject"],
-              Resource: [`arn:aws:s3:::${bucket}/*`],
+    if (!bucket) {
+      await createBucket(bucketName);
+    }
+
+    await S3Client.putBucketPolicy({
+      Bucket: bucket.Name,
+      Policy: JSON.stringify({
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Effect: "Allow",
+            Principal: {
+              AWS: ["*"],
             },
-          ],
-        }),
-      }).promise();
-      botLogger.log(`S3 successfully bootstraped.`);
-      res(null);
-    });
-  });
+            Action: ["s3:GetObject"],
+            Resource: [`arn:aws:s3:::${bucket}/*`],
+          },
+        ],
+      }),
+    }).promise();
+    botLogger.log(`S3 successfully bootstraped.`);
+  } catch (e) {
+    botLogger.error(e, e.stack);
+  }
 }
 
 export function uploadFile(opts: {
@@ -64,25 +54,17 @@ export function uploadFile(opts: {
 }): Promise<AWS.S3.PutObjectOutput> {
   opts.buffer = Buffer.from(opts.buffer.toString().replace(/^data:image\/\w+;base64,/, ""), "base64");
 
-  return new Promise((res, rej) => {
-    const metaData: {
-      "Content-Type": `${string}/${string}`;
-    } = {
-      "Content-Type": opts.type ?? "image/jpeg",
-    };
+  const metaData: {
+    "Content-Type": `${string}/${string}`;
+  } = {
+    "Content-Type": opts.type ?? "image/jpeg",
+  };
 
-    S3Client.putObject(
-      {
-        Bucket: bucketName,
-        Key: opts.filePath,
-        Metadata: metaData,
-        Body: opts.buffer,
-        ContentEncoding: "base64",
-      },
-      (err, data) => {
-        if (err) rej(err);
-        else res(data);
-      },
-    );
-  });
+  return S3Client.putObject({
+    Bucket: bucketName,
+    Key: opts.filePath,
+    Metadata: metaData,
+    Body: opts.buffer,
+    ContentEncoding: "base64",
+  }).promise();
 }
