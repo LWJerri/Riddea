@@ -10,13 +10,13 @@ const S3Client = new AWS.S3({
   signatureVersion: "v4",
 });
 
-const bucket = process.env.MINIO_BUCKET || "uploads";
+const bucketName = process.env.MINIO_BUCKET || "uploads";
 
-function createBucket(bucketName: string) {
+function createBucket(Bucket: string) {
   return new Promise((res, rej) => {
     S3Client.createBucket(
       {
-        Bucket: bucketName,
+        Bucket,
         ACL: "public-read",
       },
       (err, data) => {
@@ -30,9 +30,9 @@ function createBucket(bucketName: string) {
 export function setupS3() {
   return new Promise((res, rej) => {
     S3Client.listBuckets(async (err, data) => {
-      const bucket = data?.Buckets.find((b) => b.Name === bucket);
+      const bucket = data?.Buckets.find((b) => b.Name === bucketName);
       if (!bucket) {
-        await createBucket(bucket);
+        await createBucket(bucketName);
       }
 
       await S3Client.putBucketPolicy({
@@ -73,7 +73,7 @@ export function uploadFile(opts: {
 
     S3Client.putObject(
       {
-        Bucket: bucket,
+        Bucket: bucketName,
         Key: opts.filePath,
         Metadata: metaData,
         Body: opts.buffer,
