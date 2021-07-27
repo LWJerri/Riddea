@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "typeRoots": ["./typings"],
+    "typeRoots": ["node_modules/@types", "./typings"],
     "outDir": "dist",
-    "tsBuildInfoFile": "./.buildcache/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "./.buildcache/tsconfig.tsbuildinfo",
   },
   "references": [
     {

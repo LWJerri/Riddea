@@ -6,25 +6,13 @@ const S3Client = new AWS.S3({
   accessKeyId: process.env.S3_ACCESSKEY,
   secretAccessKey: process.env.S3_SECRETKEY,
   endpoint: process.env.S3_ENDPOINT,
-  s3ForcePathStyle: true,
   signatureVersion: "v4",
 });
 
-const bucketName = process.env.S3_BUCKET || "uploads";
-
-function createBucket(Bucket: string) {
-  return S3Client.createBucket({ Bucket }).promise();
-}
+const bucketName = process.env.S3_BUCKET;
 
 export async function setupS3() {
   try {
-    const buckets = await S3Client.listBuckets().promise();
-    const bucket = buckets?.Buckets?.find((b) => b.Name === bucketName);
-
-    if (!bucket) {
-      await createBucket(bucketName);
-    }
-
     await S3Client.putBucketPolicy({
       Bucket: bucketName,
       Policy: JSON.stringify({
@@ -32,15 +20,16 @@ export async function setupS3() {
         Statement: [
           {
             Effect: "Allow",
-            Principal: {
-              AWS: ["*"],
-            },
+            Principal: "*",
             Action: ["s3:GetObject"],
-            Resource: [`arn:aws:s3:::${bucketName}/*`],
+            Resource: [`${bucketName}/uploads/*`],
           },
         ],
       }),
     }).promise();
+
+    await S3Client.getBucketPolicy({ Bucket: bucketName }).promise().then(console.log);
+
     botLogger.log(`S3 successfully bootstraped.`);
   } catch (e) {
     botLogger.error(e, e.stack);
@@ -62,9 +51,10 @@ export function uploadFile(opts: {
 
   return S3Client.putObject({
     Bucket: bucketName,
-    Key: opts.filePath,
+    Key: `uploads/${opts.filePath}`,
     Metadata: metaData,
     Body: opts.buffer,
     ContentEncoding: "base64",
+    ACL: "public-read",
   }).promise();
 }
