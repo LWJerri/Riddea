@@ -45,8 +45,8 @@
 
     <div class="collection-photo-box">
       {#each images as image}
-        <a href={"https://" + image.fileUrl} target="_blank">
-          <img class="collection-photo" src={"https://" + image.fileUrl} alt="COLLECTION_PHOTO" />
+        <a href={image.fileUrl} target="_blank">
+          <img class="collection-photo" src={image.fileUrl} alt="COLLECTION_PHOTO" />
         </a>
       {/each}
     </div>

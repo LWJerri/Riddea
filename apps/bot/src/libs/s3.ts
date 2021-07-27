@@ -30,9 +30,27 @@ function createBucket(bucketName: string) {
 export function setupS3() {
   return new Promise((res, rej) => {
     S3Client.listBuckets(async (err, data) => {
-      if (!data?.Buckets.find((b) => b.Name === bucket)) {
+      const bucket = data?.Buckets.find((b) => b.Name === bucket);
+      if (!bucket) {
         await createBucket(bucket);
       }
+
+      await S3Client.putBucketPolicy({
+        Bucket: bucket.Name,
+        Policy: JSON.stringify({
+          Version: "2012-10-17",
+          Statement: [
+            {
+              Effect: "Allow",
+              Principal: {
+                AWS: ["*"],
+              },
+              Action: ["s3:GetObject"],
+              Resource: [`arn:aws:s3:::${bucket}/*`],
+            },
+          ],
+        }),
+      }).promise();
       botLogger.log(`S3 successfully bootstraped.`);
       res(null);
     });
@@ -59,7 +77,7 @@ export function uploadFile(opts: {
         Key: opts.filePath,
         Metadata: metaData,
         Body: opts.buffer,
-        ContentEncoding: 'base64',
+        ContentEncoding: "base64",
       },
       (err, data) => {
         if (err) rej(err);
