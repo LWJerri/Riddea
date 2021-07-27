@@ -55,6 +55,7 @@ export function uploadFile(opts: {
     Metadata: metaData,
     Body: opts.buffer,
     ContentEncoding: "base64",
+    ContentType: metaData["Content-Type"],
     ACL: "public-read",
   }).promise();
 }
