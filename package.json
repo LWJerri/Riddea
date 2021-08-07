@@ -5,8 +5,7 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "apps/*",
-      "packages/*"
+      "apps/*"
     ],
     "nohoist": [
       "**"
@@ -19,24 +18,19 @@
   "author": "LWJerri (lwjerri.js.org)",
   "license": "MIT",
   "scripts": {
-    "build": "lerna run build --stream",
+    "build": "yarn workspaces run build",
     "prettier": "prettier --write \"./apps/**/*.ts\" \"./packages/**/*.ts\"",
-    "clean": "lerna run clean --parallel",
+    "clean": "rimraf ./**/libs",
     "clean:modules": "rimraf ./**/node_modules",
-    "lerna": "lerna",
-    "start:bot": "lerna exec yarn start --scope=@riddea/bot",
-    "start:api": "lerna exec yarn start --scope=@riddea/api",
-    "dev": "npm-run-all --parallel dev:bot dev:api dev:web",
-    "dev:bot": "lerna exec yarn dev --scope=@riddea/bot",
-    "dev:api": "lerna exec yarn dev --scope=@riddea/api",
-    "dev:web": "lerna exec yarn dev --scope=@riddea/web",
-    "build:typeorm": "lerna exec yarn build --scope=@riddea/typeorm",
+    "start": "yarn workspace @riddea/backend run start",
+    "dev": "npm-run-all --parallel dev:backend dev:web",
+    "dev:backend": "yarn workspace @riddea/backend run dev",
+    "dev:web": "yarn workspace @riddea/web run dev",
     "prepare": "husky install",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up"
   },
   "devDependencies": {
     "husky": "^6.0.0",
-    "lerna": "^3.22.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.3.0",
