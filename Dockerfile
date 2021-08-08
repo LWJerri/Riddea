@@ -2,7 +2,7 @@
 FROM node:16.5.0-alpine3.11 as transpile
 RUN apk add --no-cache git
 WORKDIR /transpile
-COPY package.json yarn.lock lerna.json ./
+COPY package.json yarn.lock ./
 COPY apps/backend/package.json apps/backend/package.json
 COPY apps/web/package.json apps/web/package.json
 RUN yarn --pure-lockfile
