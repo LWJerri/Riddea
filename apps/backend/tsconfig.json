@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "inlineSourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "composite": true,
+    "typeRoots": ["node_modules/@types", "types", "apps/**/src/types"],
+    "outDir": "./dist",
+  },
+  "include": ["src", "tools/migrations.ts"],
+  "exclude": ["node_modules", "dist"]
+}
