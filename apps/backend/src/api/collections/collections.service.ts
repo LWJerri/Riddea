@@ -85,10 +85,10 @@ export class CollectionsService {
 
       return {
         collection,
-        uploads: uploads.map((u) => ({
+        uploads: uploads?.map((u) => ({
           ...u,
           fileUrl: `${endPoint}/uploads/${u.filePath}`,
-        })),
+        })) ?? [],
         total,
       };
     } catch (err) {
