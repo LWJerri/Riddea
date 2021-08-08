@@ -6,6 +6,7 @@ on:
       - master
     paths:
      - apps/web/**
+  workflow_dispatch:
 
 jobs:
   docker:
