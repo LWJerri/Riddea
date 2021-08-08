@@ -7,14 +7,16 @@ dotenv.config({ path: findConfig(".env") });
 
 import { bootstrap as bot } from './bot'
 import { bootstrap as api } from './api'
+import i18n from './libs/i18n'
 import { createConnection, getConnectionOptions } from "typeorm";
 
 import * as typeormEntitites from './entities'
 
+
 async function bootstrap() {
   const connectionOptions = await getConnectionOptions();
   await createConnection(Object.assign(connectionOptions, { entities: Object.values(typeormEntitites) }));
-
+  await i18n.init()
   await bot()
   await api()
 }

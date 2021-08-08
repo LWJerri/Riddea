@@ -5,7 +5,6 @@ import { stage } from "./constants/stages";
 import photoEvent from "./events/photo";
 
 import { botLogger } from "./helpers/logger";
-import i18n from "./libs/localization";
 import userMiddleware from "./middlewares/user";
 import i18nMiddleware from "./middlewares/i18n";
 import { setupS3 } from "./libs/s3";
@@ -20,7 +19,6 @@ bot.on("photo", photoEvent);
 
 export async function bootstrap() {
   try {
-    await i18n.init();
     await setupS3();
     await loadCommands();
     await bot.launch();

@@ -2,7 +2,8 @@ import gl from "glob";
 import { promisify } from "util";
 import { get, set, template } from "lodash";
 import fs from "fs";
-import { botLogger } from "../helpers/logger";
+import { backendLogger } from "../helpers/logger";
+import { resolve } from "path";
 const glob = promisify(gl);
 
 export class I18n {
@@ -15,23 +16,21 @@ export class I18n {
   }
 
   public async init() {
-    const files = await glob("locales/**");
-
-    for (const f of files) {
-      if (!f.endsWith(".json")) {
-        continue;
-      }
-
+    const cwdPath = resolve(process.cwd(), '..', '..')
+    const files = await glob("locales/**", { cwd: cwdPath });
+    for (const f of files.filter(f => f.endsWith('.json'))) {
       const withoutLocales = f.replace("locales/", "").replace(".json", "");
 
       try {
-        set(this.translations, withoutLocales.split("/").join("."), JSON.parse(fs.readFileSync(f, "utf8")));
+        const filePath = resolve(cwdPath, f)
+        const content = JSON.parse(fs.readFileSync(filePath, "utf8"))
+
+        set(this.translations, withoutLocales.split("/").join("."), content);
       } catch (e) {
-        botLogger.error("Incorrect JSON file: " + f);
-        botLogger.error(e.stack);
+        backendLogger.error("Incorrect JSON file: " + f);
+        backendLogger.error(e.stack);
       }
     }
-
     return true;
   }
 

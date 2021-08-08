@@ -1,11 +1,11 @@
-name: Publish Migrator To Docker
+name: Publish Backend To Docker
 
 on:
   push:
     branches:
       - master
     paths:
-     - packages/typeorm/**
+     - apps/backend/**
 
 jobs:
   docker:
@@ -34,10 +34,17 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          target: migrator
+          target: backend
           push: true
           tags: |
-            ghcr.io/riddea/migrator:latest
-            ghcr.io/riddea/migrator:${{ github.sha }}
-            quay.io/riddea/migrator:latest
-            quay.io/riddea/migrator:${{ github.sha }}
+            ghcr.io/riddea/backend:latest
+            ghcr.io/riddea/backend:${{ github.sha }}
+            quay.io/riddea/backend:latest
+            quay.io/riddea/backend:${{ github.sha }}
+      - name: Deploy To CapRover
+        uses: floms/action-caprover@v1
+        with:
+          host: ${{ secrets.CAPPROVER_DOMAIN }}
+          password: ${{ secrets.CAPROVER_PASSWORD }}
+          app: riddea-backend
+          image: quay.io/riddea/backend

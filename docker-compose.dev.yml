@@ -30,37 +30,17 @@ services:
       MINIO_ROOT_PASSWORD: riddea-dev
     command: server --address :9000 /data
 
-  migrator:
-    build:
-      context: .
-      target: migrator
-    env_file: 
-      - .env.dev
-    depends_on: 
-      - postgres
-
-  bot:
+  backend:
     restart: unless-stopped
     env_file:
       - .env.dev
     build:
       context: .
-      target: bot
+      target: backend
+    ports:
+      - 3000:3000
     depends_on: 
       - postgres
-      - migrator
-      - minio
-
-  api:
-    restart: unless-stopped
-    env_file:
-      - .env.dev
-    build:
-      context: .
-      target: api
-    depends_on: 
-      - postgres
-      - migrator
       - minio
 
   web:
