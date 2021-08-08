@@ -44,7 +44,7 @@ export async function bootstrap() {
     });
 
     await app.listen(PORT, "0.0.0.0");
-    apiLogger.log(`Listening on ${PORT}`)
+    apiLogger.log(`Listening on ${PORT}`);
   } catch (err) {
     apiLogger.error(`API main error`, err.stack);
   }

@@ -18,8 +18,8 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn workspaces run build",
-    "prettier": "prettier --write \"./apps/**/*.ts\" \"./packages/**/*.ts\"",
-    "clean": "rimraf ./**/libs",
+    "prettier": "prettier --write \"./apps/**/*.ts\"",
+    "clean": "rimraf ./**/dist",
     "clean:modules": "rimraf ./**/node_modules",
     "start": "yarn workspace @riddea/backend run start",
     "dev": "npm-run-all --parallel dev:backend dev:web",

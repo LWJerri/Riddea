@@ -16,14 +16,14 @@ export class I18n {
   }
 
   public async init() {
-    const cwdPath = resolve(process.cwd(), '..', '..')
+    const cwdPath = resolve(process.cwd(), "..", "..");
     const files = await glob("locales/**", { cwd: cwdPath });
-    for (const f of files.filter(f => f.endsWith('.json'))) {
+    for (const f of files.filter((f) => f.endsWith(".json"))) {
       const withoutLocales = f.replace("locales/", "").replace(".json", "");
 
       try {
-        const filePath = resolve(cwdPath, f)
-        const content = JSON.parse(fs.readFileSync(filePath, "utf8"))
+        const filePath = resolve(cwdPath, f);
+        const content = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
         set(this.translations, withoutLocales.split("/").join("."), content);
       } catch (e) {

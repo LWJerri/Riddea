@@ -5,7 +5,7 @@ import base64Data from "../helpers/base64Decoder";
 import { botLogger } from "../helpers/logger";
 import { File, Message } from "typegram";
 import { uploadFile } from "../libs/s3";
-import crypto from 'crypto'
+import crypto from "crypto";
 
 async function getKeyboard(ctx: Context) {
   try {
@@ -65,7 +65,11 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const message = ctx.update.callback_query.message as Message & { photo: File[] };
       const photo = message.photo.pop() as File;
 
-      await saveAndUploadPhoto({ photo, userID: ctx.from.id });
+      const collectionsRepository = getRepository(Collection);
+      const data = { userID: ctx.from.id, name: "IWC" };
+      const collection = (await collectionsRepository.findOne(data)) || (await collectionsRepository.save(data));
+
+      await saveAndUploadPhoto({ photo, userID: ctx.from.id, collectionId: collection.id });
 
       await ctx.reply(ctx.i18n.translate("newImageNoCollection"));
       await ctx.deleteMessage(ctx.message);

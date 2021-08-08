@@ -3,9 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Statistic, Upload } from "../../entities";
 import { Repository } from "typeorm";
 import { StatsDTO } from "./dto/stats.dto";
-import { commands } from '../../bot/helpers/loadCommands'
+import { commands } from "../../bot/helpers/loadCommands";
 import humanize from "humanize-duration";
-import { bot } from '../../bot'
+import { bot } from "../../bot";
 
 const pkg = require("../../../../package.json");
 
@@ -30,17 +30,16 @@ export class StatsService {
 
       const uploads = await this.uploadRepository.count();
 
-
       const uptime = humanize(Math.floor(process.uptime()) * 1000, {
         round: true,
         language: "en",
       });
-      const botInfo = { 
+      const botInfo = {
         username: bot.botInfo.username,
         id: bot.botInfo.id,
         uptime,
         version: pkg.version,
-      }
+      };
 
       return {
         commandsUsage,
