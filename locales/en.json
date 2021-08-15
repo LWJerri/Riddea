@@ -16,6 +16,7 @@
   "listCollections": "List of your collections:",
   "changePublicType": "Make {{ type }}",
   "openInWeb": "Open in web",
+  "defCollectionError": "You can't delete default collection!",
   "previousImage": "Previous picture",
   "nextImage": "Next picture",
   "selectCollection": "Choose collection",
