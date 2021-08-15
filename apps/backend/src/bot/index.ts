@@ -11,10 +11,7 @@ import { setupS3 } from "./libs/s3";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 
-bot.use(userMiddleware);
-bot.use(i18nMiddleware);
-bot.use(session());
-bot.use(stage.middleware());
+bot.use(userMiddleware, i18nMiddleware, session(), stage.middleware());
 bot.on("photo", photoEvent);
 
 export async function bootstrap() {
@@ -37,7 +34,8 @@ bot.catch((err: Error) => {
   botLogger.error(`Main app error:`, err.stack);
 });
 
-process.on("SIGINT", () => shutDownServices());
-process.on("SIGTERM", () => shutDownServices());
-process.on("unhandledRejection", (reason) => botLogger.error(reason));
-process.on("uncaughtException", (reason) => botLogger.error(reason));
+process
+  .on("SIGINT", () => shutDownServices())
+  .on("SIGTERM", () => shutDownServices())
+  .on("unhandledRejection", (reason) => botLogger.error(reason))
+  .on("uncaughtException", (reason) => botLogger.error(reason));
