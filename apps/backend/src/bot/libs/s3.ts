@@ -1,6 +1,7 @@
+import AWS from "aws-sdk";
+
 import { botLogger } from "../helpers/logger";
 
-import AWS from "aws-sdk";
 
 const S3Client = new AWS.S3({
   accessKeyId: process.env.S3_ACCESSKEY,

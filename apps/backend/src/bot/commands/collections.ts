@@ -1,5 +1,6 @@
 import { Context, Markup } from "telegraf";
-import { getRepository, IsNull } from "typeorm";
+import { getRepository } from "typeorm";
+
 import { bot } from "..";
 import { Collection, Upload } from "../../entities";
 import { CommandInterface } from "./_interface";
@@ -83,7 +84,7 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    if ((ctx as any).isAction) {
+    if (ctx.isAction) {
       await ctx.editMessageText(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));
     } else {
       await ctx.reply(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));

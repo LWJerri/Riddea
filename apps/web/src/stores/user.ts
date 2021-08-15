@@ -1,6 +1,7 @@
 import { createStore } from "nanostores";
-import { api } from "../helpers/api";
+
 import type { User } from "../../../api/src/types/user";
+import { api } from "../helpers/api";
 
 export const userStore = createStore<Partial<User>>(() => {
   userStore.set({});

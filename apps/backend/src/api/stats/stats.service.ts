@@ -1,12 +1,16 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Statistic, Upload } from "../../entities";
-import { Repository } from "typeorm";
-import { StatsDTO } from "./dto/stats.dto";
-import { commands } from "../../bot/helpers/loadCommands";
 import humanize from "humanize-duration";
-import { bot } from "../../bot";
+import { Repository } from "typeorm";
 
+import { bot } from "../../bot";
+import { commands } from "../../bot/helpers/loadCommands";
+import { Statistic, Upload } from "../../entities";
+import { StatsDTO } from "./dto/stats.dto";
+
+
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../../../package.json");
 
 @Injectable()
@@ -21,12 +25,12 @@ export class StatsService {
   async stats(): Promise<StatsDTO> {
     try {
       const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command: command.name })));
-      const commandsUsage = commands.reduce((prev: any, current: any, index: any) => {
+      const commandsUsage = commands.reduce((prev, current, index) => {
         return {
           ...prev,
-          [current]: counts[index],
+          [current.name]: counts[index],
         };
-      }, {});
+      }, {} as Record<string, number>);
 
       const uploads = await this.uploadRepository.count();
 

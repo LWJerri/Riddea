@@ -1,16 +1,21 @@
-import gl from "glob";
-import { promisify } from "util";
-import { get, set, template } from "lodash";
 import fs from "fs";
-import { backendLogger } from "../helpers/logger";
 import { resolve } from "path";
+import { promisify } from "util";
+
+import gl from "glob";
+import { get, set, template } from "lodash";
+
+
+import { backendLogger } from "../helpers/logger";
+
+
 const glob = promisify(gl);
 
 export class I18n {
-  translations: Record<string, any> = {};
+  translations: Record<string, string> = {};
   private lang = "en";
 
-  constructor(lang?: string, translations?: Record<string, any>) {
+  constructor(lang?: string, translations?: Record<string, string>) {
     if (lang) this.lang = lang;
     if (translations) this.translations = translations;
   }
@@ -23,7 +28,7 @@ export class I18n {
 
       try {
         const filePath = resolve(cwdPath, f);
-        const content = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        const content: Record<string, unknown> = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
         set(this.translations, withoutLocales.split("/").join("."), content);
       } catch (e) {
@@ -38,7 +43,7 @@ export class I18n {
     return new I18n(lang, this.translations);
   }
 
-  translate(path: string, data?: Record<string, any>) {
+  translate(path: string, data?: Record<string, string>) {
     const defaultTranslation = get(this.translations, `${this.lang}.${path}`, "Translate not found! Please, contact with @LWJerri!");
     const str = get(this.translations, `${this.lang}.${path}`, defaultTranslation);
     const result = template(str, { interpolate: /{{([\s\S]+?)}}/g });

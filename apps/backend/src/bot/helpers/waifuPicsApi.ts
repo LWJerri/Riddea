@@ -1,6 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
-import { fileTypes, ignoreEndpoints } from "../constants";
 import { extname } from "path";
+
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+
+import { fileTypes, ignoreEndpoints } from "../constants";
 
 export type WaifuPicsResponse = {
   url: string;
@@ -19,7 +21,7 @@ export const waifuPicsApi = async (opts = { method: "GET", amount: 1 } as WaifuP
   };
 
   const responses = await Promise.all<{ data: WaifuPicsResponse }>(
-    [...Array(opts.amount)].reduce((curr, val) => [...curr, axios.request(axiosOptions)], []),
+    [...Array(opts.amount)].reduce((curr) => [...curr, axios.request(axiosOptions)], []),
   );
 
   const result = await axios.all<AxiosResponse<WaifuPicsResponse>>(responses.map((r) => axios.get(r.data.url)));

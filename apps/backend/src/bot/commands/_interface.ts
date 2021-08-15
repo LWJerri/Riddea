@@ -1,8 +1,9 @@
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
+
 import { Statistic } from "../../entities";
-import { botLogger } from "../helpers/logger";
 import { cmdLimiter } from "../constants";
+import { botLogger } from "../helpers/logger";
 
 export type CommandOptions = {
   name: string;
@@ -50,7 +51,7 @@ export class CommandInterface {
     }
   }
 
-  run(ctx: Context): Promise<any> | any {
+  run(_ctx: Context): Promise<unknown> | unknown {
     throw new Error("Method not implemented");
   }
 }

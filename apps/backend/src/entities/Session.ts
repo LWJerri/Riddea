@@ -16,5 +16,5 @@ export class Session {
   sid: string;
 
   @Column("text")
-  json: any;
+  json: string;
 }

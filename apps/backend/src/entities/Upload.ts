@@ -10,6 +10,7 @@ import {
   AfterLoad,
   AfterUpdate,
 } from "typeorm";
+
 import { Collection } from "./Collection";
 
 @Entity()

@@ -1,9 +1,10 @@
 import { CacheInterceptor, Controller, Get, Param, UseInterceptors, Request } from "@nestjs/common";
 import { ApiResponse } from "@nestjs/swagger";
 import { FastifyRequest } from "fastify";
+
+import { apiLogger } from "..";
 import { CollectionsService } from "../collections/collections.service";
 import { CollectionDTO } from "../collections/dto/collection.dto";
-import { apiLogger } from "..";
 
 @Controller("/v1/users")
 export class UsersController {

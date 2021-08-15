@@ -1,7 +1,8 @@
-import { botLogger } from "../helpers/logger";
 import { BotCommand } from "typegram";
+
 import { bot } from "..";
 import { commands as commandsStore } from "../helpers/loadCommands";
+import { botLogger } from "../helpers/logger";
 
 export default async function readyEvent() {
   botLogger.log(`READY AS @${bot.botInfo.username}!`);

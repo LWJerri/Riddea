@@ -1,6 +1,7 @@
-import { bot } from "..";
 import { promises as fs } from "fs";
 import { resolve } from "path";
+
+import { bot } from "..";
 import { CommandInterface } from "../commands/_interface";
 import { botLogger } from "./logger";
 
@@ -27,7 +28,7 @@ export async function loadCommands() {
       for (const action of command.actions) {
         bot.action(action.callback, async (ctx) => {
           await ctx.answerCbQuery();
-          (ctx as any).isAction = true;
+          ctx.isAction = true;
           command.execute(ctx);
         });
 

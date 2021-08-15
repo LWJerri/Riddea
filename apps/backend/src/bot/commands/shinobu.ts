@@ -1,7 +1,8 @@
 import { Markup } from "telegraf";
-import { CommandInterface } from "./_interface";
+
 import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
+import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
   constructor() {

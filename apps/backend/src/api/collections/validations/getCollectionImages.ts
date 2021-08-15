@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsNumberString, Max, Min } from "class-validator";
+import { Max, Min } from "class-validator";
 
 export class GetCollectionImages {
   @ApiProperty()

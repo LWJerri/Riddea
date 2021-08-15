@@ -1,8 +1,9 @@
-import { User } from "../../entities";
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
 
-export default async function userMiddleware(ctx: Context, next: Function) {
+import { User } from "../../entities";
+
+export default async function userMiddleware(ctx: Context, next: () => void) {
   const repository = getRepository(User);
   const user = await repository.findOne({ userID: ctx.from.id });
   if (user) {

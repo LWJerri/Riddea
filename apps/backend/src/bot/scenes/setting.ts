@@ -1,6 +1,7 @@
-import { User } from "../../entities";
 import { Scenes } from "telegraf";
 import { getRepository } from "typeorm";
+
+import { User } from "../../entities";
 import { botLogger } from "../helpers/logger";
 
 export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting")

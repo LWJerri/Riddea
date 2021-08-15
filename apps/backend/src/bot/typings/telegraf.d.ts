@@ -1,8 +1,11 @@
-import { User } from "../../entities";
-import telegraf from "telegraf";
-import { I18n } from "../helpers/localization";
-import { CallbackQuery } from "typegram";
 import { Context } from "vm";
+
+import { CallbackQuery } from "typegram";
+
+import { User } from "../../entities";
+import { I18n } from "../helpers/localization";
+
+
 
 declare module "telegraf" {
   interface Context {
