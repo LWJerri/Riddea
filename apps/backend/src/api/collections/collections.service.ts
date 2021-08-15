@@ -80,16 +80,15 @@ export class CollectionsService {
         throw new ForbiddenException(`Collection with ID ${id} is private`);
       }
 
-      const endPoint = `${process.env.S3_ENDPOINT.startsWith("https://") ? "https://" : "https://"}${
-        process.env.S3_BUCKET
-      }.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}`;
+      const endPoint = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}`;
 
       return {
         collection,
-        uploads: uploads?.map((u) => ({
-          ...u,
-          fileUrl: `${endPoint}/uploads/${u.filePath}`,
-        })) ?? [],
+        uploads:
+          uploads?.map((u) => ({
+            ...u,
+            fileUrl: `${endPoint}/uploads/${u.filePath}`,
+          })) ?? [],
         total,
       };
     } catch (err) {
