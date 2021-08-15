@@ -1,7 +1,8 @@
 import axios from "axios";
+import { File } from "typegram";
+
 import { bot } from "..";
 import { botLogger } from "./logger";
-import { File } from "typegram";
 
 export default async function base64Data(photo: File | { file_id: string }) {
   try {

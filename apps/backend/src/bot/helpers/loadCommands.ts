@@ -1,6 +1,7 @@
-import { bot } from "..";
 import { promises as fs } from "fs";
 import { resolve } from "path";
+
+import { bot } from "..";
 import { CommandInterface } from "../commands/_interface";
 import { botLogger } from "./logger";
 

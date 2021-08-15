@@ -1,6 +1,7 @@
 import { spawn } from "child_process";
-import findConfig from "find-config";
+
 import dotenv from "dotenv";
+import findConfig from "find-config";
 
 dotenv.config({ path: findConfig(".env") });
 

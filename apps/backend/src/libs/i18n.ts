@@ -1,9 +1,14 @@
-import gl from "glob";
-import { promisify } from "util";
-import { get, set, template } from "lodash";
 import fs from "fs";
-import { backendLogger } from "../helpers/logger";
 import { resolve } from "path";
+import { promisify } from "util";
+
+import gl from "glob";
+import { get, set, template } from "lodash";
+
+
+import { backendLogger } from "../helpers/logger";
+
+
 const glob = promisify(gl);
 
 export class I18n {

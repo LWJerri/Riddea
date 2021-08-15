@@ -1,13 +1,13 @@
 import { Scenes, session, Telegraf } from "telegraf";
-import readyEvent from "./events/ready";
-import { loadCommands } from "./helpers/loadCommands";
+
 import { stage } from "./constants/stages";
 import photoEvent from "./events/photo";
-
+import readyEvent from "./events/ready";
+import { loadCommands } from "./helpers/loadCommands";
 import { botLogger } from "./helpers/logger";
-import userMiddleware from "./middlewares/user";
-import i18nMiddleware from "./middlewares/i18n";
 import { setupS3 } from "./libs/s3";
+import i18nMiddleware from "./middlewares/i18n";
+import userMiddleware from "./middlewares/user";
 
 export const bot = new Telegraf<Scenes.SceneContext>(process.env.TELEGRAM_BOT_TOKEN);
 

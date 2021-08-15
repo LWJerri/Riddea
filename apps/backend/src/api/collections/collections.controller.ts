@@ -12,12 +12,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { CollectionsService } from "./collections.service";
-import { GetCollectionImages } from "./validations/getCollectionImages";
-import { FastifyReply, FastifyRequest } from "fastify";
 import { ApiForbiddenResponse, ApiResponse } from "@nestjs/swagger";
-import { CollectionDTO, CollectionUploadsDTO } from "./dto/collection.dto";
+import { FastifyReply, FastifyRequest } from "fastify";
+
 import { apiLogger } from "..";
+import { CollectionsService } from "./collections.service";
+import { CollectionDTO, CollectionUploadsDTO } from "./dto/collection.dto";
+import { GetCollectionImages } from "./validations/getCollectionImages";
+
 
 @Controller("/v1/collections")
 export class CollectionsController {
@@ -68,7 +70,7 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(
-    @Query() query: GetCollectionImages,
+  @Query() query: GetCollectionImages,
     @Param("id") id: string,
     @Res() res: FastifyReply,
     @Req() { session }: FastifyRequest,

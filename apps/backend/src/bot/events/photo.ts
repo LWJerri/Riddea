@@ -1,4 +1,5 @@
 import { Scenes } from "telegraf";
+
 import { botLogger } from "../helpers/logger";
 
 export default async function photoEvent(ctx: Scenes.SceneContext<Scenes.SceneSessionData>) {

@@ -1,11 +1,14 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Statistic, Upload } from "../../entities";
-import { Repository } from "typeorm";
-import { StatsDTO } from "./dto/stats.dto";
-import { commands } from "../../bot/helpers/loadCommands";
 import humanize from "humanize-duration";
+import { Repository } from "typeorm";
+
 import { bot } from "../../bot";
+import { commands } from "../../bot/helpers/loadCommands";
+import { Statistic, Upload } from "../../entities";
+import { StatsDTO } from "./dto/stats.dto";
+
+
 
 const pkg = require("../../../../package.json");
 

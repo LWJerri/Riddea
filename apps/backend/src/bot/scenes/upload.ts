@@ -1,11 +1,13 @@
+import crypto from "crypto";
+
 import { Context, Markup, Scenes } from "telegraf";
+import { File, Message } from "typegram";
 import { getRepository } from "typeorm";
+
 import { Collection, Upload } from "../../entities";
 import base64Data from "../helpers/base64Decoder";
 import { botLogger } from "../helpers/logger";
-import { File, Message } from "typegram";
 import { uploadFile } from "../libs/s3";
-import crypto from "crypto";
 
 async function getKeyboard(ctx: Context) {
   try {

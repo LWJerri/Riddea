@@ -1,9 +1,10 @@
+import humanize from "humanize-duration";
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
+
 import { Statistic, User, Upload } from "../../entities";
-import humanize from "humanize-duration";
-import { CommandInterface } from "./_interface";
 import { commands as commandsStore } from "../helpers/loadCommands";
+import { CommandInterface } from "./_interface";
 
 const pkg = require("../../../../package.json");
 

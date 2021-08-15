@@ -1,5 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { extname } from "path";
+
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+
 import { fileTypes } from "../constants";
 
 export type ShiroResponse = {

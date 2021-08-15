@@ -1,6 +1,7 @@
 import { Controller, Get, Request } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import { FastifyRequest } from "fastify";
+
 import { apiLogger } from "..";
 
 @Controller("/v1/auth")

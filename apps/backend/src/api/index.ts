@@ -1,10 +1,11 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import fastifySession from "@mgcrea/fastify-session";
 import { Logger, ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import fastifyCookie from "fastify-cookie";
-import fastifySession from "@mgcrea/fastify-session";
+
+import { AppModule } from "./app.module";
 import { TypeormStore } from "./libs/SessionStore";
 
 export const apiLogger = new Logger("API");

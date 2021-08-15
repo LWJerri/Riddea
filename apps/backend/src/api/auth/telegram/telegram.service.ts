@@ -1,6 +1,8 @@
+import { createHash, createHmac } from "crypto";
+
 import { SessionData } from "@mgcrea/fastify-session";
 import { Injectable, ServiceUnavailableException, UnauthorizedException } from "@nestjs/common";
-import { createHash, createHmac } from "crypto";
+
 import { apiLogger } from "../..";
 
 type ConfirmLogin = SessionData["user"] & {

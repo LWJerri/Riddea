@@ -1,6 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
-import { fileTypes, ignoreEndpoints } from "../constants";
 import { extname } from "path";
+
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+
+import { fileTypes, ignoreEndpoints } from "../constants";
 
 export type WaifuPicsResponse = {
   url: string;
