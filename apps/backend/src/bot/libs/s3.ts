@@ -60,3 +60,10 @@ export function uploadFile(opts: {
     ACL: "public-read",
   }).promise();
 }
+
+export function deleteFile(opts: { filePath: string }) {
+  return S3Client.deleteObject({
+    Bucket: bucketName,
+    Key: `uploads/${opts.filePath}`,
+  }).promise();
+}

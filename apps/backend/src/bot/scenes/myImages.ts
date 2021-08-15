@@ -3,6 +3,7 @@ import { getRepository, Not } from "typeorm";
 
 import { Collection, Upload } from "../../entities";
 import { botLogger } from "../helpers/logger";
+import { deleteFile } from "../libs/s3";
 
 interface ImageScene extends Scenes.SceneSessionData {
   skip: number;
@@ -157,6 +158,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
     try {
       await ctx.answerCbQuery();
 
+      await deleteFile({ filePath: ctx.scene.session.currentImage.filePath });
       await getRepository(Upload).remove(ctx.scene.session.currentImage);
       ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
 
