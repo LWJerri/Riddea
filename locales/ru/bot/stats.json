@@ -1,0 +1,19 @@
+{
+  "commands": {
+    "title": "Статистика команд",
+    "text": "> /{{ command }} вызвана {{ uses }} раз"
+  },
+
+  "uploads": {
+    "title": "Статистика загрузок",
+    "text": "Загружено {{ count }} изображений"
+  },
+
+  "bot": {
+    "title": "Статистика бота",
+    "username": "Никнейм: {{ username }}",
+    "id": "ID: {{ id }}",
+    "version": "Версия: {{ version }}",
+    "uptime": "Аптайм: {{ uptime }}"
+  }
+}

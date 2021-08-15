@@ -14,16 +14,16 @@ interface ImageScene extends Scenes.SceneSessionData {
 const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
   return Markup.inlineKeyboard([
     [
-      ctx.scene.session.skip > 0 ? { text: ctx.i18n.translate("previousImage"), callback_data: "BACK" } : undefined,
+      ctx.scene.session.skip > 0 ? { text: ctx.i18n.translate("bot.buttons.previous"), callback_data: "BACK" } : undefined,
       ctx.scene.session.skip + 1 !== ctx.scene.session.totalImages
-        ? { text: ctx.i18n.translate("nextImage"), callback_data: "NEXT" }
+        ? { text: ctx.i18n.translate("bot.buttons.next"), callback_data: "NEXT" }
         : undefined,
     ].filter(Boolean),
     [
-      { text: ctx.i18n.translate("selectCollection"), callback_data: `CHOOSE_COLLECTION` },
-      { text: ctx.i18n.translate("delete"), callback_data: "DELETE_IMAGE" },
+      { text: ctx.i18n.translate("bot.buttons.collection"), callback_data: `CHOOSE_COLLECTION` },
+      { text: ctx.i18n.translate("bot.buttons.delete"), callback_data: "DELETE_IMAGE" },
     ],
-    [{ text: ctx.i18n.translate("stop"), callback_data: "LEAVE" }],
+    [{ text: ctx.i18n.translate("bot.buttons.cancel"), callback_data: "LEAVE" }],
   ]);
 };
 
@@ -62,7 +62,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       ctx.scene.session.totalImages = await getRepository(Upload).count({ userID: ctx.from.id });
       ctx.scene.session.currentImage = await getImage(ctx.from.id, ctx.scene.session.skip);
       if (!ctx.scene.session.currentImage) {
-        await ctx.reply(ctx.i18n.translate("noImages"));
+        await ctx.reply(ctx.i18n.translate("bot.main.images.nothing"));
         await ctx.scene.leave();
 
         return;
@@ -89,12 +89,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `${ctx.i18n.translate("imageCaptionFirst", {
+          caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
             curr: ctx.scene.session.skip,
             all: ctx.scene.session.totalImages - 1,
-          })}\n${ctx.i18n.translate("imageCaptionSecond", {
+          })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
-          })}\n${ctx.i18n.translate("imageCaptionThree", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
+          })}\n${ctx.i18n.translate("bot.main.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -115,12 +115,12 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageMedia(
         {
           media: ctx.scene.session.currentImage.fileID,
-          caption: `${ctx.i18n.translate("imageCaptionFirst", {
+          caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
             curr: ctx.scene.session.skip,
             all: ctx.scene.session.totalImages - 1,
-          })}\n${ctx.i18n.translate("imageCaptionSecond", {
+          })}\n${ctx.i18n.translate("bot.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
-          })}\n${ctx.i18n.translate("imageCaptionThree", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
+          })}\n${ctx.i18n.translate("bot.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -145,8 +145,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
       await ctx.editMessageReplyMarkup({
         inline_keyboard: [
           [
-            { text: ctx.i18n.translate("confirm"), callback_data: "DELETE_IMAGE_APPROVE" },
-            { text: ctx.i18n.translate("cancel"), callback_data: "DELETE_IMAGE_DECLINE" },
+            { text: ctx.i18n.translate("bot.buttons.confirm"), callback_data: "DELETE_IMAGE_APPROVE" },
+            { text: ctx.i18n.translate("bot.buttons.cancel"), callback_data: "DELETE_IMAGE_DECLINE" },
           ],
         ],
       });

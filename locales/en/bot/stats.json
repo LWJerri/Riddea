@@ -1,0 +1,19 @@
+{
+  "commands": {
+    "title": "Commands Stats",
+    "text": "> /{{ command }} used {{ uses }} times"
+  },
+
+  "uploads": {
+    "title": "Uploads Stats",
+    "text": "Uploaded {{ count }} images"
+  },
+
+  "bot": {
+    "title": "Bot Info",
+    "username": "Bot username: {{ username }}",
+    "id": "Bot ID: {{ id }}",
+    "version": "Version: {{ version }}",
+    "uptime": "Uptime: {{ uptime }}"
+  }
+}

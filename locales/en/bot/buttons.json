@@ -1,0 +1,19 @@
+{
+  "changeType": "Make {{ type }}",
+  "open": "Open",
+  "previous": "Previous picture",
+  "next": "Next picture",
+  "collection": "Collection",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "stop": "Stop",
+  "back": "Back",
+  "skip": "Skip",
+  "partners": "Partners",
+  "donate": "Support",
+  "lang": "Change language",
+  "help": "Help",
+  "statistics": "Statistics",
+  "settings": "Settings"
+}

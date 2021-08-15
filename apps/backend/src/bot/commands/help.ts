@@ -21,16 +21,16 @@ export default class extends CommandInterface {
           url: "https://github.com/Riddea",
         },
         {
-          text: ctx.i18n.translate("support"),
+          text: ctx.i18n.translate("bot.buttons.donate"),
           url: "https://www.donationalerts.com/r/lwjerri",
         },
         {
-          text: ctx.i18n.translate("partners"),
+          text: ctx.i18n.translate("bot.buttons.partners"),
           callback_data: "SEND_PARTNERS",
         },
       ],
     ]);
 
-    await ctx.reply(ctx.i18n.translate("helpMenuMessage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.other.menuMessage"), keyboard);
   }
 }

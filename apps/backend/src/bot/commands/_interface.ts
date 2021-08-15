@@ -33,12 +33,12 @@ export class CommandInterface {
   async execute(ctx: Context) {
     try {
       if (this.cooldown) {
-        return cmdLimiter.take(ctx.from.id) ? await ctx.reply(ctx.i18n.translate("rateLimit")) : await this.run(ctx);
+        return cmdLimiter.take(ctx.from.id) ? await ctx.reply(ctx.i18n.translate("bot.main.errors.rate")) : await this.run(ctx);
       }
 
       await this.run(ctx);
     } catch (err) {
-      await ctx.reply(ctx.i18n.translate("errorMessage"));
+      await ctx.reply(ctx.i18n.translate("bot.main.errors.error"));
       botLogger.error(`Command interface error:`, err.stack);
     }
 

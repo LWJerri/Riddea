@@ -1,0 +1,71 @@
+{
+  "errors": {
+    "rate": "Hey! Wait 5 seconds before using the next command.",
+    "error": "We are sorry, some error happened on our side :("
+  },
+
+  "newPack": {
+    "images": "Do you wanna see more {{ pack }} images?",
+    "videos": "Do you wanna see more {{ pack }} videos?"
+  },
+
+  "collection": {
+    "countLimit": "You can't have more than 50 collections!",
+    "nameLimit": "Collection name can't be more than 15 symbols!",
+    "exist": "Collection with name {{ name }} already exists. Please, enter another name!",
+    "created": "Collection with name {{ name }} created.",
+    "name": "Please, enter the name of the new collection.",
+    "list": "List of your collections:",
+    "defProtect": "You can't delete default collection!"
+  },
+
+  "scene": {
+    "leave": {
+      "all": "Okay, happy nice day!",
+      "image": "You leave from the image upload scene!",
+      "collection": "You leave from the collection creating scene!"
+    }
+  },
+
+  "upload": {
+    "send": "Please, send me your image!",
+    "hasCollection": "Your image uploaded to database in {{ name }} collection!",
+    "noCollection": "Your image uploaded to a database but not added to the collection!",
+    "noImage": "If you don't want to upload an image, type /cancel!"
+  },
+
+  "settings": {
+    "lang": {
+      "newLang": "Choose your new language!",
+      "updLang": "Your language has been updated!"
+    },
+
+    "profile": {
+      "info": "Your language: {{ lang }}\nYou {{ position }} member\nFirst activation: {{ date }}"
+    }
+  },
+
+  "start": {
+    "first": "Hello, {{ user }} ＼(°o°)／",
+    "second": "This bot provides a function for view random anime images and uploads your custom images. You can use command /help to view a list of all commands or use the buttons to navigate on the bot.\nDeveloped by [LWJerri](https://github.com/LWJerri) & [Satont](https://github.com/Satont)\n\nNOTE: This bot has NSFW commands, check your room to stay in a safety!"
+  },
+
+  "images": {
+    "nothing": "You never upload here your images! Use /upload for uploading your favorite image.",
+    "caption": {
+      "first": "Image {{ curr }} of {{ all }}",
+      "second": "Collection: {{ name }}",
+      "three": "Uploaded: {{ time }}"
+    }
+  },
+
+  "other": {
+    "partnersMessage": "Here you can find a list of all our partners. We are very grateful for their support!",
+    "menuMessage": "Yo! Type / for view list of all bot commands.\n\nNOTE: If you wanna upload a picture, you need to send this picture to the bot without commands, compression, and etc. Also, you can forward pictures from other chat.",
+
+    "state": {
+      "public": "Public",
+      "private": "Private"
+    }
+  }
+}

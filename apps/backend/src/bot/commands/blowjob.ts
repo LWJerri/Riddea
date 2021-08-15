@@ -33,6 +33,6 @@ export default class extends CommandInterface {
       await ctx.replyWithVideo({ url: images[0] });
     }
 
-    await ctx.reply(ctx.i18n.translate("newPackBlowjob"), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.blowjob") }), keyboard);
   }
 }

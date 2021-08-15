@@ -20,6 +20,6 @@ export default class extends CommandInterface {
       { columns: 1 },
     );
 
-    await ctx.reply(ctx.i18n.translate("partnersMessage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.other.partnersMessage"), keyboard);
   }
 }

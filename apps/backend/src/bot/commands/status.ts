@@ -45,19 +45,22 @@ export default class extends CommandInterface {
     }, []);
 
     const cmdStats = commandsStats
-      .map((command) => ctx.i18n.translate("commandInfo", { command: command[0], uses: command[1] }))
+      .map((command) => ctx.i18n.translate("bot.stats.commands.text", { command: command[0], uses: command[1] }))
       .join("\n");
     const uploadStats = await getRepository(Upload).count();
 
-    const message = `\n\n${ctx.i18n.translate("commandStats")}:\n${cmdStats}\n\n${ctx.i18n.translate("uploadStats")}:\n${ctx.i18n.translate(
-      "uploadInfo",
-      { count: uploadStats },
-    )}\n\n${ctx.i18n.translate("botInfo")}:\n${ctx.i18n.translate("botUsername", { username: ctx.botInfo.username })}\n${ctx.i18n.translate(
-      "botID",
+    const message = `\n\n${ctx.i18n.translate("bot.stats.commands.title").toUpperCase()}:\n${cmdStats}\n\n${ctx.i18n
+      .translate("bot.stats.uploads.title")
+      .toUpperCase()}:\n${ctx.i18n.translate("bot.stats.uploads.text", { count: uploadStats })}\n\n${ctx.i18n
+      .translate("bot.stats.bot.title")
+      .toUpperCase()}:\n${ctx.i18n.translate("bot.stats.bot.username", { username: ctx.botInfo.username })}\n${ctx.i18n.translate(
+      "bot.stats.bot.id",
       {
         id: ctx.botInfo.id,
       },
-    )}\n${ctx.i18n.translate("botVersion", { version: pkg.version })}\n${ctx.i18n.translate("botUptime", { uptime: uptime })}`;
+    )}\n${ctx.i18n.translate("bot.stats.bot.version", { version: pkg.version })}\n${ctx.i18n.translate("bot.stats.bot.uptime", {
+      uptime: uptime,
+    })}`;
 
     await ctx.reply(message);
   }

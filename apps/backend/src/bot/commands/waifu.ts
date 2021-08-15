@@ -40,6 +40,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply(ctx.i18n.translate("newPackWaifu"), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.waifu") }), keyboard);
   }
 }

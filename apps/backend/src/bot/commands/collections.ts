@@ -46,7 +46,7 @@ export default class extends CommandInterface {
       const collection = await this.repository.findOne({ id });
       collection.isPublic = !collection.isPublic;
       await this.repository.save(collection);
-      await ctx.editMessageText(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));
+      await ctx.editMessageText(ctx.i18n.translate("bot.main.collection.list"), await this.getKeyboard(ctx));
     });
 
     bot.action(/EDIT_COLLECTION_\d+/, async (ctx) => {
@@ -58,12 +58,16 @@ export default class extends CommandInterface {
         inline_keyboard: [
           [
             {
-              text: ctx.i18n.translate("changePublicType", { type: collection.isPublic ? "private" : "public" }),
+              text: ctx.i18n.translate("bot.buttons.changeType", {
+                type: collection.isPublic
+                  ? ctx.i18n.translate("bot.main.other.state.private")
+                  : ctx.i18n.translate("bot.main.other.state.public"),
+              }),
               callback_data: `SWITCH_COLLECTION_STATE_${collection.id}`,
             },
           ],
-          [{ text: ctx.i18n.translate("openInWeb"), url: `https://riddea.ml/collection/${collection.id}` }],
-          [{ text: ctx.i18n.translate("delete"), callback_data: `DELETE_COLLECTION_${collection.id}` }],
+          [{ text: ctx.i18n.translate("bot.buttons.open"), url: `https://riddea.ml/collection/${collection.id}` }],
+          [{ text: ctx.i18n.translate("bot.buttons.delete"), callback_data: `DELETE_COLLECTION_${collection.id}` }],
           [{ text: "«", callback_data: `COLLECTION_LIST` }],
         ],
       });
@@ -75,7 +79,7 @@ export default class extends CommandInterface {
       const iwcID = (await this.repository.findOne({ userID: ctx.from.id, name: "IWC" })).id;
       const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
 
-      if (id == iwcID) return ctx.reply(ctx.i18n.translate("defCollectionError"));
+      if (id == iwcID) return ctx.reply(ctx.i18n.translate("bot.main.collection.defProtect"));
 
       await this.uploads.update({ userID: ctx.from.id, collection: { id } }, { collection: { id: iwcID } });
       await this.repository.delete({ id });
@@ -85,9 +89,9 @@ export default class extends CommandInterface {
 
   async run(ctx: Context) {
     if (ctx.isAction) {
-      await ctx.editMessageText(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));
+      await ctx.editMessageText(ctx.i18n.translate("bot.main.collection.list"), await this.getKeyboard(ctx));
     } else {
-      await ctx.reply(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));
+      await ctx.reply(ctx.i18n.translate("bot.main.collection.list"), await this.getKeyboard(ctx));
     }
   }
 }

@@ -15,13 +15,13 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
       const userData = await getRepository(User).findOne({ userID: ctx.from.id });
       const userLang = userData.lang.toUpperCase();
 
-      const message = ctx.i18n.translate("profileInfo", {
+      const message = ctx.i18n.translate("bot.main.settings.profile.info", {
         lang: userLang,
         position: userData.id,
         date: userData.startedAt.toLocaleDateString(),
       });
       const keyboard = {
-        reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("setLang"), callback_data: "LANGUAGE" }]] },
+        reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]] },
       };
 
       await ctx.reply(message, keyboard);
@@ -39,7 +39,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         },
       };
 
-      ctx.editMessageText(ctx.i18n.translate("newLang"), keyboard);
+      ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.newLang"), keyboard);
     } catch (err) {
       botLogger.error(`Scene settings error:`, err.stack);
     }
@@ -50,7 +50,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const keyboard = {
         reply_markup: {
-          inline_keyboard: [[{ text: ctx.i18n.translate("back"), callback_data: "BACK" }]],
+          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.back"), callback_data: "BACK" }]],
         },
       };
 
@@ -59,7 +59,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
       newData.lang = "ru";
       await userRepo.save(newData);
 
-      await ctx.editMessageText(ctx.i18n.translate("updLang"), keyboard);
+      await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
     } catch (err) {
       botLogger.error(`Scene settings error:`, err.stack);
     }
@@ -70,7 +70,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const keyboard = {
         reply_markup: {
-          inline_keyboard: [[{ text: ctx.i18n.translate("back"), callback_data: "BACK" }]],
+          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.back"), callback_data: "BACK" }]],
         },
       };
 
@@ -79,7 +79,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
       newData.lang = "en";
       await userRepo.save(newData);
 
-      await ctx.editMessageText(ctx.i18n.translate("updLang"), keyboard);
+      await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
     } catch (err) {
       botLogger.error(`Scene settings error:`, err.stack);
     }

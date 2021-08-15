@@ -5,9 +5,7 @@ import { promisify } from "util";
 import gl from "glob";
 import { get, set, template } from "lodash";
 
-
 import { backendLogger } from "../helpers/logger";
-
 
 const glob = promisify(gl);
 

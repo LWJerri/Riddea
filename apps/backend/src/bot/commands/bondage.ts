@@ -40,6 +40,6 @@ export default class extends CommandInterface {
       );
     }
 
-    await ctx.reply(ctx.i18n.translate("newPackBondage"), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.newPack.bondage", { pack: ctx.i18n.translate("bot.packs.bondage") }), keyboard);
   }
 }
