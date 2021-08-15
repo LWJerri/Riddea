@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "source-map-support/register";
+
 import dotenv from "dotenv";
 import findConfig from "find-config";
 
@@ -11,8 +12,6 @@ import { bootstrap as api } from "./api";
 import { bootstrap as bot } from "./bot";
 import * as typeormEntitites from "./entities";
 import i18n from "./libs/i18n";
-
-
 
 async function bootstrap() {
   const connectionOptions = await getConnectionOptions();

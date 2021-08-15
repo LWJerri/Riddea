@@ -77,7 +77,7 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: Context) {
-    if ((ctx as any).isAction) {
+    if (ctx.isAction) {
       await ctx.editMessageText(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));
     } else {
       await ctx.reply(ctx.i18n.translate("listCollections"), await this.getKeyboard(ctx));

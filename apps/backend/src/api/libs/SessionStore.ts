@@ -19,7 +19,7 @@ export class TypeormStore<T extends SessionData = SessionData> implements Sessio
         return null;
       }
 
-      return [JSON.parse(session?.json ?? {}) as T, session?.expireAt.getTime()];
+      return [JSON.parse(session?.json ?? "{}") as T, session?.expireAt.getTime()];
     } catch (err) {
       apiLogger.error(`SessionStore error:`, err.stack);
       return [null, null];

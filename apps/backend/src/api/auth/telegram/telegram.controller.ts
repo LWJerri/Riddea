@@ -4,6 +4,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 import { apiLogger } from "../..";
 import { TelegramService } from "./telegram.service";
+import { ConfirmLogin } from "./types";
 
 @Controller("/v1/auth/telegram")
 export class TelegramController {
@@ -11,7 +12,7 @@ export class TelegramController {
 
   @ApiExcludeEndpoint()
   @Get("callback")
-  async telegramCallback(@Query() query: any, @Request() req: FastifyRequest, @Response() res: FastifyReply) {
+  async telegramCallback(@Query() query: ConfirmLogin, @Request() req: FastifyRequest, @Response() res: FastifyReply) {
     try {
       const user = await this.telegramService.confirmLogin(query);
       req.session.set("user", user);

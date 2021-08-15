@@ -5,8 +5,8 @@ import findConfig from "find-config";
 
 dotenv.config({ path: findConfig(".env") });
 
-function bootstrap(): Promise<any> {
-  return new Promise((resolve, reject) => {
+function bootstrap(): Promise<number> {
+  return new Promise((resolve) => {
     const spawnOptions = {
       shell: true,
       env: {

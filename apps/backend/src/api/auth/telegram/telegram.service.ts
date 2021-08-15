@@ -1,13 +1,9 @@
 import { createHash, createHmac } from "crypto";
 
-import { SessionData } from "@mgcrea/fastify-session";
 import { Injectable, ServiceUnavailableException, UnauthorizedException } from "@nestjs/common";
 
 import { apiLogger } from "../..";
-
-type ConfirmLogin = SessionData["user"] & {
-  hash: string;
-};
+import { ConfirmLogin } from "./types";
 
 @Injectable()
 export class TelegramService {

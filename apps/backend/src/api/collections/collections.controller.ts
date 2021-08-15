@@ -85,8 +85,8 @@ export class CollectionsController {
           total,
         });
 
-        const lastPage = Math.ceil((total as any) / query.limit);
-        const isNext = parseInt(query.page++ as any) > lastPage - 1 ? false : true;
+        const lastPage = Math.ceil(total / query.limit);
+        const isNext = query.page + 1 > lastPage - 1 ? false : true;
 
         res.send({ nextPage: isNext, data: uploads });
       }

@@ -51,7 +51,7 @@ export class CommandInterface {
     }
   }
 
-  run(ctx: Context): Promise<any> | any {
+  run(_ctx: Context): Promise<unknown> | unknown {
     throw new Error("Method not implemented");
   }
 }

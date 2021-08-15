@@ -24,7 +24,7 @@ export const shiroApi = async (opts = { method: "GET", amount: 1 } as ShiroOpts)
   };
 
   const responses = await Promise.all<{ data: ShiroResponse }>(
-    [...Array(opts.amount)].reduce((curr, val) => [...curr, axios.request(axiosOptions)], []),
+    [...Array(opts.amount)].reduce((curr) => [...curr, axios.request(axiosOptions)], []),
   );
 
   const result = await axios.all<AxiosResponse<ShiroResponse>>(responses.map((r) => axios.get(r.data.url)));

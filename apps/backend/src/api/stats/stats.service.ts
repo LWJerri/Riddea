@@ -10,6 +10,7 @@ import { StatsDTO } from "./dto/stats.dto";
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../../../package.json");
 
 @Injectable()
@@ -24,12 +25,12 @@ export class StatsService {
   async stats(): Promise<StatsDTO> {
     try {
       const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command: command.name })));
-      const commandsUsage = commands.reduce((prev: any, current: any, index: any) => {
+      const commandsUsage = commands.reduce((prev, current, index) => {
         return {
           ...prev,
-          [current]: counts[index],
+          [current.name]: counts[index],
         };
-      }, {});
+      }, {} as Record<string, number>);
 
       const uploads = await this.uploadRepository.count();
 

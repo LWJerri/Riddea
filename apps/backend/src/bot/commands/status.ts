@@ -6,6 +6,7 @@ import { Statistic, User, Upload } from "../../entities";
 import { commands as commandsStore } from "../helpers/loadCommands";
 import { CommandInterface } from "./_interface";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../../../package.json");
 
 export default class extends CommandInterface {
