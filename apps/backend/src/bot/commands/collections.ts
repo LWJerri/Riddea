@@ -69,7 +69,11 @@ export default class extends CommandInterface {
     bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
       await ctx.answerCbQuery();
 
+      const iwcID = (await this.repository.findOne({ userID: ctx.from.id, name: "IWC" })).id;
       const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
+
+      if (id == iwcID) return ctx.reply(ctx.i18n.translate("defCollectionError"));
+
       await this.repository.delete({ id });
       await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
     });
