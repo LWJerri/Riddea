@@ -7,7 +7,7 @@ tsconfig.tsbuildinfo
 docker-compose.yml
 yarn-error.log
 docker-compose.yml
-.vscode
+.vscode/settings.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
