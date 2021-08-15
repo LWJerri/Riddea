@@ -16,6 +16,7 @@
   "listCollections": "Список Ваших коллекций:",
   "changePublicType": "Сделать {{ type }}",
   "openInWeb": "Открыть",
+  "defCollectionError": "Вы не можете удалить дефолтную коллекцию!",
   "previousImage": "Предыдущая картинка",
   "nextImage": "Следующая картинка",
   "selectCollection": "Выберите коллекцию",

@@ -2,11 +2,13 @@ import { Context, Markup } from "telegraf";
 import { getRepository } from "typeorm";
 
 import { bot } from "..";
-import { Collection } from "../../entities";
+import { Collection, Upload } from "../../entities";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
   private repository = getRepository(Collection);
+  private uploads = getRepository(Upload);
+
   constructor() {
     super({
       name: "collections",
@@ -70,7 +72,12 @@ export default class extends CommandInterface {
     bot.action(/DELETE_COLLECTION_\d+/, async (ctx) => {
       await ctx.answerCbQuery();
 
+      const iwcID = (await this.repository.findOne({ userID: ctx.from.id, name: "IWC" })).id;
       const id = Number(ctx.match.input.replace("DELETE_COLLECTION_", ""));
+
+      if (id == iwcID) return ctx.reply(ctx.i18n.translate("defCollectionError"));
+
+      await this.uploads.update({ userID: ctx.from.id, collection: { id } }, { collection: { id: iwcID } });
       await this.repository.delete({ id });
       await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
     });
