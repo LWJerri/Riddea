@@ -18,6 +18,7 @@ async function getKeyboard(ctx: Context) {
       Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
     );
     collectionsList.push({ text: ctx.i18n.translate("skip"), callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
+    collectionsList.push({ text: ctx.i18n.translate("cancel"), callback_data: "IMAGE_ADD_COLLECTION_CANCEL", hide: false });
 
     const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
 
@@ -66,7 +67,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const photo = message.photo.pop() as File;
 
       const collectionsRepository = getRepository(Collection);
-      const data = { userID: ctx.from.id, name: "IWC" };
+      const data = { isPublic: false, userID: ctx.from.id, name: "IWC" };
       const collection = (await collectionsRepository.findOne(data)) || (await collectionsRepository.save(data));
 
       await saveAndUploadPhoto({ photo, userID: ctx.from.id, collectionId: collection.id });
@@ -75,6 +76,14 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       await ctx.deleteMessage(ctx.message);
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
+    }
+  })
+  .action("IMAGE_ADD_COLLECTION_CANCEL", async (ctx) => {
+    try {
+      await ctx.answerCbQuery();
+      await ctx.deleteMessage(ctx.message);
+    } catch (err) {
+      console.error(`Scene upload error:`, err);
     }
   })
   .command("cancel", async (ctx) => {
