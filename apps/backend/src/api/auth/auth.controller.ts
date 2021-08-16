@@ -1,6 +1,6 @@
 import { Controller, Get, Request } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyRequest } from "fastify";
 
 import { apiLogger } from "..";
 
@@ -14,10 +14,9 @@ export class AuthController {
 
   @ApiExcludeEndpoint()
   @Get("/logout")
-  async logout(@Request() req: FastifyRequest, res: FastifyReply) {
+  logout(@Request() req: FastifyRequest) {
     try {
-      await req.session.destroy();
-      return res.redirect(200, "/");
+      return req.session.destroy();
     } catch (err) {
       apiLogger.error(`Auth controller error:`, err.stack);
     }
