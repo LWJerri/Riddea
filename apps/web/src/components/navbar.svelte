@@ -5,7 +5,7 @@
 
 <header>
   <img class="logo-img" src={Logo} alt="BOT_LOGO" />
-  <h1 class="logo-text">RIDDEA</h1>
+  <h1 class="logo-text"><a href="/">RIDDEA</a></h1>
   <p><Profile /></p>
 </header>
 
@@ -26,9 +26,13 @@
     z-index: 1;
   }
 
+  header a{
+    text-decoration: none;
+    color: white;
+  }
+
   header h1 {
     margin-left: 0.3125rem;
-    color: white;
     font-size: 1.875rem;
     flex: 1;
   }
