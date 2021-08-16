@@ -1,4 +1,4 @@
-import { Controller, Get, Request } from "@nestjs/common";
+import { Controller, Get, Redirect, Request } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import { FastifyRequest } from "fastify";
 
@@ -14,6 +14,7 @@ export class AuthController {
 
   @ApiExcludeEndpoint()
   @Get("/logout")
+  @Redirect("/", 301)
   logout(@Request() req: FastifyRequest) {
     try {
       return req.session.destroy();
