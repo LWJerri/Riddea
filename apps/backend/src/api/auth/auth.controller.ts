@@ -14,9 +14,9 @@ export class AuthController {
 
   @ApiExcludeEndpoint()
   @Get("/logout")
-  logout(@Request() req: FastifyRequest, res: FastifyReply) {
+  async logout(@Request() req: FastifyRequest, res: FastifyReply) {
     try {
-      req.session.destroy();
+      await req.session.destroy();
       return res.redirect(200, "/");
     } catch (err) {
       apiLogger.error(`Auth controller error:`, err.stack);
