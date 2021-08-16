@@ -17,7 +17,19 @@ export class AuthController {
   async logout(@Request() req: FastifyRequest, res: FastifyReply) {
     try {
       await req.session.destroy();
-      return res.redirect(200, "/");
+      res.redirect(200, "/");
+    } catch (err) {
+      apiLogger.error(`Auth controller error:`, err.stack);
+    }
+  }
+
+  @ApiExcludeEndpoint()
+  @Get("/logout2")
+  logout2(@Request() req: FastifyRequest, res: FastifyReply) {
+    try {
+      req.session.destroy().then(() => {
+        res.redirect(200, "/");
+      });
     } catch (err) {
       apiLogger.error(`Auth controller error:`, err.stack);
     }
