@@ -20,7 +20,6 @@ import { CollectionsService } from "./collections.service";
 import { CollectionDTO, CollectionUploadsDTO } from "./dto/collection.dto";
 import { GetCollectionImages } from "./validations/getCollectionImages";
 
-
 @Controller("/v1/collections")
 export class CollectionsController {
   constructor(private service: CollectionsService) {}
@@ -70,7 +69,7 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(
-  @Query() query: GetCollectionImages,
+    @Query() query: GetCollectionImages,
     @Param("id") id: string,
     @Res() res: FastifyReply,
     @Req() { session }: FastifyRequest,

@@ -8,8 +8,6 @@ import { commands } from "../../bot/helpers/loadCommands";
 import { Statistic, Upload } from "../../entities";
 import { StatsDTO } from "./dto/stats.dto";
 
-
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const pkg = require("../../../../package.json");
 

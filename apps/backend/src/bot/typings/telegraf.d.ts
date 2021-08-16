@@ -5,8 +5,6 @@ import { CallbackQuery } from "typegram";
 import { User } from "../../entities";
 import { I18n } from "../helpers/localization";
 
-
-
 declare module "telegraf" {
   interface Context {
     isAction: boolean;
