@@ -1,6 +1,6 @@
 {
   "name": "@riddea/backend",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "license": "MIT",
   "scripts": {
     "prestart": "ts-node tools/migrations.ts",
