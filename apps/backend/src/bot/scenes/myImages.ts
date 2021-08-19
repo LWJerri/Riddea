@@ -187,7 +187,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
     try {
       await ctx.answerCbQuery();
 
-      const currentImage = ctx.scene.session.currentImage;
+      const { currentImage } = ctx.scene.session;
       const collectionId = currentImage.collection?.id ?? 0;
 
       const collections = await getRepository(Collection).find({
