@@ -1,5 +1,4 @@
 import { Markup } from "telegraf";
-
 import { shiroApi } from "../helpers/shiroApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
 import { CommandInterface } from "./_interface";
@@ -21,24 +20,25 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: ContextCallbackWithData) {
-    const CBData = ctx.callbackQuery?.data;
+    const сallback = ctx.callbackQuery?.data;
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 
-    if (!CBData || CBData == "NEW_AVATAR_SHIRO") {
-      const images = await shiroApi({ endPoint: "avatars", amount: 10 });
-
-      await ctx.replyWithMediaGroup(
-        images.map((image) => {
-          return {
-            type: "photo",
-            media: image,
-          };
-        }),
-      );
+    async function API(callback?: string) {
+      if (!callback || callback == "NEW_AVATAR_SHIRO") return await shiroApi({ endPoint: "avatars", amount: 10 });
     }
+
+    const images = await API(сallback);
+    await ctx.replyWithMediaGroup(
+      images.map((image) => {
+        return {
+          type: "photo",
+          media: image,
+        };
+      }),
+    );
 
     await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.avatars") }), keyboard);
   }

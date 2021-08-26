@@ -1,5 +1,4 @@
 import { Context, Markup } from "telegraf";
-
 import { partners } from "../constants";
 import { CommandInterface } from "./_interface";
 

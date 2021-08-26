@@ -1,7 +1,6 @@
 import humanize from "humanize-duration";
 import { Context } from "telegraf";
 import { getRepository } from "typeorm";
-
 import { Statistic, User, Upload } from "../../entities";
 import { commands as commandsStore } from "../helpers/loadCommands";
 import { CommandInterface } from "./_interface";

@@ -1,5 +1,4 @@
 import { Markup } from "telegraf";
-
 import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
 import { CommandInterface } from "./_interface";
@@ -21,17 +20,18 @@ export default class extends CommandInterface {
   }
 
   async run(ctx: ContextCallbackWithData) {
-    const CBData = ctx.callbackQuery?.data;
+    const callback = ctx.callbackQuery?.data;
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 
-    if (!CBData || CBData == "NEW_BLOWJOB_WAIFUPICS") {
-      const images = await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
-
-      await ctx.replyWithVideo({ url: images[0] });
+    async function API(callback?: string) {
+      if (!callback || callback == "NEW_BLOWJOB_WAIFUPICS") return await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
     }
+
+    const images = await API(callback);
+    await ctx.replyWithVideo({ url: images[0] });
 
     await ctx.reply(ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.blowjob") }), keyboard);
   }
