@@ -118,9 +118,9 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
           caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
             curr: ctx.scene.session.skip,
             all: ctx.scene.session.totalImages - 1,
-          })}\n${ctx.i18n.translate("bot.images.caption.second", {
+          })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
-          })}\n${ctx.i18n.translate("bot.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
+          })}\n${ctx.i18n.translate("bot.main.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
           type: "photo",
         },
         getKeyboard(ctx),
