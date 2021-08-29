@@ -16,11 +16,11 @@ export class AuthController {
   @Get("/logout")
   async logout(@Request() req: FastifyRequest, @Response() res: FastifyReply) {
     try {
-      await req.session.destroy();
+      //await req.session.destroy();
 
-      setTimeout(async () => {
+      req.destroySession().then(async () => {
         await res.redirect(301, "/");
-      }, 3000);
+      });
     } catch (err) {
       apiLogger.error(`Auth controller error:`, err.stack);
     }
