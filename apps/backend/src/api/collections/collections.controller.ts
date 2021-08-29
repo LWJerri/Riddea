@@ -78,7 +78,7 @@ export class CollectionsController {
       const { uploads, total, collection } = await this.service.getCollectionImages(id, query);
 
       if (!collection.isPublic && session?.get("user")?.id !== collection.userID.toString()) {
-        throw new ForbiddenException(`Collection with ID ${id} is private`);
+        //throw new ForbiddenException(`Collection with ID ${id} is private`);
       } else {
         res.headers({
           total,

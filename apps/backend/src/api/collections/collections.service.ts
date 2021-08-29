@@ -1,5 +1,5 @@
 import { Session } from "@mgcrea/fastify-session";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IsNull, Not, Repository } from "typeorm";
 
@@ -76,9 +76,9 @@ export class CollectionsService {
         throw new NotFoundException(`Collection with ID ${id} not found.`);
       }
 
-      //if (!collection.isPublic) {
-      //  throw new ForbiddenException(`Collection with ID ${id} is private`);
-      //}
+      if (!collection.isPublic) {
+        throw new ForbiddenException(`Collection with ID ${id} is private`);
+      }
 
       const endPoint = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}`;
 
