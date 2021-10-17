@@ -13,7 +13,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
     try {
       const findOptions = { userID: ctx.from.id };
 
-      const [collections, commands, uploads, userData] = await Promise.all([
+      const [collections, commands, images, userData] = await Promise.all([
         getRepository(Collection).count(findOptions),
         getRepository(Statistic).count(findOptions),
         getRepository(Upload).count(findOptions),
@@ -26,9 +26,9 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         lang: userLang,
         position: userData.id,
         date: userData.startedAt.toLocaleDateString(),
-        commands: commands,
-        collections: collections,
-        images: uploads,
+        commands,
+        collections,
+        images,
       });
       const keyboard = {
         reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]] },
