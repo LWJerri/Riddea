@@ -1,4 +1,5 @@
 {
+  "en": "English 🇺🇸",
   "errors": {
     "rate": "Hey! Wait 5 seconds before using the next command.",
     "error": "We are sorry, some error happened on our side :("
@@ -41,7 +42,7 @@
     },
 
     "profile": {
-      "info": "Your language: {{ lang }}\nYou {{ position }} member\nFirst activation: {{ date }}"
+      "info": "Your language: {{ lang }}\nYou {{ position }} member\nFirst activation: {{ date }}\nYou execute {{ commands }} commands\nCreated {{ collections }}/50 collections\nUploaded {{ images }} images"
     }
   },
 

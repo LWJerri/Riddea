@@ -1,7 +1,6 @@
 import { Scenes } from "telegraf";
 import { getRepository } from "typeorm";
-
-import { User } from "../../entities";
+import { Collection, Statistic, Upload, User } from "../../entities";
 import { botLogger } from "../helpers/logger";
 
 export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting")
@@ -13,12 +12,18 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
   .enter(async (ctx) => {
     try {
       const userData = await getRepository(User).findOne({ userID: ctx.from.id });
-      const userLang = userData.lang.toUpperCase();
+      const userLang = ctx.i18n.translate(`bot.main.${userData.lang}`);
+      const userCollections = (await getRepository(Collection).find({ userID: ctx.from.id })).length;
+      const userCommands = (await getRepository(Statistic).find({ userID: ctx.from.id })).length;
+      const userUploads = (await getRepository(Upload).find({ userID: ctx.from.id })).length;
 
       const message = ctx.i18n.translate("bot.main.settings.profile.info", {
         lang: userLang,
         position: userData.id,
         date: userData.startedAt.toLocaleDateString(),
+        commands: userCommands,
+        collections: userCollections,
+        images: userUploads,
       });
       const keyboard = {
         reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]] },
