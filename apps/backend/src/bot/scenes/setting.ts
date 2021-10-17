@@ -38,7 +38,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
           inline_keyboard: [
             [{ text: "🇷🇺 Русский", callback_data: "LANGUAGE-RU" }],
             [{ text: "🇺🇸 English", callback_data: "LANGUAGE-EN" }],
-            [{ text: "🇺🇦 Українська", callback_data: "LANGUAGE-UA" }],
+            [{ text: "🇺🇦 Українська", callback_data: "LANGUAGE-UK" }],
           ],
         },
       };
@@ -88,7 +88,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
       botLogger.error(`Scene settings error:`, err.stack);
     }
   })
-  .action("LANGUAGE-UA", async (ctx) => {
+  .action("LANGUAGE-UK", async (ctx) => {
     try {
       await ctx.answerCbQuery();
 
@@ -100,7 +100,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const userRepo = getRepository(User);
       const newData = await userRepo.findOne({ userID: ctx.from.id });
-      newData.lang = "ua";
+      newData.lang = "uk";
       await userRepo.save(newData);
 
       await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
