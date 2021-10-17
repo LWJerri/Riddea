@@ -59,6 +59,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
     try {
       await ctx.answerCbQuery();
 
+      const userRepo = getRepository(User);
       const newLang = ctx.match.input.replace("LANGUAGE-", "").toLowerCase();
       const keyboard = {
         reply_markup: {
@@ -66,10 +67,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         },
       };
 
-      const userRepo = getRepository(User);
-      const newData = await userRepo.findOne({ userID: ctx.from.id });
-      newData.lang = newLang;
-      await userRepo.save(newData);
+      await userRepo.update({ userID: ctx.from.id }, { lang: newLang });
 
       await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
     } catch (err) {
