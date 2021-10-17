@@ -12,7 +12,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
   .enter(async (ctx) => {
     try {
       const userData = await getRepository(User).findOne({ userID: ctx.from.id });
-      const userLang = ctx.i18n.translate(`bot.main.${userData.lang.toLowerCase()}`);
+      const userLang = ctx.i18n.translate(`bot.main.${userData.lang}`);
       const userCollections = (await getRepository(Collection).find({ userID: ctx.from.id })).length;
       const userCommands = (await getRepository(Statistic).find({ userID: ctx.from.id })).length;
       const userUploads = (await getRepository(Upload).find({ userID: ctx.from.id })).length;
