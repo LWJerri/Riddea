@@ -43,15 +43,18 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         },
       };
 
+      keyboard.reply_markup.inline_keyboard.push([{ text: "«", callback_data: "BACK" }]);
+
       ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.newLang"), keyboard);
     } catch (err) {
       botLogger.error(`Scene settings error:`, err.stack);
     }
   })
-  .action("LANGUAGE-RU", async (ctx) => {
+  .action(/LANGUAGE-\w+/, async (ctx) => {
     try {
       await ctx.answerCbQuery();
 
+      const newLang = ctx.match.input.replace("LANGUAGE-", "").toLowerCase();
       const keyboard = {
         reply_markup: {
           inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.back"), callback_data: "BACK" }]],
@@ -60,47 +63,7 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
 
       const userRepo = getRepository(User);
       const newData = await userRepo.findOne({ userID: ctx.from.id });
-      newData.lang = "ru";
-      await userRepo.save(newData);
-
-      await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
-    } catch (err) {
-      botLogger.error(`Scene settings error:`, err.stack);
-    }
-  })
-  .action("LANGUAGE-EN", async (ctx) => {
-    try {
-      await ctx.answerCbQuery();
-
-      const keyboard = {
-        reply_markup: {
-          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.back"), callback_data: "BACK" }]],
-        },
-      };
-
-      const userRepo = getRepository(User);
-      const newData = await userRepo.findOne({ userID: ctx.from.id });
-      newData.lang = "en";
-      await userRepo.save(newData);
-
-      await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
-    } catch (err) {
-      botLogger.error(`Scene settings error:`, err.stack);
-    }
-  })
-  .action("LANGUAGE-UK", async (ctx) => {
-    try {
-      await ctx.answerCbQuery();
-
-      const keyboard = {
-        reply_markup: {
-          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.back"), callback_data: "BACK" }]],
-        },
-      };
-
-      const userRepo = getRepository(User);
-      const newData = await userRepo.findOne({ userID: ctx.from.id });
-      newData.lang = "uk";
+      newData.lang = newLang;
       await userRepo.save(newData);
 
       await ctx.editMessageText(ctx.i18n.translate("bot.main.settings.lang.updLang"), keyboard);
