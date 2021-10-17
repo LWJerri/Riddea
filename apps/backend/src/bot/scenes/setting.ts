@@ -11,19 +11,24 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
   })
   .enter(async (ctx) => {
     try {
-      const userData = await getRepository(User).findOne({ userID: ctx.from.id });
+      const findOptions = { userID: ctx.from.id };
+
+      const [collections, commands, uploads, userData] = await Promise.all([
+        getRepository(Collection).count(findOptions),
+        getRepository(Statistic).count(findOptions),
+        getRepository(Upload).count(findOptions),
+        getRepository(User).findOne(findOptions),
+      ]);
+
       const userLang = ctx.i18n.translate(`bot.main.${userData.lang}`);
-      const userCollections = (await getRepository(Collection).find({ userID: ctx.from.id })).length;
-      const userCommands = (await getRepository(Statistic).find({ userID: ctx.from.id })).length;
-      const userUploads = (await getRepository(Upload).find({ userID: ctx.from.id })).length;
 
       const message = ctx.i18n.translate("bot.main.settings.profile.info", {
         lang: userLang,
         position: userData.id,
         date: userData.startedAt.toLocaleDateString(),
-        commands: userCommands,
-        collections: userCollections,
-        images: userUploads,
+        commands: commands,
+        collections: collections,
+        images: uploads,
       });
       const keyboard = {
         reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]] },
