@@ -53,9 +53,9 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const id = Number(ctx.match.input.replace("IMAGE_ADD_COLLECTION_", ""));
       const collectionName = (await getRepository(Collection).findOne({ id })).name;
 
-      await saveAndUploadPhoto({ collectionId: id, photo, userID: ctx.from.id });
+      const image = await saveAndUploadPhoto({ collectionId: id, photo, userID: ctx.from.id });
 
-      await ctx.reply(ctx.i18n.translate("bot.main.upload.hasCollection", { name: collectionName }));
+      await ctx.reply(ctx.i18n.translate("bot.main.upload.hasCollection", { name: collectionName, id: image.id }));
       await ctx.deleteMessage(ctx.message);
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
@@ -72,9 +72,9 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const data = { isPublic: false, userID: ctx.from.id, name: "IWC" };
       const collection = (await collectionsRepository.findOne(data)) || (await collectionsRepository.save(data));
 
-      await saveAndUploadPhoto({ photo, userID: ctx.from.id, collectionId: collection.id });
+      const image = await saveAndUploadPhoto({ photo, userID: ctx.from.id, collectionId: collection.id });
 
-      await ctx.reply(ctx.i18n.translate("bot.main.upload.noCollection"));
+      await ctx.reply(ctx.i18n.translate("bot.main.upload.noCollection", { id: image.id }));
       await ctx.deleteMessage(ctx.message);
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
@@ -110,7 +110,7 @@ const saveAndUploadPhoto = async ({ collectionId, userID, photo }: { collectionI
 
   await uploadFile({ buffer: base64, filePath: `${userID}/${fileName}` });
 
-  await getRepository(Upload).save({
+  return await getRepository(Upload).save({
     userID,
     fileID: photo.file_id,
     fileName,

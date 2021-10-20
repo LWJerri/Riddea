@@ -94,7 +94,9 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             all: ctx.scene.session.totalImages - 1,
           })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
-          })}\n${ctx.i18n.translate("bot.main.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
+          })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
+            time: ctx.scene.session.currentImage.createdAt.toLocaleString(),
+          })}\n${ctx.i18n.translate("bot.main.images.caption.four", { id: ctx.scene.session.currentImage.id })}`,
           type: "photo",
         },
         getKeyboard(ctx),
@@ -120,7 +122,9 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
             all: ctx.scene.session.totalImages - 1,
           })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
-          })}\n${ctx.i18n.translate("bot.main.images.caption.three", { time: ctx.scene.session.currentImage.createdAt.toLocaleString() })}`,
+          })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
+            time: ctx.scene.session.currentImage.createdAt.toLocaleString(),
+          })}\n${ctx.i18n.translate("bot.main.images.caption.four", { id: ctx.scene.session.currentImage.id })}`,
           type: "photo",
         },
         getKeyboard(ctx),
