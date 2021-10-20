@@ -2,7 +2,8 @@
   "en": "English 🇺🇸",
   "errors": {
     "rate": "Hey! Wait 5 seconds before using the next command.",
-    "error": "We are sorry, some error happened on our side :("
+    "error": "We are sorry, some error happened on our side :(",
+    "notID": "Please, type correct image ID!"
   },
 
   "newPack": {
@@ -24,14 +25,15 @@
     "leave": {
       "all": "Okay, happy nice day!",
       "image": "You leave from the image upload scene!",
-      "collection": "You leave from the collection creating scene!"
+      "collection": "You leave from the collection creating scene!",
+      "edit": "You leave from the image edit scene!"
     }
   },
 
   "upload": {
     "send": "Please, send me your image!",
-    "hasCollection": "Your image uploaded to database in {{ name }} collection!",
-    "noCollection": "Your image uploaded to a database but not added to the collection!",
+    "hasCollection": "Your image #{{ id }} uploaded to database in {{ name }} collection!",
+    "noCollection": "Your image #{{ id }} uploaded to a database but not added to the collection!",
     "noImage": "If you don't want to upload an image, type /cancel!"
   },
 
@@ -56,8 +58,16 @@
     "caption": {
       "first": "Image {{ curr }} of {{ all }}",
       "second": "Collection: {{ name }}",
-      "three": "Uploaded: {{ time }}"
+      "three": "Uploaded: {{ time }}",
+      "four": "ID: {{ id }}"
     }
+  },
+
+  "imageEdit": {
+    "enter": "Type image ID what you wanna edit!",
+    "notExist": "Image with ID {{ id }} not found!",
+    "notOwner": "You don't have permission for editing this image!",
+    "deleted": "Image with ID {{ id }} deleted! Type ID another of image or use command /cancel for leave from image editing scene."
   },
 
   "other": {
