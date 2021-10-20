@@ -72,8 +72,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
 
       await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, {
         caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
-          curr: ctx.scene.session.skip,
-          all: ctx.scene.session.totalImages - 1,
+          curr: ctx.scene.session.skip + 1,
+          all: ctx.scene.session.totalImages,
         })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
           name: ctx.scene.session.currentImage.collection?.name ?? "-",
         })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
@@ -102,8 +102,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
         {
           media: ctx.scene.session.currentImage.fileID,
           caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
-            curr: ctx.scene.session.skip,
-            all: ctx.scene.session.totalImages - 1,
+            curr: ctx.scene.session.skip + 1,
+            all: ctx.scene.session.totalImages,
           })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
           })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
@@ -130,8 +130,8 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
         {
           media: ctx.scene.session.currentImage.fileID,
           caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
-            curr: ctx.scene.session.skip,
-            all: ctx.scene.session.totalImages - 1,
+            curr: ctx.scene.session.skip + 1,
+            all: ctx.scene.session.totalImages,
           })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
             name: ctx.scene.session.currentImage.collection?.name ?? "-",
           })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
