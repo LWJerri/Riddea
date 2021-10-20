@@ -28,8 +28,7 @@ export const renameCollection = new Scenes.BaseScene<Scenes.SceneContext<ImageSc
       const collectionRepo = getRepository(Collection);
       const duplicateName = await collectionRepo.findOne({ name: newName, userID: ctx.from.id });
 
-      if (duplicateName && duplicateName.name.toLowerCase() == newName.toLowerCase())
-        return await ctx.reply(ctx.i18n.translate("bot.main.collection.exist", { name: newName }));
+      if (duplicateName) return await ctx.reply(ctx.i18n.translate("bot.main.collection.exist", { name: newName }));
 
       await collectionRepo.update({ id: ctx.scene.session.state.id }, { name: newName });
 
