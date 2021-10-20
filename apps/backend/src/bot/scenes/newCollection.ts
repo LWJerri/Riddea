@@ -36,25 +36,27 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
   })
   .on("text", async (ctx) => {
     try {
-      if (ctx.message.text.length > 15) {
+      const name = ctx.message.text;
+
+      if (name.length > 15) {
         return ctx.reply(ctx.i18n.translate("bot.main.collection.nameLimit"));
       }
 
       const repository = getRepository(Collection);
       const isExists = await repository.findOne({
         userID: ctx.from.id,
-        name: ctx.message.text,
+        name,
       });
 
       if (isExists) return ctx.reply(ctx.i18n.translate("bot.main.collection.exist", { name: isExists.name }));
 
       await repository.save({
-        name: ctx.message.text,
+        name,
         userID: ctx.from.id,
         isPublic: false,
       });
 
-      ctx.scene.session.collectionName = ctx.message.text;
+      ctx.scene.session.collectionName = name;
 
       await ctx.scene.leave();
     } catch (err) {

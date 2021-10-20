@@ -66,6 +66,7 @@ export default class extends CommandInterface {
             },
           ],
           [{ text: ctx.i18n.translate("bot.buttons.open"), url: `https://riddea.ml/collection/${collection.id}` }],
+          [{ text: ctx.i18n.translate("bot.buttons.rename"), callback_data: `RENAME_COLLECTION_${collection.id}` }],
           [{ text: ctx.i18n.translate("bot.buttons.delete"), callback_data: `DELETE_COLLECTION_${collection.id}` }],
           [{ text: "«", callback_data: `COLLECTION_LIST` }],
         ],
@@ -83,6 +84,17 @@ export default class extends CommandInterface {
       await this.uploads.update({ userID: ctx.from.id, collection: { id } }, { collection: { id: iwcID } });
       await this.repository.delete({ id });
       await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
+    });
+
+    bot.action(/RENAME_COLLECTION_\d+/, async (ctx) => {
+      await ctx.answerCbQuery();
+
+      const iwcID = (await this.repository.findOne({ userID: ctx.from.id, name: "IWC" })).id;
+      const id = Number(ctx.match.input.replace("RENAME_COLLECTION_", ""));
+
+      if (id == iwcID) return ctx.reply(ctx.i18n.translate("bot.main.collection.defProtect"));
+
+      await ctx.scene.enter("renameCollection", { id });
     });
   }
 

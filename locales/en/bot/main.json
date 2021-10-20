@@ -18,7 +18,12 @@
     "created": "Collection with name {{ name }} created.",
     "name": "Please, enter the name of the new collection.",
     "list": "List of your collections:",
-    "defProtect": "You can't delete default collection!"
+    "defProtect": "You can't interact with this collection!"
+  },
+
+  "renameCollection": {
+    "enter": "Type new name for collection.",
+    "rename": "Collection successful renamed! New name - {{ name }}."
   },
 
   "scene": {
