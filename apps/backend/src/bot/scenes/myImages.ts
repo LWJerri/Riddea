@@ -68,7 +68,19 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
         return;
       }
 
-      await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, getKeyboard(ctx));
+      const buttons = getKeyboard(ctx).reply_markup;
+
+      await ctx.replyWithPhoto(ctx.scene.session.currentImage.fileID, {
+        caption: `${ctx.i18n.translate("bot.main.images.caption.first", {
+          curr: ctx.scene.session.skip,
+          all: ctx.scene.session.totalImages - 1,
+        })}\n${ctx.i18n.translate("bot.main.images.caption.second", {
+          name: ctx.scene.session.currentImage.collection?.name ?? "-",
+        })}\n${ctx.i18n.translate("bot.main.images.caption.three", {
+          time: ctx.scene.session.currentImage.createdAt.toLocaleString(),
+        })}\n${ctx.i18n.translate("bot.main.images.caption.four", { id: ctx.scene.session.currentImage.id })}`,
+        reply_markup: buttons,
+      });
     } catch (err) {
       botLogger.error(`Scene myImages error:`, err.stack);
     }
