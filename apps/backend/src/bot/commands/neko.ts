@@ -1,4 +1,5 @@
 import { Markup } from "telegraf";
+import { nekosLifeApi } from "../helpers/nekosLifeApi";
 import { shiroApi } from "../helpers/shiroApi";
 import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
@@ -21,8 +22,12 @@ export default class extends CommandInterface {
           callback: "NEW_NEKO_WAIFUPICS",
         },
         {
-          name: `${"WaifuPics Service"} [NSFW]`,
+          name: `WaifuPics Service [NSFW]`,
           callback: "NEW_NEKO_NSFW_WAIFUPICS",
+        },
+        {
+          name: `NekosLife Service`,
+          callback: "NEW_NEKO_NEKOS",
         },
       ],
     });
@@ -39,6 +44,7 @@ export default class extends CommandInterface {
       if (!callback || callback == "NEW_NEKO_SHIRO") return await shiroApi({ endPoint: "neko", amount: 10 });
       if (callback == "NEW_NEKO_WAIFUPICS") return await waifuPicsApi({ endPoint: "sfw/neko", amount: 10 });
       if (callback == "NEW_NEKO_NSFW_WAIFUPICS") return await waifuPicsApi({ endPoint: "nsfw/neko", amount: 10 });
+      if (callback == "NEW_NEKO_NEKOS") return await nekosLifeApi({ endPoint: "neko", amount: 10 });
     }
 
     const images = await API(callback);
