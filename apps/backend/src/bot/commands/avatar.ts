@@ -20,6 +20,10 @@ export default class extends CommandInterface {
           name: "NekosLife Service",
           callback: "NEW_AVATAR_NEKOS",
         },
+        {
+          name: "NekosLife Service [NSFW]",
+          callback: "NEW_AVATAR_NEKOS_NSFW",
+        },
       ],
     });
   }
@@ -34,6 +38,7 @@ export default class extends CommandInterface {
     async function API(callback?: string) {
       if (!callback || callback == "NEW_AVATAR_SHIRO") return await shiroApi({ endPoint: "avatars", amount: 10 });
       if (callback == "NEW_AVATAR_NEKOS") return await nekosLifeApi({ endPoint: "avatar", amount: 10 });
+      if (callback == "NEW_AVATAR_NEKOS_NSFW") return await nekosLifeApi({ endPoint: "nsfw_avatar", amount: 10 });
     }
 
     const images = await API(сallback);
