@@ -1,4 +1,5 @@
 import { Markup } from "telegraf";
+import { nekosLifeApi } from "../helpers/nekosLifeApi";
 import { waifuPicsApi } from "../helpers/waifuPicsApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
 import { CommandInterface } from "./_interface";
@@ -15,6 +16,10 @@ export default class extends CommandInterface {
           name: "WaifuPics Service",
           callback: "NEW_BLOWJOB_WAIFUPICS",
         },
+        {
+          name: "NekosLife Service",
+          callback: "NEW_BLOWJOB_NEKOS",
+        },
       ],
     });
   }
@@ -28,10 +33,11 @@ export default class extends CommandInterface {
 
     async function API(callback?: string) {
       if (!callback || callback == "NEW_BLOWJOB_WAIFUPICS") return await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
+      if (callback == "NEW_BLOWJOB_NEKOS") return await nekosLifeApi({ endPoint: "blowjob", amount: 1 });
     }
 
     const images = await API(callback);
-    await ctx.replyWithVideo({ url: images[0] });
+    await ctx.replyWithAnimation({ url: images[0] });
 
     await ctx.reply(ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.blowjob") }), keyboard);
   }
