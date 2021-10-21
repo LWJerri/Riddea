@@ -8,7 +8,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "wallpaper",
-      description: "Send wallpaper images",
+      description: "[NSFW]: Send wallpaper images",
       collectUsage: true,
       cooldown: true,
       actions: [
@@ -17,7 +17,7 @@ export default class extends CommandInterface {
           callback: "NEW_WALLPAPER_SHIRO",
         },
         {
-          name: "NekosLife Service",
+          name: "NekosLife Service [NSFW]",
           callback: "NEW_WALLPAPER_NEKOS",
         },
       ],
@@ -26,6 +26,7 @@ export default class extends CommandInterface {
 
   async run(ctx: ContextCallbackWithData) {
     const callback = ctx.callbackQuery?.data;
+
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
@@ -37,6 +38,7 @@ export default class extends CommandInterface {
     }
 
     const images = await API(callback);
+
     await ctx.replyWithMediaGroup(
       images.map((image) => {
         return {

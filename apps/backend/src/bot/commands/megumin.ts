@@ -6,7 +6,7 @@ import { CommandInterface } from "./_interface";
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Send megumin pictures",
+      description: "Send megumin images",
       collectUsage: true,
       cooldown: true,
       name: "megumin",
@@ -21,6 +21,7 @@ export default class extends CommandInterface {
 
   async run(ctx: ContextCallbackWithData) {
     const callback = ctx.callbackQuery?.data;
+
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
@@ -31,6 +32,7 @@ export default class extends CommandInterface {
     }
 
     const images = await API(callback);
+
     await ctx.replyWithMediaGroup(
       images.map((image) => {
         return {

@@ -12,7 +12,7 @@ export default class extends CommandInterface {
       name: "solog",
       actions: [
         {
-          name: "NekosLife Service",
+          name: "NekosLife Service [NSFW]",
           callback: "NEW_SOLOG_NEKOS",
         },
       ],
@@ -21,25 +21,20 @@ export default class extends CommandInterface {
 
   async run(ctx: ContextCallbackWithData) {
     const сallback = ctx.callbackQuery?.data;
+
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
     );
 
     async function API(callback?: string) {
-      if (!callback || callback == "NEW_SOLOG_NEKOS") return await nekosLifeApi({ endPoint: "solog", amount: 10 });
+      if (!callback || callback == "NEW_SOLOG_NEKOS") return await nekosLifeApi({ endPoint: "solog", amount: 1 });
     }
 
     const images = await API(сallback);
-    await ctx.replyWithMediaGroup(
-      images.map((image) => {
-        return {
-          type: "photo",
-          media: image,
-        };
-      }),
-    );
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.avatars") }), keyboard);
+    await ctx.replyWithAnimation(images[0]);
+
+    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.solog") }), keyboard);
   }
 }

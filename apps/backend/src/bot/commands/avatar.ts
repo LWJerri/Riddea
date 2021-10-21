@@ -7,7 +7,7 @@ import { CommandInterface } from "./_interface";
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Search best anime picture for your avatar",
+      description: "[NSFW]: Search anime picture for your avatar",
       collectUsage: true,
       cooldown: true,
       name: "avatar",
@@ -21,12 +21,12 @@ export default class extends CommandInterface {
           callback: "NEW_AVATAR_NEKOS",
         },
         {
-          name: "NekosLife Service [NSFW]",
-          callback: "NEW_AVATAR_NEKOS_NSFW",
+          name: "NekosLife Service #1 [NSFW]",
+          callback: "NEW_AVATAR_NSFW_NEKOS",
         },
         {
-          name: "NekosLife Service (Gasm) [NSFW]",
-          callback: "NEW_AVATAR_NEKOS_GASM",
+          name: "NekosLife Service #2 [NSFW]",
+          callback: "NEW_AVATAR_GASM_NEKOS",
         },
       ],
     });
@@ -34,6 +34,7 @@ export default class extends CommandInterface {
 
   async run(ctx: ContextCallbackWithData) {
     const сallback = ctx.callbackQuery?.data;
+
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
       { columns: 1 },
@@ -42,11 +43,12 @@ export default class extends CommandInterface {
     async function API(callback?: string) {
       if (!callback || callback == "NEW_AVATAR_SHIRO") return await shiroApi({ endPoint: "avatars", amount: 10 });
       if (callback == "NEW_AVATAR_NEKOS") return await nekosLifeApi({ endPoint: "avatar", amount: 10 });
-      if (callback == "NEW_AVATAR_NEKOS_NSFW") return await nekosLifeApi({ endPoint: "nsfw_avatar", amount: 10 });
-      if (callback == "NEW_AVATAR_NEKOS_GASM") return await nekosLifeApi({ endPoint: "gasm", amount: 10 });
+      if (callback == "NEW_AVATAR_NSFW_NEKOS") return await nekosLifeApi({ endPoint: "nsfw_avatar", amount: 10 });
+      if (callback == "NEW_AVATAR_GASM_NEKOS") return await nekosLifeApi({ endPoint: "gasm", amount: 10 });
     }
 
     const images = await API(сallback);
+
     await ctx.replyWithMediaGroup(
       images.map((image) => {
         return {

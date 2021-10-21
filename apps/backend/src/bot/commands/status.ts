@@ -12,7 +12,7 @@ export default class extends CommandInterface {
   constructor() {
     super({
       name: "status",
-      description: "Send bot statistic",
+      description: "Display bot statistic",
       collectUsage: false,
       cooldown: false,
       actions: [{ callback: "SEND_STATISTIC" }],
