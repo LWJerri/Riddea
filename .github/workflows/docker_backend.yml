@@ -2,6 +2,10 @@ name: Publish Backend To Docker
 
 on:
   push:
+    branches:
+      - master
+    paths:
+      - apps/backend/**
   workflow_dispatch:
 
 jobs:
