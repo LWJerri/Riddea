@@ -12,10 +12,12 @@ export type YiffyPicsOpts = {
 };
 
 export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyPicsOpts) => {
+  const headerOptions = { "User-Agent": "RiddeaBot" };
+
   const axiosOptions: AxiosRequestConfig = {
     url: `https://v2.yiff.rest/${opts.endPoint}?notes=disabled&sizeLimit=5000000&amount=5`,
     method: opts.method,
-    headers: { "User-Agent": "RiddeaBot", "Content-Type": "application/json" },
+    headers: { ...headerOptions, "Content-Type": "application/json" },
   };
 
   const responses = await Promise.all<{ data: YiffyPicsResponse }>(
@@ -24,7 +26,7 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
 
   const result = responses.map((x) => x.data.images).flat();
 
-  const test = result
+  const outImage = result
     .filter((image) => {
       let correctFileType = false;
 
@@ -32,11 +34,11 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
 
       return correctFileType;
     })
-    .map(async (imageData) => {
-      const imageBuffer = (await axios.get(imageData.url, { responseType: "arraybuffer", headers: { "User-Agent": "RiddeaBot" } })).data;
-
-      return Buffer.from(imageBuffer, "base64");
+    .map((imageData) => {
+      return axios.get(imageData.url, { responseType: "arraybuffer", headers: headerOptions });
     });
 
-  console.log(test);
+  const imageData = await Promise.all(outImage);
+
+  return imageData.map((output) => Buffer.from(output.data, "base64"));
 };
