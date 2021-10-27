@@ -69,7 +69,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       const photo = message.photo.pop() as File;
 
       const collectionsRepository = getRepository(Collection);
-      const data = { isPublic: false, userID: ctx.from.id, name: "IWC" };
+      const data = { userID: ctx.from.id, name: "IWC" };
       const collection = (await collectionsRepository.findOne(data)) || (await collectionsRepository.save(data));
 
       const image = await saveAndUploadPhoto({ photo, userID: ctx.from.id, collectionId: collection.id });
