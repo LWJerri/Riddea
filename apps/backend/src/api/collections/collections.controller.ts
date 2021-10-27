@@ -69,7 +69,7 @@ export class CollectionsController {
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImages(
-    @Query() query: GetCollectionImages,
+  @Query() query: GetCollectionImages,
     @Param("id") id: string,
     @Res() res: FastifyReply,
     @Req() { session }: FastifyRequest,
