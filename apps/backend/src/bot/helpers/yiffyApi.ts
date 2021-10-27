@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import { fileTypes, ignoreEndpoints } from "../constants";
 
 export type YiffyPicsResponse = {
-  images: Array<{ url: string | unknown; type: string; ext: string; size: number; shortURL: string }>;
+  images: Array<{ url: string; type: string; ext: string; size: number; shortURL: string }>;
 };
 
 export type YiffyPicsOpts = {
@@ -22,11 +22,9 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
     [...Array(opts.amount)].reduce((curr) => [...curr, axios.request(axiosOptions)], []),
   );
 
-  console.log(responses[0]);
-
   const result = responses.map((x) => x.data.images).flat();
 
-  return result
+  const test = result
     .filter((image) => {
       let correctFileType = false;
 
@@ -34,5 +32,11 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
 
       return correctFileType;
     })
-    .map((image) => image.url);
+    .map(async (imageData) => {
+      const imageBuffer = (await axios.get(imageData.url, { responseType: "arraybuffer", headers: { "User-Agent": "RiddeaBot" } })).data;
+
+      return Buffer.from(imageBuffer, "base64");
+    });
+
+  console.log(test);
 };
