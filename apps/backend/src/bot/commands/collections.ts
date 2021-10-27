@@ -20,6 +20,7 @@ export default class extends CommandInterface {
         },
       ],
     });
+
     this.init();
   }
 
@@ -42,9 +43,12 @@ export default class extends CommandInterface {
       await ctx.answerCbQuery();
 
       const id = Number(ctx.match.input.replace("SWITCH_COLLECTION_STATE_", ""));
+
       const collection = await this.repository.findOne({ id });
       collection.isPublic = !collection.isPublic;
+
       await this.repository.save(collection);
+
       await ctx.editMessageText(ctx.i18n.translate("bot.main.collection.list"), await this.getKeyboard(ctx));
     });
 
@@ -52,7 +56,9 @@ export default class extends CommandInterface {
       await ctx.answerCbQuery();
 
       const id = Number(ctx.match.input.replace("EDIT_COLLECTION_", ""));
+
       const collection = await this.repository.findOne({ id });
+
       await ctx.editMessageReplyMarkup({
         inline_keyboard: [
           [
@@ -83,6 +89,7 @@ export default class extends CommandInterface {
 
       await this.uploads.update({ userID: ctx.from.id, collection: { id } }, { collection: { id: iwcID } });
       await this.repository.delete({ id });
+
       await ctx.editMessageReplyMarkup((await this.getKeyboard(ctx)).reply_markup);
     });
 

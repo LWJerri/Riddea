@@ -1,26 +1,26 @@
 import { Markup } from "telegraf";
-import { waifuPicsApi } from "../helpers/waifuPicsApi";
+import { nekosLifeApi } from "../helpers/nekosLifeApi";
 import { ContextCallbackWithData } from "../typings/telegraf";
 import { CommandInterface } from "./_interface";
 
 export default class extends CommandInterface {
   constructor() {
     super({
-      description: "Send megumin images",
+      description: "[NSFW]: Send futanari images",
       collectUsage: true,
       cooldown: true,
-      name: "megumin",
+      name: "futanari",
       actions: [
         {
-          name: "WaifuPics Service",
-          callback: "NEW_MEGUMIN_WAIFUPICS",
+          name: "NekosLife Service [NSFW]",
+          callback: "NEW_FUTA_NEKOS",
         },
       ],
     });
   }
 
   async run(ctx: ContextCallbackWithData) {
-    const callback = ctx.callbackQuery?.data;
+    const сallback = ctx.callbackQuery?.data;
 
     const keyboard = Markup.inlineKeyboard(
       this.actions.map((action) => Markup.button.callback(action.name, action.callback)),
@@ -28,10 +28,10 @@ export default class extends CommandInterface {
     );
 
     async function API(callback?: string) {
-      if (!callback || callback == "NEW_MEGUMIN_WAIFUPICS") return await waifuPicsApi({ endPoint: "sfw/megumin", amount: 10 });
+      if (!callback || callback == "NEW_FUTA_NEKOS") return await nekosLifeApi({ endPoint: "futanari", amount: 10 });
     }
 
-    const images = await API(callback);
+    const images = await API(сallback);
 
     await ctx.replyWithMediaGroup(
       images.map((image) => {
@@ -42,6 +42,6 @@ export default class extends CommandInterface {
       }),
     );
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.megumin") }), keyboard);
+    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.futanari") }), keyboard);
   }
 }
