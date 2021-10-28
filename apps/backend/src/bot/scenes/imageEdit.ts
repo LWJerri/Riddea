@@ -127,6 +127,7 @@ export const imageEdit = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("
           userID: ctx.from.id,
           id: Not(collection.id),
         },
+        order: { createdAt: "DESC" },
       });
 
       const collectionsList = collections.map((c) => [Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)]);

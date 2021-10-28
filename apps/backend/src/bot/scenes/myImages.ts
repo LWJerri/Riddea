@@ -211,6 +211,7 @@ export const myImages = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("m
           userID: ctx.from.id,
           id: Not(collectionId),
         },
+        order: { createdAt: "DESC" },
       });
 
       const collectionsList = collections.map((c) => [Markup.button.callback(c.name, `SWITCH_COLLECTION-${c.id}`)]);
