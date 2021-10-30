@@ -44,7 +44,7 @@
     position: absolute;
     width: 115%;
     overflow: auto;
-    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 0rem 0.625rem 0.625rem 0rem rgba(0,0,0,0.4);
   }
 
   .user-panel:hover .panel-content {
@@ -53,15 +53,15 @@
   }
 
   .panel-content a {
-    margin: 2px 0px 0px 0px;
+    margin: 0.125rem 0rem 0rem 0rem;
     display: block;
     color: #FFFFFF;
-    padding: 8px 12px 8px 12px;
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
     text-decoration: none;
   }
 
   .panel-content a:hover {
-    margin: 2px 0px 0px 0px;
+    margin: 0.125rem 0rem 0rem 0rem;
     color: #FFFFFF;
     background-color: #ED4245;
   }

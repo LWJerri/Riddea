@@ -6,6 +6,7 @@
   import Main from "./pages/Main.svelte";
   import { fetchAndSetData as statsFetchAndSetData } from "./stores/stats";
   import { fetchAndSetData as userFetchAndSetData } from "./stores/user";
+  import Image from "./pages/Image.svelte";
 
   onMount(async () => {
     await Promise.all([statsFetchAndSetData(), userFetchAndSetData()]);
@@ -14,6 +15,7 @@
 
 <Router>
   <main>
+    <Route path="collection/:collID/image/:imgID" component={Image} />
     <Route path="collection/:id" component={Collection} />
     <Route path="user/:userID" component={UserPage} />
     <Route component={Main} />
