@@ -94,4 +94,33 @@ export class CollectionsController {
       return err;
     }
   }
+
+  @Get("/:id/image/:imgID")
+  @UseInterceptors(CacheInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @ApiResponse({
+    status: 200,
+    description: "The found image by ID",
+    type: () => CollectionUploadsDTO,
+  })
+  @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
+  async getCollectionImage(
+    @Param("id") id: string,
+    @Param("imgID") imgID: string,
+    @Res() res: FastifyReply,
+    @Req() { session }: FastifyRequest,
+  ) {
+    try {
+      const data = await this.service.getCollectionImage(id, imgID);
+
+      if (!data.collection?.isPublic && session?.get("user")?.id !== data.collection?.userID.toString()) {
+        //throw new ForbiddenException(`Collection with ID ${id} is private`);
+      } else {
+        res.send(data);
+      }
+    } catch (err) {
+      apiLogger.error(`Collection controller error:`, err.stack);
+      return err;
+    }
+  }
 }

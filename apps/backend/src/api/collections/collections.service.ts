@@ -39,6 +39,19 @@ export class CollectionsService {
     }
   }
 
+  async getCollectionImage(id: string, imgID: string) {
+    try {
+      const dbInfo = await this.uploadRepository.findOne({ where: { collection: id, fileName: imgID }, relations: ["collection"] });
+      const link = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}/uploads/${
+        dbInfo.filePath
+      }`;
+
+      return { ...dbInfo, link };
+    } catch (err) {
+      apiLogger.error(`Collection service error:`, err.stack);
+    }
+  }
+
   async getCollectionImages(id: string, query: GetCollectionImages) {
     try {
       const [collection, uploads, total] = await Promise.all([
