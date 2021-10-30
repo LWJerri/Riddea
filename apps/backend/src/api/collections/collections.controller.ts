@@ -102,15 +102,6 @@ export class CollectionsController {
     status: 200,
     description: "The found image by ID",
     type: () => CollectionUploadsDTO,
-    headers: {
-      total: {
-        example: 100,
-        description: "Total images by query.",
-        schema: {
-          type: "number",
-        },
-      },
-    },
   })
   @ApiForbiddenResponse({ status: 403, description: "Collection is private" })
   async getCollectionImage(
