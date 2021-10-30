@@ -20,7 +20,7 @@
     data.id = output.collection.id;
     data.uploadDate = output.createdAt;
     data.link = output.link;
-    data.imgID = 0;
+    data.imgID = output.id;
   });
 </script>
 

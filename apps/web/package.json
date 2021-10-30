@@ -1,6 +1,6 @@
 {
   "name": "@riddea/web",
-  "version": "1.2.3",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "vite",
