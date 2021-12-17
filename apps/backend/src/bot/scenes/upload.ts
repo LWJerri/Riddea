@@ -96,7 +96,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       botLogger.error(`Scene upload error:`, err.stack);
     }
   })
-  .on("message", async (ctx) => {
+  .on("text", async (ctx) => {
     try {
       await ctx.reply(ctx.i18n.translate("bot.main.upload.noImage"));
     } catch (err) {
