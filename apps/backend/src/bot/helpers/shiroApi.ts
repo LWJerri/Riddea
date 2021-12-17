@@ -19,7 +19,7 @@ export type ShiroOpts = {
 
 export const shiroApi = async (opts = { method: "GET", amount: 1 } as ShiroOpts) => {
   const axiosOptions: AxiosRequestConfig = {
-    url: `https://shiro.gg/api/images/${opts.endPoint}`,
+    url: `https://api.shiro.gg/images/${opts.endPoint}`,
     method: opts.method,
   };
 
