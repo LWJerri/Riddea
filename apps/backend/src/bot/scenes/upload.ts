@@ -33,7 +33,7 @@ async function getKeyboard(ctx: Context) {
 export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
   .enter(async (ctx) => {
     try {
-      const isBlocked = (await getRepository(User).findOne({ userID: ctx.from.id })).uploadBan;
+      const isBlocked = (await getRepository(User).findOne({ userID: ctx.from.id }))?.uploadBan;
 
       if (isBlocked) {
         await ctx.reply(ctx.i18n.translate("bot.main.scene.upload.blocked"));
