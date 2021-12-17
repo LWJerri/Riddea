@@ -1,6 +1,6 @@
 import { Scenes } from "telegraf";
+import { blockScene } from "../scenes/block";
 import { imageEdit } from "../scenes/imageEdit";
-
 import { myImages } from "../scenes/myImages";
 import { newCollection } from "../scenes/newCollection";
 import { renameCollection } from "../scenes/renameCollection";
@@ -14,4 +14,5 @@ export const stage = new Scenes.Stage<Scenes.SceneContext>([
   settingScene,
   imageEdit,
   renameCollection,
+  blockScene,
 ]);

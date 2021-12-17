@@ -4,7 +4,7 @@ import { Context, Markup, Scenes } from "telegraf";
 import { File, Message } from "typegram";
 import { getRepository } from "typeorm";
 
-import { Collection, Upload } from "../../entities";
+import { Collection, Upload, User } from "../../entities";
 import base64Data from "../helpers/base64Decoder";
 import { botLogger } from "../helpers/logger";
 import { uploadFile } from "../libs/s3";
@@ -31,8 +31,16 @@ async function getKeyboard(ctx: Context) {
 }
 
 export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
-  .enter((ctx) => {
+  .enter(async (ctx) => {
     try {
+      const isBlocked = (await getRepository(User).findOne({ userID: ctx.from.id })).uploadBan;
+
+      if (isBlocked) {
+        await ctx.reply(ctx.i18n.translate("bot.main.scene.upload.blocked"));
+
+        return await ctx.scene.leave();
+      }
+
       ctx.reply(ctx.i18n.translate("bot.main.upload.send"));
     } catch (err) {
       botLogger.error(`Scene upload error:`, err.stack);
@@ -96,7 +104,7 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
       botLogger.error(`Scene upload error:`, err.stack);
     }
   })
-  .on("message", async (ctx) => {
+  .on("text", async (ctx) => {
     try {
       await ctx.reply(ctx.i18n.translate("bot.main.upload.noImage"));
     } catch (err) {
