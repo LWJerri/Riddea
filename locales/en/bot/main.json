@@ -32,6 +32,16 @@
       "image": "You leave from the image upload scene!",
       "collection": "You leave from the collection creating scene!",
       "edit": "You leave from the image edit scene!"
+    },
+    "block": {
+      "enter": "Please, enter member ID!",
+      "notFound": "Member not found, because user blocked bot or never used it!",
+      "extend": "Limits for user with ID {{ id }}",
+      "update": "Features member with ID {{ id }} has been updated, leave from scene.",
+      "leave": "You leave from scene!"
+    },
+    "upload": {
+      "blocked": "This account is limited! Please, contact with developer to get a reason to block - @LWJerri"
     }
   },
 

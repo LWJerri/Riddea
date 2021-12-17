@@ -16,5 +16,11 @@
   "lang": "Change language",
   "help": "Help",
   "statistics": "Statistics",
-  "settings": "Settings"
+  "settings": "Settings",
+  "block": {
+    "upload": {
+      "deny": "Block upload scene",
+      "allow": "Unblock upload scene"
+    }
+  }
 }
