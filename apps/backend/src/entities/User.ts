@@ -13,4 +13,7 @@ export class User {
 
   @CreateDateColumn()
   startedAt: Date;
+
+  @Column({ default: false })
+  uploadBan: boolean;
 }
