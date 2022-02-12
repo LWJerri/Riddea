@@ -2,7 +2,7 @@
   "en": "English 🇺🇸",
   "errors": {
     "rate": "Hey! Wait 5 seconds before using the next command.",
-    "error": "We are sorry, some error happened on our side :(",
+    "error": "We are sorry, some error happened on our side :(\n\nWe recommend visit this link for get more information - https://github.com/Riddea/Riddea/issues/170",
     "notID": "Please, type correct image ID!"
   },
 
