@@ -12,7 +12,7 @@ export type YiffyPicsOpts = {
 };
 
 export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyPicsOpts) => {
-  const headerOptions = { "User-Agent": "RiddeaBot" };
+  const headerOptions = { "User-Agent": "Mozilla/5.0 (compatible; Riddeabot/2.1; +http://riddea.ml)" };
 
   const axiosOptions: AxiosRequestConfig = {
     url: `https://v2.yiff.rest/${opts.endPoint}?notes=disabled&sizeLimit=5000000&amount=5`,
