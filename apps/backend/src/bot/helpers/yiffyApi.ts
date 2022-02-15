@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import { fileTypes, ignoreEndpoints } from "../constants";
 
 export type YiffyPicsResponse = {
-  images: Array<{ url: string; type: string; ext: string; size: number; shortURL: string }>;
+  images: Array<{ type: string; ext: string; size: number; shortURL: string; yiffMediaURL: string }>;
 };
 
 export type YiffyPicsOpts = {
@@ -12,7 +12,7 @@ export type YiffyPicsOpts = {
 };
 
 export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyPicsOpts) => {
-  const headerOptions = { "User-Agent": "Mozilla/5.0 (compatible; Riddeabot/2.1; +http://riddea.ml)" };
+  const headerOptions = { "User-Agent": "Mozilla/5.0 (compatible; Riddeabot/2.0; +http://riddea.ml)" };
 
   const axiosOptions: AxiosRequestConfig = {
     url: `https://v2.yiff.rest/${opts.endPoint}?notes=disabled&sizeLimit=5000000&amount=5`,
@@ -35,7 +35,7 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
       return correctFileType;
     })
     .map((imageData) => {
-      return axios.get(imageData.url, { responseType: "arraybuffer", headers: headerOptions });
+      return axios.get(imageData.yiffMediaURL, { responseType: "arraybuffer", headers: headerOptions });
     });
 
   const imageData = await Promise.all(outImage);
