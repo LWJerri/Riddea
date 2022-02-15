@@ -33,29 +33,12 @@ export default class extends CommandInterface {
 
     async function API(callback?: string) {
       if (!callback || callback == "NEW_SFW_YIFFY") {
-        const endpoints = [
-          "furry/boop",
-          "furry/cuddle",
-          "furry/flop",
-          "furry/fursuit",
-          "furry/hold",
-          "furry/hug",
-          "furry/kiss",
-          "furry/kiss",
-          "furry/propose",
-        ];
+        const endpoints = ["furry/boop", "furry/cuddle", "furry/flop", "furry/hold", "furry/hug", "furry/kiss", "furry/propose"];
 
         return await yiffyPicsApi({ endPoint: endpoints[Math.floor(Math.random() * endpoints.length)], amount: 2 });
       }
       if (callback == "NEW_NSFW_YIFFY") {
-        const endpoints = [
-          "furry/bulge",
-          "furry/yiff/andromorph",
-          "furry/yiff/gay",
-          "furry/yiff/gynomorph",
-          "furry/yiff/lesbian",
-          "furry/yiff/straight",
-        ];
+        const endpoints = ["furry/bulge", "furry/yiff/andromorph", "furry/yiff/gynomorph", "furry/yiff/lesbian", "furry/yiff/straight"];
 
         return await yiffyPicsApi({ endPoint: endpoints[Math.floor(Math.random() * endpoints.length)], amount: 2 });
       }
