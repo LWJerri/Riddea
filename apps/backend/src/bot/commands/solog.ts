@@ -35,6 +35,9 @@ export default class extends CommandInterface {
 
     await ctx.replyWithAnimation(images[0]);
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.solog") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.solog") }),
+      keyboard,
+    );
   }
 }

@@ -17,7 +17,9 @@ export async function bootstrap() {
     app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: apiLogger });
     app.register(fastifyCookie);
     app.register(fastifySession, {
-      secret: process.env.WEB_SESSION_SECRET || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+      secret:
+        process.env.WEB_SESSION_SECRET ||
+        Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
       saveUninitialized: false,
       cookie: {
         maxAge: 864e3, // 1 day

@@ -32,7 +32,9 @@ export async function loadCommands() {
           command.execute(ctx);
         });
 
-        botLogger.log(`[ACTIONS]: Action ${command.name} [${action.name ? action.name + " | " : ""}${action.callback}] loaded`);
+        botLogger.log(
+          `[ACTIONS]: Action ${command.name} [${action.name ? action.name + " | " : ""}${action.callback}] loaded`,
+        );
       }
     }
 

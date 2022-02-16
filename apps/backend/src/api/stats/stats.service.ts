@@ -22,7 +22,9 @@ export class StatsService {
 
   async stats(): Promise<StatsDTO> {
     try {
-      const counts = await Promise.all(commands.map((command) => this.statisticRepository.count({ command: command.name })));
+      const counts = await Promise.all(
+        commands.map((command) => this.statisticRepository.count({ command: command.name })),
+      );
       const commandsUsage = commands.reduce((prev, current, index) => {
         return {
           ...prev,

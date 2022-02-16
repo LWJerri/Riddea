@@ -33,13 +33,17 @@ export default class extends CommandInterface {
     );
 
     async function API(callback?: string) {
-      if (!callback || callback == "NEW_BLOWJOB_WAIFUPICS") return await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
+      if (!callback || callback == "NEW_BLOWJOB_WAIFUPICS")
+        return await waifuPicsApi({ endPoint: "nsfw/blowjob", amount: 1 });
       if (callback == "NEW_BLOWJOB_NEKOS") return await nekosLifeApi({ endPoint: "blowjob", amount: 1 });
     }
 
     const images = await API(callback);
     await ctx.replyWithAnimation({ url: images[0] });
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.blowjob") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.blowjob") }),
+      keyboard,
+    );
   }
 }

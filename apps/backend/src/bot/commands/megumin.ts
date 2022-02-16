@@ -28,7 +28,8 @@ export default class extends CommandInterface {
     );
 
     async function API(callback?: string) {
-      if (!callback || callback == "NEW_MEGUMIN_WAIFUPICS") return await waifuPicsApi({ endPoint: "sfw/megumin", amount: 10 });
+      if (!callback || callback == "NEW_MEGUMIN_WAIFUPICS")
+        return await waifuPicsApi({ endPoint: "sfw/megumin", amount: 10 });
     }
 
     const images = await API(callback);
@@ -42,6 +43,9 @@ export default class extends CommandInterface {
       }),
     );
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.megumin") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.megumin") }),
+      keyboard,
+    );
   }
 }

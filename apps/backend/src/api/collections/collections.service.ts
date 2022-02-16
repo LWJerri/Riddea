@@ -41,10 +41,14 @@ export class CollectionsService {
 
   async getCollectionImage(id: string, imgID: string) {
     try {
-      const dbInfo = await this.uploadRepository.findOne({ where: { collection: id, fileName: imgID }, relations: ["collection"] });
-      const link = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}/uploads/${
-        dbInfo.filePath
-      }`;
+      const dbInfo = await this.uploadRepository.findOne({
+        where: { collection: id, fileName: imgID },
+        relations: ["collection"],
+      });
+      const link = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace(
+        "http://",
+        "",
+      )}/uploads/${dbInfo.filePath}`;
 
       return { ...dbInfo, link };
     } catch (err) {
@@ -93,7 +97,10 @@ export class CollectionsService {
       //  throw new ForbiddenException(`Collection with ID ${id} is private`);
       //}
 
-      const endPoint = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace("http://", "")}`;
+      const endPoint = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT.replace("https://", "").replace(
+        "http://",
+        "",
+      )}`;
 
       return {
         collection,

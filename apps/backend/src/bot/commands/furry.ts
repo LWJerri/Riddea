@@ -33,12 +33,26 @@ export default class extends CommandInterface {
 
     async function API(callback?: string) {
       if (!callback || callback == "NEW_SFW_YIFFY") {
-        const endpoints = ["furry/boop", "furry/cuddle", "furry/flop", "furry/hold", "furry/hug", "furry/kiss", "furry/propose"];
+        const endpoints = [
+          "furry/boop",
+          "furry/cuddle",
+          "furry/flop",
+          "furry/hold",
+          "furry/hug",
+          "furry/kiss",
+          "furry/propose",
+        ];
 
         return await yiffyPicsApi({ endPoint: endpoints[Math.floor(Math.random() * endpoints.length)], amount: 2 });
       }
       if (callback == "NEW_NSFW_YIFFY") {
-        const endpoints = ["furry/bulge", "furry/yiff/andromorph", "furry/yiff/gynomorph", "furry/yiff/lesbian", "furry/yiff/straight"];
+        const endpoints = [
+          "furry/bulge",
+          "furry/yiff/andromorph",
+          "furry/yiff/gynomorph",
+          "furry/yiff/lesbian",
+          "furry/yiff/straight",
+        ];
 
         return await yiffyPicsApi({ endPoint: endpoints[Math.floor(Math.random() * endpoints.length)], amount: 2 });
       }
@@ -55,6 +69,9 @@ export default class extends CommandInterface {
       }),
     );
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.furry") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.furry") }),
+      keyboard,
+    );
   }
 }

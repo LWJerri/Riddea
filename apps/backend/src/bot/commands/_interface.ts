@@ -31,7 +31,8 @@ export class CommandInterface {
 
   async execute(ctx) {
     try {
-      if (this.cooldown && cmdLimiter.take(ctx.from.id)) return await ctx.reply(ctx.i18n.translate("bot.main.errors.rate"));
+      if (this.cooldown && cmdLimiter.take(ctx.from.id))
+        return await ctx.reply(ctx.i18n.translate("bot.main.errors.rate"));
 
       await this.run(ctx);
     } catch (err) {

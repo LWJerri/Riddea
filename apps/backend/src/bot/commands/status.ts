@@ -52,14 +52,16 @@ export default class extends CommandInterface {
       .translate("bot.stats.uploads.title")
       .toUpperCase()}:\n${ctx.i18n.translate("bot.stats.uploads.text", { count: uploadStats })}\n\n${ctx.i18n
       .translate("bot.stats.bot.title")
-      .toUpperCase()}:\n${ctx.i18n.translate("bot.stats.bot.username", { username: ctx.botInfo.username })}\n${ctx.i18n.translate(
-      "bot.stats.bot.id",
+      .toUpperCase()}:\n${ctx.i18n.translate("bot.stats.bot.username", {
+      username: ctx.botInfo.username,
+    })}\n${ctx.i18n.translate("bot.stats.bot.id", {
+      id: ctx.botInfo.id,
+    })}\n${ctx.i18n.translate("bot.stats.bot.version", { version: pkg.version })}\n${ctx.i18n.translate(
+      "bot.stats.bot.uptime",
       {
-        id: ctx.botInfo.id,
+        uptime: uptime,
       },
-    )}\n${ctx.i18n.translate("bot.stats.bot.version", { version: pkg.version })}\n${ctx.i18n.translate("bot.stats.bot.uptime", {
-      uptime: uptime,
-    })}`;
+    )}`;
 
     await ctx.reply(message);
   }

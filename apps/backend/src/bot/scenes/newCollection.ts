@@ -66,7 +66,9 @@ export const newCollection = new Scenes.BaseScene<Scenes.SceneContext<NewCollect
   .leave(async (ctx) => {
     try {
       if (ctx.scene.session.collectionName)
-        return await ctx.reply(ctx.i18n.translate("bot.main.collection.created", { name: ctx.scene.session.collectionName }));
+        return await ctx.reply(
+          ctx.i18n.translate("bot.main.collection.created", { name: ctx.scene.session.collectionName }),
+        );
     } catch (err) {
       botLogger.error(`Scene newCollection error:`, err.stack);
     }

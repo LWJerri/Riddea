@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 volumes:
   riddea-dev-postgres:
@@ -13,17 +13,17 @@ services:
       POSTGRES_PASSWORD: riddea
     volumes:
       - riddea-dev-postgres:/var/lib/postgresql/data
-        
+
   adminer:
     image: adminer
-    links: 
+    links:
       - "postgres:riddea"
     ports:
       - 9104:8080
 
   minio:
     image: minio/minio
-    volumes: 
+    volumes:
       - riddea-dev-minio:/data
     environment:
       MINIO_ROOT_USER: riddea-dev
@@ -39,7 +39,7 @@ services:
       target: backend
     ports:
       - 3000:3000
-    depends_on: 
+    depends_on:
       - postgres
       - minio
 
@@ -50,6 +50,5 @@ services:
     build:
       context: .
       target: web
-    ports: 
+    ports:
       - 9103:80
-    

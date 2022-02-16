@@ -31,7 +31,9 @@ export const settingScene = new Scenes.BaseScene<Scenes.SceneContext>("mySetting
         images,
       });
       const keyboard = {
-        reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]] },
+        reply_markup: {
+          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.lang"), callback_data: "LANGUAGE" }]],
+        },
       };
 
       await ctx.reply(message, keyboard);

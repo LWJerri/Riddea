@@ -13,7 +13,9 @@ export class TelegramService {
 
       if (!botToken) {
         apiLogger.error("Bot token not setuped, telegram authorization will not work.");
-        throw new ServiceUnavailableException("Sorry, we have error on our side. Please contact with LWJerri (https://t.me/LWJerri).");
+        throw new ServiceUnavailableException(
+          "Sorry, we have error on our side. Please contact with LWJerri (https://t.me/LWJerri).",
+        );
       }
 
       const secretKey = createHash("sha256").update(botToken).digest();

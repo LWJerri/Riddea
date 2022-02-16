@@ -43,9 +43,13 @@ export const imageEdit = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("
       ctx.scene.session.imageID = id;
 
       const uploadRepository = getRepository(Upload);
-      const imageData = await uploadRepository.findOne({ where: { id, userID: ctx.from.id }, relations: ["collection"] });
+      const imageData = await uploadRepository.findOne({
+        where: { id, userID: ctx.from.id },
+        relations: ["collection"],
+      });
 
-      if (!imageData) return await ctx.reply(ctx.i18n.translate("bot.main.imageEdit.notExist", { id: ctx.scene.session.imageID }));
+      if (!imageData)
+        return await ctx.reply(ctx.i18n.translate("bot.main.imageEdit.notExist", { id: ctx.scene.session.imageID }));
       if (imageData.userID != ctx.from.id) return await ctx.reply(ctx.i18n.translate("bot.main.imageEdit.notOwner"));
 
       const buttons = getKeyboard(ctx).reply_markup;
@@ -148,7 +152,10 @@ export const imageEdit = new Scenes.BaseScene<Scenes.SceneContext<ImageScene>>("
       const collectionID = Number(ctx.match.input.replace("SWITCH_COLLECTION-", "")) as any;
 
       await getRepository(Upload).update({ id: ctx.scene.session.imageID }, { collection: collectionID });
-      const newData = await getRepository(Upload).findOne({ where: { id: ctx.scene.session.imageID }, relations: ["collection"] });
+      const newData = await getRepository(Upload).findOne({
+        where: { id: ctx.scene.session.imageID },
+        relations: ["collection"],
+      });
       const buttons = getKeyboard(ctx);
 
       await ctx.editMessageCaption(

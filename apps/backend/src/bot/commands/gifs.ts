@@ -56,6 +56,9 @@ export default class extends CommandInterface {
     const images = await API(callback);
     await ctx.replyWithAnimation({ url: images[0] });
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.gifs") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.videos", { pack: ctx.i18n.translate("bot.packs.gifs") }),
+      keyboard,
+    );
   }
 }

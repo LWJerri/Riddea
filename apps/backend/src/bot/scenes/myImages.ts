@@ -14,7 +14,9 @@ interface ImageScene extends Scenes.SceneSessionData {
 const getKeyboard = (ctx: Scenes.SceneContext<ImageScene>) => {
   return Markup.inlineKeyboard([
     [
-      ctx.scene.session.skip > 0 ? { text: ctx.i18n.translate("bot.buttons.previous"), callback_data: "BACK" } : undefined,
+      ctx.scene.session.skip > 0
+        ? { text: ctx.i18n.translate("bot.buttons.previous"), callback_data: "BACK" }
+        : undefined,
       ctx.scene.session.skip + 1 !== ctx.scene.session.totalImages
         ? { text: ctx.i18n.translate("bot.buttons.next"), callback_data: "NEXT" }
         : undefined,

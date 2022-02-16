@@ -30,7 +30,9 @@ export const yiffyPicsApi = async (opts = { method: "GET", amount: 1 } as YiffyP
     .filter((image) => {
       let correctFileType = false;
 
-      ignoreEndpoints.includes(opts.endPoint) ? (correctFileType = true) : (correctFileType = fileTypes.includes(image.ext));
+      ignoreEndpoints.includes(opts.endPoint)
+        ? (correctFileType = true)
+        : (correctFileType = fileTypes.includes(image.ext));
 
       return correctFileType;
     })

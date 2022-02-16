@@ -7,7 +7,9 @@ import { botLogger } from "../helpers/logger";
 export default async function readyEvent() {
   botLogger.log(`READY AS @${bot.botInfo.username}!`);
 
-  const commands: BotCommand[] = commandsStore.filter((c) => c.description).map((c) => ({ command: c.name, description: c.description }));
+  const commands: BotCommand[] = commandsStore
+    .filter((c) => c.description)
+    .map((c) => ({ command: c.name, description: c.description }));
 
   try {
     await bot.telegram.setMyCommands(commands);

@@ -33,7 +33,8 @@ export default class extends CommandInterface {
     );
 
     async function API(callback?: string) {
-      if (!callback || callback == "NEW_WAIFU_WAIFUPICS") return await waifuPicsApi({ endPoint: "sfw/waifu", amount: 10 });
+      if (!callback || callback == "NEW_WAIFU_WAIFUPICS")
+        return await waifuPicsApi({ endPoint: "sfw/waifu", amount: 10 });
       if (callback == "NEW_WAIFU_NEKOS") return await nekosLifeApi({ endPoint: "waifu", amount: 10 });
     }
 
@@ -48,6 +49,9 @@ export default class extends CommandInterface {
       }),
     );
 
-    await ctx.reply(ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.waifu") }), keyboard);
+    await ctx.reply(
+      ctx.i18n.translate("bot.main.newPack.images", { pack: ctx.i18n.translate("bot.packs.waifu") }),
+      keyboard,
+    );
   }
 }

@@ -11,7 +11,9 @@ export const renameCollection = new Scenes.BaseScene<Scenes.SceneContext<ImageSc
   .enter(async (ctx) => {
     try {
       await ctx.reply(ctx.i18n.translate("bot.main.renameCollection.enter"), {
-        reply_markup: { inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.cancel"), callback_data: "CANCEL" }]] },
+        reply_markup: {
+          inline_keyboard: [[{ text: ctx.i18n.translate("bot.buttons.cancel"), callback_data: "CANCEL" }]],
+        },
       });
     } catch (err) {
       botLogger.error(`Scene renameCollection error:`, err.stack);

@@ -19,8 +19,16 @@ async function getKeyboard(ctx: Context) {
     const collectionsList = collections.map((c) =>
       Markup.button.callback(`${c.isPublic ? "🔓" : "🔒"} ${c.name}`, `IMAGE_ADD_COLLECTION_${c.id}`),
     );
-    collectionsList.push({ text: ctx.i18n.translate("bot.buttons.skip"), callback_data: "IMAGE_ADD_COLLECTION_SKIP", hide: false });
-    collectionsList.push({ text: ctx.i18n.translate("bot.buttons.cancel"), callback_data: "IMAGE_ADD_COLLECTION_CANCEL", hide: false });
+    collectionsList.push({
+      text: ctx.i18n.translate("bot.buttons.skip"),
+      callback_data: "IMAGE_ADD_COLLECTION_SKIP",
+      hide: false,
+    });
+    collectionsList.push({
+      text: ctx.i18n.translate("bot.buttons.cancel"),
+      callback_data: "IMAGE_ADD_COLLECTION_CANCEL",
+      hide: false,
+    });
 
     const keyboard = Markup.inlineKeyboard(collectionsList, { columns: 1 });
 
@@ -112,7 +120,15 @@ export const uploadScene = new Scenes.BaseScene<Scenes.SceneContext>("upload")
     }
   });
 
-const saveAndUploadPhoto = async ({ collectionId, userID, photo }: { collectionId?: number; userID: number; photo: File }) => {
+const saveAndUploadPhoto = async ({
+  collectionId,
+  userID,
+  photo,
+}: {
+  collectionId?: number;
+  userID: number;
+  photo: File;
+}) => {
   const base64 = await base64Data(photo);
   const fileName = crypto.randomUUID();
 
