@@ -5,7 +5,7 @@ export class userSettings1625063417236 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "user" ("id" SERIAL NOT NULL, "uploadBan" boolean DEFAULT false, "userID" integer NOT NULL, "lang" character varying NOT NULL, "startedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")),`,
+      `CREATE TABLE "user" ("id" SERIAL NOT NULL, "uploadBan" boolean DEFAULT false, "userID" integer NOT NULL, "lang" character varying NOT NULL, "startedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(`ALTER TABLE "sessions" ALTER COLUMN "expireAt" SET NOT NULL`);
     await queryRunner.query(`ALTER TABLE "sessions" ALTER COLUMN "expireAt" SET DEFAULT '1625063417837'`);
