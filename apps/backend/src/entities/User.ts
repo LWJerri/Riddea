@@ -3,17 +3,17 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeor
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({ unique: true })
-  userID: number;
+    userID: number;
 
   @Column()
-  lang: string;
+    lang: string;
 
   @CreateDateColumn()
-  startedAt: Date;
+    startedAt: Date;
 
   @Column({ default: false, nullable: true })
-  uploadBan: boolean;
+    uploadBan: boolean;
 }

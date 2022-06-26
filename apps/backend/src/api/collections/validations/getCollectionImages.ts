@@ -6,11 +6,11 @@ export class GetCollectionImages {
   @ApiProperty()
   @Min(1)
   @Type(() => Number)
-  page: number = 1;
+    page: number = 1;
 
   @ApiProperty()
   @Min(1)
   @Max(100)
   @Type(() => Number)
-  limit: number = 100;
+    limit: number = 100;
 }

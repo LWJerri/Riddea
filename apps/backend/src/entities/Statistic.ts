@@ -5,17 +5,17 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeor
 export class Statistic {
   @ApiProperty({ example: 1 })
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @ApiProperty({ example: "stats" })
   @Column()
-  command: string;
+    command: string;
 
   @ApiProperty({ example: "0123456789" })
   @Column({ nullable: true })
-  userID: number;
+    userID: number;
 
   @ApiProperty({ example: new Date() })
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 }

@@ -7,8 +7,8 @@ export class CollectionDTO extends PartialType(OmitType(Collection, ["uploads"] 
 
 export class CollectionUploadsDTO {
   @ApiProperty({ type: Boolean, example: false })
-  nextPage: boolean;
+    nextPage: boolean;
 
   @ApiProperty({ type: UploadsDTO, isArray: true })
-  data: Upload & { fileUrl: string }[];
+    data: Upload & { fileUrl: string }[];
 }

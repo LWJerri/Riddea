@@ -17,19 +17,19 @@ import { Collection } from "./Collection";
 export class Upload {
   @ApiProperty({ example: 1000 })
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @ApiProperty({ example: 1000 })
   @Column()
-  userID: number;
+    userID: number;
 
   @ApiProperty({ example: "qwerty123" })
   @Column("text")
-  fileID: string;
+    fileID: string;
 
   @ApiProperty({ example: "coolImage.jpg" })
   @Column("varchar", { nullable: true })
-  fileName: string;
+    fileName: string;
 
   filePath?: string;
 
@@ -45,13 +45,13 @@ export class Upload {
     nullable: true,
     onDelete: "SET NULL",
   })
-  collection?: Collection;
+    collection?: Collection;
 
   @ApiProperty({ example: new Date() })
   @CreateDateColumn()
-  createdAt: Date;
+    createdAt: Date;
 
   @ApiProperty({ example: new Date() })
   @UpdateDateColumn()
-  updatedAt: Date;
+    updatedAt: Date;
 }
