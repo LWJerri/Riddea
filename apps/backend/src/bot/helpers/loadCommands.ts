@@ -14,6 +14,7 @@ export async function loadCommands() {
     .filter((name) => !name.includes(".d.ts") && !name.includes("_interface"));
 
   for (const commandPath of cmds) {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const command: CommandInterface = new ((await import(resolve(commandsDirPath, commandPath)))?.default)();
 
     if (!command) return botLogger.log(`[!]: Command ${commandPath} havent exported class, will not work!`);
