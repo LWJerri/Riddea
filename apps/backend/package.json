@@ -15,7 +15,7 @@
     "node": ">= 14"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.118.0",
+    "@aws-sdk/client-s3": "^3.120.0",
     "@mgcrea/fastify-session": "^0.16.0",
     "@nestjs/common": "^8.4.7",
     "@nestjs/core": "^8.4.7",
