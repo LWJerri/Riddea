@@ -1244,13 +1244,13 @@
     consola "^2.15.0"
     node-fetch "^2.6.1"
 
-"@riddea/telegraf-rate-limiter@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@riddea/telegraf-rate-limiter/-/telegraf-rate-limiter-1.0.8.tgz#c83eff11a68fc5dbf3d5a274a7a98d3c37a9ef27"
-  integrity sha512-eSEWC8RqQg9bkRqkGSi4exXeMS7Lsgo16n5fG/YLdAIecPflhsN31ATda8sBYHf5q3N/lqDup5E3E+DlgfLMkg==
+"@riddea/telegraf-rate-limiter@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@riddea/telegraf-rate-limiter/-/telegraf-rate-limiter-2.0.0.tgz#2a65ab229322bcda2956e29864c88e9bbba9c5fc"
+  integrity sha512-DhKi5rK/PetrWv6E5XYutoyhkShRcMlXvFfIlI+3RXV1fnhwtABidBdrac4U5MYf8bLa3xwk/QTTJEmCKBXzpQ==
   dependencies:
-    limiter "1.1.5"
-    telegraf "^4.3.0"
+    limiter "2.1.0"
+    telegraf "^4.8.5"
 
 "@rollup/pluginutils@^4.2.1":
   version "4.2.1"
@@ -2363,7 +2363,7 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4:
+debug@^4.0.0, debug@^4.1.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -4052,6 +4052,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+just-performance@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/just-performance/-/just-performance-4.3.0.tgz#cc2bc8c9227f09e97b6b1df4cd0de2df7ae16db1"
+  integrity sha512-L7RjvtJsL0QO8xFs5wEoDDzzJwoiowRw6Rn/GnvldlchS2JQr9wFYPiwZcDfrbbujEKqKN0tvENdbjXdYhDp5Q==
+
 keyv@^3.0.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/keyv/-/keyv-3.1.0.tgz"
@@ -4105,10 +4110,12 @@ light-my-request@^4.2.0:
     readable-stream "^3.6.0"
     set-cookie-parser "^2.4.1"
 
-limiter@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.npmjs.org/limiter/-/limiter-1.1.5.tgz"
-  integrity sha512-FWWMIEOxz3GwUI4Ts/IvgVy6LPvoMPgjMdQ185nN6psJyBJ4yOpzqm695/h5umdLJg2vW3GR5iG11MAkR2AzJA==
+limiter@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/limiter/-/limiter-2.1.0.tgz#d38d7c5b63729bb84fb0c4d8594b7e955a5182a2"
+  integrity sha512-361TYz6iay6n+9KvUUImqdLuFigK+K79qrUtBsXhJTLdH4rIt/r1y8r1iozwh8KbZNpujbFTSh74mJ7bwbAMOw==
+  dependencies:
+    just-performance "4.3.0"
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -4325,12 +4332,7 @@ minimatch@^3.1.1, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@1.2.6, minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
-  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
-
-minimist@^1.2.6:
+minimist@1.2.6, minimist@^1.2.0, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -5721,21 +5723,6 @@ tapable@^2.2.1:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-telegraf@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npmjs.org/telegraf/-/telegraf-4.3.0.tgz"
-  integrity sha512-MuDUtSMipzMzQp8fXbQx76jp4ZD70KREdnpH1idUzN9Zlgm6EzatBQFU4Ps0ipxtEmnBBdghBMumQwrjRe3eqg==
-  dependencies:
-    abort-controller "^3.0.0"
-    debug "^4.3.1"
-    minimist "^1.2.5"
-    module-alias "^2.2.2"
-    node-fetch "^2.6.1"
-    p-timeout "^4.1.0"
-    safe-compare "^1.1.4"
-    sandwich-stream "^2.0.2"
-    typegram "^3.2.0"
-
 telegraf@^4.8.5:
   version "4.8.5"
   resolved "https://registry.yarnpkg.com/telegraf/-/telegraf-4.8.5.tgz#0df238ae01e44f98ce28785f5d465127d712151b"
@@ -5966,11 +5953,6 @@ typegram@^3.10.0, typegram@^3.9.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/typegram/-/typegram-3.10.0.tgz#8f02c2a7748f019f0566279318d2be396d103bd8"
   integrity sha512-kma7ZF7SFRqcUCgo5sHg1MbPwc9/KYjVkbvrqIZK7oXfPdLBGz1s7wF9d7o4yjHp+AOGke8cyYGhI/+4xYYC4Q==
-
-typegram@^3.2.0:
-  version "3.4.2"
-  resolved "https://registry.npmjs.org/typegram/-/typegram-3.4.2.tgz"
-  integrity sha512-Z+FaPrD+oyzvchLZHmfyz55MuPhJ51tYm6i+gbeZ0W8Yr4LLWQfI0mBlR2v08PzjHuRx26bmZBEM30jSrGbfbg==
 
 typeorm@^0.3.6:
   version "0.3.6"
