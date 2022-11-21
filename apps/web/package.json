@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
     "nanostores": "^0.5.12",
     "svelte-navigator": "^3.1.6"
   }
