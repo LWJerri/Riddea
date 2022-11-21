@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^8.2.8",
-    "@nestjs/schematics": "^9.0.1",
+    "@nestjs/schematics": "^9.0.3",
     "@types/find-config": "^1.0.1",
     "@types/glob": "^7.2.0",
     "@types/humanize-duration": "^3.27.1",
