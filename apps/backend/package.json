@@ -49,7 +49,7 @@
     "@nestjs/cli": "^8.2.8",
     "@nestjs/schematics": "^9.0.3",
     "@types/find-config": "^1.0.1",
-    "@types/glob": "^7.2.0",
+    "@types/glob": "^8.1.0",
     "@types/humanize-duration": "^3.27.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.11.9",
